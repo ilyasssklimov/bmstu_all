@@ -25,7 +25,6 @@
       node3(());
       node4(());
       node5(());
-      
       node1 --> node2;
       node1 --> node3;
       node2 --> node3;
