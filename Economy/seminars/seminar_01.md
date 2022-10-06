@@ -22,7 +22,7 @@
 
 ```mermaid
   graph LR;
-  	  node1((.)); node2((.)); node3((.)); node4((.)); node5((.));
+  	  node1((....)); node2((....)); node3((....)); node4((....)); node5((....));
       node1 --> node2;
       node1 --> node3;
       node2 --> node3;
@@ -30,6 +30,7 @@
       node4 --> node5;
       
       classDef node fill:transparent, color:transparent, stroke:white;
+      linkStyle default color:white;
 ```
 
 где 
