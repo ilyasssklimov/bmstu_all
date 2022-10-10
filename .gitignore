@@ -1,2 +1,10 @@
-.venv
+venv
+test*.py
 __pycache__
+*.spec
+dist
+build
+*.exe
+.idea
+enc_*
+dec_*
