@@ -1,3 +1,11 @@
 venv
-.idea
+test*.py
 __pycache__
+*.spec
+dist
+build
+*.exe
+.idea
+enc_*
+dec_*
+*.png
