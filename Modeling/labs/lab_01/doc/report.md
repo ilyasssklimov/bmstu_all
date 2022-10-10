@@ -40,17 +40,14 @@ $$
 Гамма функцией называется отображение
 
 
-
-$$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
-
-
 $$
 \large
 \Gamma(x): \mathbb{R}^{+} \longrightarrow \mathbb{R},
 $$
 
-
 определенное **правилом**
+
+
 $$
 \large
 \Gamma(x) =	\int_0^{+\infty} e^{-t}\cdot t^{x-1} dt
