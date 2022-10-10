@@ -39,7 +39,6 @@ $$
 
 Гамма функцией называется отображение
 $$
-\large
 \Gamma(x): \mathbb{R}^{+} \longrightarrow \mathbb{R},
 $$
 
@@ -185,4 +184,3 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     <img src="./inc/graphics.png" alt="Интерфейс" style="zoom: 100%;"/>
     <figcaption>Рисунок 1.2 - Построенные графики функций и плотностей распределения
 </figure>
-
