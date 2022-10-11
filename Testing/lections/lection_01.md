@@ -92,6 +92,4 @@ def test__my_task(a: any) -> None:
 >
 > TestOps – DevOps в тестировании
 
-
-
-[Лекция 2](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/Testing/lections/lection_02.md)
+<br>[Лекция 2](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/Testing/lections/lection_02.md)
