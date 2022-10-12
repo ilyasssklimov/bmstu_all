@@ -153,5 +153,7 @@
     
 > Уязвимость - это свойство системы, допускающее или реализующее создание угроз.
 
+--- 
+
 [Лекция 1](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/DataSecurity/lections/lection_01.md) 
 [Лекция 3](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/DataSecurity/lections/lection_03.md)

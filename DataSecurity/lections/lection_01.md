@@ -108,4 +108,6 @@
 
 Персональная ответственность - каждый пользователь должен проходить все стадии.
 
+---
+
 [Лекция 2](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/DataSecurity/lections/lection_02.md)

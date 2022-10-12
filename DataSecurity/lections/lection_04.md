@@ -91,5 +91,7 @@ M' = Dk1(Ek2(Dk3(C)))
 
 Реализовать алгоритм DES.
 
+---
+
 [Лекция 3](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/DataSecurity/lections/lection_03.md) 
 [Лекция 5](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/DataSecurity/lections/lection_05.md)
