@@ -75,3 +75,5 @@ $(x^2 + 1)(x^2 + x + 1) = x^4 + x^2 + x^3 + x + x^2 + 1 = 11011$ – *слишк
 ## Лабораторная работа 4
 
 Реализовать алгоритм AES.
+
+[Лекция 4](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/DataSecurity/lections/lection_04.md)
