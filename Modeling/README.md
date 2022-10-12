@@ -11,4 +11,4 @@
 
 ## Лабораторные работы
 
-- [Изучение функций плотности и распределения случайных величин](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/Modeling/labs/lab_01) - 4 вариант
+- [ЛР1 (изучение функций плотности и распределения случайных величин)](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/Modeling/labs/lab_01) - 4 вариант
