@@ -8,3 +8,5 @@ build
 .idea
 enc_*
 dec_*
+*.zip
+test_*
