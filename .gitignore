@@ -9,4 +9,4 @@ build
 enc_*
 dec_*
 *.zip
-test_*
+test_zip.*
