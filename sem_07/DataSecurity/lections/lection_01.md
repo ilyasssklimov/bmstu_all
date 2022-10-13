@@ -1,7 +1,7 @@
     Григорьев Александр Сергеевич
-
+    
     t.me/iu7zi2022
-
+    
     Зачет (допуск - все лабы (х6))
     Два вопроса:
     1) Можно снять (если отвечать на лекции)
@@ -110,4 +110,4 @@
 
 ---
 
-[Лекция 2](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/DataSecurity/lections/lection_02.md)
+[Лекция 2](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/DataSecurity/lections/lection_02.md)

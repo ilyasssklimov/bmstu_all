@@ -20,7 +20,7 @@
 - изменение фукнций
 - ключевая информация
 - защита от автоматизированного взлома
-    
+  
 
 ## Лабораторная работа №1
 
@@ -36,11 +36,13 @@
 - постоянность
 - неизменность
 - доступность
-    
+  
+
 Для Windows:
 - GetWindowsHWProfile
 - WindowsManagmentInstrumentation (WMI) - WQL (н-р, select * Win32BIOS), есть утилита wmic (н-р, csproduct get name - вернет имя системы)
-    
+  
+
 Для Linux:
 - udevadm into
 - /proc
@@ -61,7 +63,7 @@
 - ресурсы
 - секретная информация
 - контроли
-    
+  
 ### 2. Описание архитектуры (где?)
 - границы системы
 - функции
@@ -91,13 +93,13 @@
 
 ### 6. Оценка угроз
 - DREAD
- 
+
   > **D**emage<br>
   > **R**eproducibility<br>
   > **E**xploitability<br>
   > **A**ffected users<br>
   > **D**iscoverability
-    
+  
 ### Уровни возможностей
 - низкий (пользуется только тем, что разрешили)
 - средний (может привносить что-то свое)
@@ -107,7 +109,7 @@
 ### Классы злоумышленников (хакеров)
 - увлеченные (любители) - исследуют, развлекаются;
 - профессиональные - зарабатывают деньги.
-    
+  
     
 ## Модели доступа
 
@@ -132,14 +134,14 @@
 |:--------:|:------:|:------:|:------:|
 |Субъект 1 |    Х   |        |    Х   |
 |Субъект 2 |        |    Х   |    Х   |
-    
-    
+
+
 |       | Объект 1 | Объект 2 | Объект 3 |
 |:-----:|:--------:|:--------:|:--------:|
 |Роль 1 |     R    |          |          |
 |Роль 2 |     W    |     R    |          |
 |Роль 3 |          |          |     R    |
-    
+
 **4. Мандатная (у военных)**
     
     
@@ -150,10 +152,10 @@
 |СС   |       |       |  XXX  |  XXX  |
 |ССОВ |       |       |  XXX  |  XXX  |
 
-    
+
 > Уязвимость - это свойство системы, допускающее или реализующее создание угроз.
 
---- 
+---
 
-[Лекция 1](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/DataSecurity/lections/lection_01.md) 
-[Лекция 3](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/DataSecurity/lections/lection_03.md)
+[Лекция 1](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/DataSecurity/lections/lection_01.md) 
+[Лекция 3](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/DataSecurity/lections/lection_03.md)

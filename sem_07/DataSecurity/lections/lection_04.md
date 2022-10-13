@@ -93,5 +93,5 @@ M' = Dk1(Ek2(Dk3(C)))
 
 ---
 
-[Лекция 3](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/DataSecurity/lections/lection_03.md) 
-[Лекция 5](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/DataSecurity/lections/lection_05.md)
+[Лекция 3](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/DataSecurity/lections/lection_03.md) 
+[Лекция 5](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/DataSecurity/lections/lection_05.md)

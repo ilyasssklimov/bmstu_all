@@ -38,4 +38,6 @@
 
 Либо падаем, либо записываем в лог. Исходим из здравого смысла (если критично, то первый вариант)
 
-<br>[Лекция 1](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/Testing/lections/lection_01.md)
+---
+
+[Лекция 1](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Testing/lections/lection_01.md)

@@ -64,7 +64,7 @@
 ## Лабораторная работа №2
 Энигма для работы с файлами (произвольными)
 
---- 
+---
 
-[Лекция 2](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/DataSecurity/lections/lection_02.md) 
-[Лекция 4](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/DataSecurity/lections/lection_04.md)
+[Лекция 2](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/DataSecurity/lections/lection_02.md) 
+[Лекция 4](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/DataSecurity/lections/lection_04.md)
