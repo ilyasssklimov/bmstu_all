@@ -112,3 +112,6 @@ S = \frac{p}{\sigma} \\
 p = gm
 $$
 
+---
+
+[Семинар 3](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/LifeSafety/seminars/seminar_03.md)

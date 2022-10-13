@@ -32,3 +32,7 @@
 - Органы дыхания;
 - Желудочно-кишечный тракт;
 - Слизистая оболочка.
+
+---
+
+[Семинар 4](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/LifeSafety/seminars/seminar_04.md)
