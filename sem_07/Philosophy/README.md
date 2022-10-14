@@ -6,4 +6,4 @@
 
 ## Доклады
 
-- [Пьер Абеляр](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Philosophy/reports/Pierre Abelard)
+- [Пьер Абеляр](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Philosophy/reports/Pierre%20Abelard)
