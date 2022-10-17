@@ -8,6 +8,7 @@
 - [Лекция 4](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/lections/lection_04.md)
 - [Лекция 5](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/lections/lection_05.md)
 - [Лекция 6](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/lections/lection_06.md)
+- [Лекция 7](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/lections/lection_07.md)
 
 ## Лабораторные работы
 
