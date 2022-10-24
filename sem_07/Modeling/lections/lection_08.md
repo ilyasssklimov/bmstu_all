@@ -55,7 +55,7 @@ $F = (p'(t),p(t),\Lambda) = 0$, где
 - $p$ – вероятность,
 - $p'$ – производная вероятности.
 
-$p = (p(t), \Lambda) = 0$
+$\Omicron = (p(t), \Lambda) = 0$
 
 $p=p(\Lambda)$
 
@@ -85,7 +85,7 @@ classDef default fill:none, color:white, stroke:white;
 linkStyle default fill:none, stroke:white;
 ```
 
-где имя стрелки $Sx$ – $Sy$ == $\Lambda_{xy}$ (отсутствует стрелка $S_2$ – $S_3$).
+где имя стрелки $Sx$ – $Sy$ == $\Lambda_{xy}$ (отсутствует стрелка $S_2$ – $S_3$).
 
 Найдем вероятность p1, то есть вероятность того, что система будет находится в состоянии S1.
 
