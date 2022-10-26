@@ -44,7 +44,7 @@ $C = M^E \bmod N$
 
 ### Расшифровка
 
-$M' = (C^D) \bmod N$
+$M' = (C^D) \bmod N$
 
 > $M = (M^E)^D = M^{E\cdot D} = M \cdot M^{F_i(N)} = M$
 
@@ -85,7 +85,7 @@ R = 1
 
 $K = K / 2$
 
-$A = (A \cdot A) \bmod 2$
+$A = (A \cdot A) \bmod 2$
 
 
 
@@ -105,7 +105,7 @@ $A = B$
 
 $A \cdot X + B \cdot Y = \text{ НОД}(A, B) = 1$
 
-Берем единичную матрицу $E = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$ 
+Берем единичную матрицу $E = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$ 
 
 $R = A \bmod B$
 
@@ -265,4 +265,4 @@ M, ЭП, D
 
 ---
 
-[Лекция 5](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/DataSecurity/lections/lection_05.md)
+[Лекция 5](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/DataSecurity/lections/lection_05.md) [Лекция 7](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/DataSecurity/lections/lection_07.md)
