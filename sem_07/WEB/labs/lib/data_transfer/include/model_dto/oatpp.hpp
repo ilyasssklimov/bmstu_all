@@ -1,0 +1,72 @@
+#pragma once
+
+#include "oatpp/core/macro/codegen.hpp"
+#include "oatpp/core/Types.hpp"
+
+
+#include OATPP_CODEGEN_BEGIN(DTO)  // =============================================================
+
+class UserOatpp: public oatpp::DTO 
+{  
+    DTO_INIT(UserOatpp, DTO)
+
+    DTO_FIELD(UInt32, id);
+    DTO_FIELD(String, full_name);
+    DTO_FIELD(String, login);
+    DTO_FIELD(String, city);
+    DTO_FIELD(String, access);
+};
+
+class NewUserOatpp: public oatpp::DTO 
+{  
+    DTO_INIT(NewUserOatpp, DTO)
+
+    DTO_FIELD(String, name);
+    DTO_FIELD(String, surname);
+    DTO_FIELD(String, login);
+    DTO_FIELD(String, password);
+    DTO_FIELD(String, city);
+    DTO_FIELD(String, access);
+};
+
+class UsersOatpp: public oatpp::DTO 
+{  
+    DTO_INIT(UsersOatpp, DTO)
+    DTO_FIELD(List<Object<UserOatpp>>, users);
+};
+
+
+class PostOatpp: public oatpp::DTO 
+{  
+    DTO_INIT(PostOatpp, DTO)
+
+    DTO_FIELD(UInt32, id);
+    DTO_FIELD(String, name);
+    DTO_FIELD(Object<UserOatpp>, author);
+    DTO_FIELD(String, information);
+    DTO_FIELD(String, city);
+    DTO_FIELD(String, date);
+};
+
+class PostsOatpp: public oatpp::DTO 
+{  
+    DTO_INIT(PostsOatpp, DTO)
+    DTO_FIELD(List<Object<PostOatpp>>, posts);
+};
+
+
+class CommentOatpp: public oatpp::DTO 
+{  
+    DTO_INIT(CommentOatpp, DTO)
+
+    DTO_FIELD(String, date);
+    DTO_FIELD(String, text);
+};
+
+class CommentsOatpp: public oatpp::DTO 
+{  
+    DTO_INIT(CommentsOatpp, DTO)
+    DTO_FIELD(List<Object<CommentOatpp>>, comments);
+};
+
+#include OATPP_CODEGEN_END(DTO)  // ===============================================================
