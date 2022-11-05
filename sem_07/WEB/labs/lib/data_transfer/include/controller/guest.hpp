@@ -8,8 +8,6 @@
 #include <memory>
 #include "locator.hpp"
 #include "service/guest.h"
-#include "user_interface/web/auth/dto.hpp"
-#include "user_interface/web/auth/jwt.hpp"
 
 #include "model_dto/user.h"
 #include "model_dto/post.h"
@@ -27,13 +25,12 @@ public:
     UserDTO get_user(int user_id);
     PostDTO get_post(int post_id);
 
-    oatpp::Object<AuthDto> sign_up(const std::string& name, const std::string& surname, const std::string& login,
+    UserDTO sign_up(const std::string& name, const std::string& surname, const std::string& login,
                                    const std::string& password, const std::string& city, const std::string& access);
-    oatpp::Object<AuthDto> sign_in(const std::string &login, const std::string &password);
+    UserDTO sign_in(const std::string &login, const std::string &password);
 
 protected:
     std::shared_ptr<GuestService> _guest_service;
-    std::shared_ptr<JWT> _jwt;
 };
 
 
@@ -185,7 +182,7 @@ public:
     ENDPOINT_INFO(sign_up) 
     {
         info->summary = "User registration";
-        info->addResponse<Object<AuthDto>>(Status::CODE_200, "application/json");
+        info->addResponse<Object<UserOatpp>>(Status::CODE_200, "application/json");
         info->addResponse<String>(Status::CODE_400, "text/plain", "Some field is empty or access is not 'C' or 'A'");
         info->addResponse<String>(Status::CODE_502, "text/plain", "There is user with such login");
         info->tags.push_back("Guest");
@@ -205,9 +202,17 @@ public:
             || (access != "C" && access != "A"))
             return createResponse(Status::CODE_400, "ERROR");
 
-        auto auth = guest_controller->sign_up(name, surname, login, password, city, access);
-        if (auth)
-            return createDtoResponse(Status::CODE_200, auth);
+        UserDTO user_dto = guest_controller->sign_up(name, surname, login, password, city, access);
+        if (user_dto)
+        {
+            auto user = UserOatpp::createShared();
+            user->id = user_dto.get_id();
+            user->full_name = user_dto.get_full_name();         
+            user->login = user_dto.get_login();
+            user->city = user_dto.get_city();
+            user->access = user_dto.get_access();
+            return createDtoResponse(Status::CODE_200, user);
+        }
 
         return createResponse(Status::CODE_502, "ERROR");
     }

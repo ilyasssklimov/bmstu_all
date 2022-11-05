@@ -2,13 +2,11 @@
 #include "logger.h"
 #include "exception.h"
 #include "controller/guest.hpp"
-#include "user_interface/web/auth/jwt.hpp"
 
 
 GuestController::GuestController()
 {
     _guest_service = ServiceLocator::resolve<GuestService>();
-    _jwt = std::make_shared<jwt>();
 
     if (!_guest_service)
     {
@@ -80,9 +78,9 @@ PostDTO GuestController::get_post(int post_id)
 }
 
 
-oatpp::Object<AuthDto> GuestController::sign_up(const std::string &name, const std::string &surname,
-                                                const std::string &login, const std::string &password, 
-                                                const std::string &city, const std::string &access)
+UserDTO GuestController::sign_up(const std::string &name, const std::string &surname,
+                                 const std::string &login, const std::string &password, 
+                                 const std::string &city, const std::string &access)
 {
     UserBL user_bl = _guest_service->sign_up(name, surname, login, password, city, access);
     if (user_bl)
@@ -90,21 +88,13 @@ oatpp::Object<AuthDto> GuestController::sign_up(const std::string &name, const s
         int user_id = _guest_service->get_user_id(user_bl);
         log_info("Success registration of user from GuestController with login = " + login);
 
-        auto payload = std::make_shared<JWT::Payload>();
-        payload->user_id = oatpp::utils::conversion::uint32ToStr(user_id);
-        auto auth = AuthDto::createShared();
-
-        std::cout << "asdasdasdsadasd\n" << user_id << std::endl;
-        OATPP_LOGD("TEST", "id=%s", payload->user_id);
-        auth->token = _jwt->createToken(payload);
-        OATPP_LOGD("TEST", "token=%s", auth->token);
-        return auth;
+        return UserDTO(user_id, user_bl);
     }
     return {};
 }
 
 
-oatpp::Object<AuthDto> GuestController::sign_in(const std::string &login, const std::string &password)
+UserDTO GuestController::sign_in(const std::string &login, const std::string &password)
 {
     UserBL user_bl = _guest_service->get_user(login, password);
 
@@ -112,14 +102,7 @@ oatpp::Object<AuthDto> GuestController::sign_in(const std::string &login, const 
     {
         int user_id = _guest_service->get_user_id(user_bl);
 
-        auto payload = std::make_shared<JWT::Payload>();
-        payload->user_id = std::to_string(user_id);
-
-        auto auth = AuthDto::createShared();
-        auth->token = _jwt->createToken(payload);
-
         log_info("Success auth of user from GuestController with login = " + login);
-        return auth;
     }
 
     return {};

@@ -6,9 +6,6 @@ add_library(data_transfer STATIC
         src/user_interface/entry_point.cpp
         src/user_interface/tech/technological_ui.cpp
         src/user_interface/web/web_ui.cpp
-        src/user_interface/web/auth/handler.cpp
-        src/user_interface/web/auth/jwt.cpp
-        src/user_interface/web/auth/interceptor.cpp
         src/console/guest.cpp
         src/console/client.cpp
         src/console/author.cpp
