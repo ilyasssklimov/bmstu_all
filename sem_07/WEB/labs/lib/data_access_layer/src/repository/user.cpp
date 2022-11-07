@@ -62,6 +62,20 @@ UserBL UserRepository::check_user(const std::string &login, const std::string &p
 }
 
 
+int UserRepository::get_user_id(const std::string &login, const std::string &password)
+{
+    int user_id = _db->get_user_id(login, password);
+    
+    if (user_id == -1)
+    {
+        time_t time_now = time(nullptr);
+        throw UserGetException(__FILE__, __LINE__, ctime(&time_now));
+    }
+
+    return user_id;
+}
+
+
 std::vector<UserBL> UserRepository::get_users()
 {
     std::vector<User> users = _db->get_users();

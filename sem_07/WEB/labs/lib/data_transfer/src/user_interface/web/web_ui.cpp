@@ -24,7 +24,10 @@ void WebUI::instantiate()
     ServiceLocator::instantiate<CommentRepository, ICommentRepository>();
 
     ServiceLocator::instantiate<GuestService>();
+    ServiceLocator::instantiate<AuthService>();
+
     ServiceLocator::instantiate<GuestController>();
+    ServiceLocator::instantiate<AuthController>();
 }
 
 

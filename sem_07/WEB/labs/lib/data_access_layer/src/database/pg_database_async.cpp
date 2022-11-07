@@ -126,6 +126,26 @@ int PGDatabaseAsync::get_user_id(const std::string& login)
 }
 
 
+int PGDatabaseAsync::get_user_id(const std::string &login, const std::string &password)
+{
+    std::ostringstream query;
+    query << "SELECT * FROM " << DBNAME << ".user WHERE login = " << apostrophes(login) 
+          << "AND password = " << apostrophes(password);
+    pqxx::result response = execute_query(query);
+
+    if (response.empty())
+    {
+        log_info("Unable to find user from async PostgreSQL DB with login = " + login + 
+                 " and password = " + password);
+        return -1;
+    }
+
+    log_info("Get user from async PostgreSQL DB with login = " + login + " and password = " + password);
+    
+    return std::stoi(pqxx::to_string(response[0][0]));
+}
+
+
 User PGDatabaseAsync::get_user(const std::string &login, const std::string &password)
 {
     std::ostringstream query;

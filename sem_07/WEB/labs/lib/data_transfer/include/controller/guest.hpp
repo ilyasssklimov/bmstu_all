@@ -8,6 +8,7 @@
 #include <memory>
 #include "locator.hpp"
 #include "service/guest.h"
+#include "controller/auth.h"
 
 #include "model_dto/user.h"
 #include "model_dto/post.h"
@@ -27,7 +28,6 @@ public:
 
     UserDTO sign_up(const std::string& name, const std::string& surname, const std::string& login,
                                    const std::string& password, const std::string& city, const std::string& access);
-    UserDTO sign_in(const std::string &login, const std::string &password);
 
 protected:
     std::shared_ptr<GuestService> _guest_service;
@@ -182,7 +182,7 @@ public:
     ENDPOINT_INFO(sign_up) 
     {
         info->summary = "User registration";
-        info->addResponse<Object<UserOatpp>>(Status::CODE_200, "application/json");
+        info->addResponse<Object<AuthOatpp>>(Status::CODE_200, "application/json");
         info->addResponse<String>(Status::CODE_400, "text/plain", "Some field is empty or access is not 'C' or 'A'");
         info->addResponse<String>(Status::CODE_502, "text/plain", "There is user with such login");
         info->tags.push_back("Guest");
@@ -205,16 +205,40 @@ public:
         UserDTO user_dto = guest_controller->sign_up(name, surname, login, password, city, access);
         if (user_dto)
         {
-            auto user = UserOatpp::createShared();
-            user->id = user_dto.get_id();
-            user->full_name = user_dto.get_full_name();         
-            user->login = user_dto.get_login();
-            user->city = user_dto.get_city();
-            user->access = user_dto.get_access();
-            return createDtoResponse(Status::CODE_200, user);
+            auto auth = AuthOatpp::createShared();
+            int user_id = user_dto.get_id();
+            auth->token = ServiceLocator::resolve<AuthController>()->generate_token(user_id);
+            
+            return createDtoResponse(Status::CODE_200, auth);
         }
 
         return createResponse(Status::CODE_502, "ERROR");
+    }
+
+    ADD_CORS(sign_in)
+    ENDPOINT_INFO(sign_in) 
+    {
+        info->summary = "User authorization";
+        info->addResponse<Object<AuthOatpp>>(Status::CODE_200, "application/json");
+        info->addResponse<String>(Status::CODE_401, "text/plain", "Incorrect login / password");
+        info->tags.push_back("Guest");
+    }
+    ENDPOINT("POST", "/api/v1/users/auth", sign_in, BODY_DTO(Object<AuthUserOatpp>, user))
+    {
+        auto guest_controller = ServiceLocator::resolve<GuestController>();
+
+        std::string login = user->login;
+        std::string password = user->password;
+        std::string token = ServiceLocator::resolve<AuthController>()->generate_token(login, password);
+
+        if (!token.empty())
+        {
+            auto auth = AuthOatpp::createShared();
+            auth->token = token;
+            return createDtoResponse(Status::CODE_200, auth);
+        }
+       
+        return createResponse(Status::CODE_401, "ERROR");
     }
 };
 

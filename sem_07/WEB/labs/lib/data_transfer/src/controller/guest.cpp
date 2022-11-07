@@ -92,18 +92,3 @@ UserDTO GuestController::sign_up(const std::string &name, const std::string &sur
     }
     return {};
 }
-
-
-UserDTO GuestController::sign_in(const std::string &login, const std::string &password)
-{
-    UserBL user_bl = _guest_service->get_user(login, password);
-
-    if (user_bl)
-    {
-        int user_id = _guest_service->get_user_id(user_bl);
-
-        log_info("Success auth of user from GuestController with login = " + login);
-    }
-
-    return {};
-}

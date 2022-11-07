@@ -14,6 +14,7 @@ if (WITH_TESTS)
 endif()
 
 add_subdirectory(lib/utils)
+add_subdirectory(lib/jwt)
 add_subdirectory(lib/business_logic)
 add_subdirectory(lib/data_access_layer)
 add_subdirectory(lib/data_transfer)

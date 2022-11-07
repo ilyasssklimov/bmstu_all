@@ -13,6 +13,7 @@ public:
     virtual std::vector<User> get_users() = 0;
     virtual User get_user(int user_id) = 0;
     virtual int get_user_id(const std::string &login) = 0;
+    virtual int get_user_id(const std::string &login, const std::string &password) = 0;
     virtual User get_user(const std::string &login, const std::string &password) = 0;
     virtual User add_user(std::string name, std::string surname, std::string login,
                           std::string password, std::string city, std::string access) = 0;

@@ -6,6 +6,23 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)  // =============================================================
 
+class AuthOatpp: public oatpp::DTO
+{
+    DTO_INIT(AuthOatpp, DTO)
+
+    DTO_FIELD(String, token);
+};
+
+
+class AuthUserOatpp: public oatpp::DTO
+{
+    DTO_INIT(AuthUserOatpp, DTO)
+    
+    DTO_FIELD(String, login);
+    DTO_FIELD(String, password);
+};
+
+
 class UserOatpp: public oatpp::DTO 
 {  
     DTO_INIT(UserOatpp, DTO)

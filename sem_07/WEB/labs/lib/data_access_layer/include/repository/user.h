@@ -14,6 +14,7 @@ public:
     UserBL get_user(int user_id) override;
     int get_user_id(UserBL user) override;
     UserBL check_user(const std::string &login, const std::string &password) override;
+    int get_user_id(const std::string &login, const std::string &password) override;
     std::vector<UserBL> get_users() override;
     UserBL add_user(std::string name, std::string surname, std::string login,
                     std::string password, std::string city, std::string access) override;
