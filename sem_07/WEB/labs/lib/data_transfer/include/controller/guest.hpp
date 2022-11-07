@@ -27,7 +27,7 @@ public:
     PostDTO get_post(int post_id);
 
     UserDTO sign_up(const std::string& name, const std::string& surname, const std::string& login,
-                                   const std::string& password, const std::string& city, const std::string& access);
+                    const std::string& password, const std::string& city, const std::string& access);
 
 protected:
     std::shared_ptr<GuestService> _guest_service;
