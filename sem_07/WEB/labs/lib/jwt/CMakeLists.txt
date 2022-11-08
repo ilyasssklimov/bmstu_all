@@ -8,3 +8,5 @@ add_library(jwt STATIC src/sha256/sha256.c
                        src/jwt/jwt.cpp)
 
 target_include_directories(jwt PUBLIC include)
+
+target_link_libraries(jwt PUBLIC utils)

@@ -48,20 +48,21 @@ std::string PostDTO::get_date()
 }
 
 
-// FullPostDTO::FullPostDTO(int post_id, PostBL post_bl, std::vector<CommentBL> comments): PostDTO(post_id, post_bl)
-// {
-//     _organizer = post_bl.get_organizer();
-//     _comments = comments;
-// }
+FullPostDTO::FullPostDTO(int post_id, UserDTO author, PostBL post_bl, std::vector<CommentDTO> comments): 
+    PostDTO(post_id, author, post_bl)
+{
+    _organizer = post_bl.get_organizer();
+    _comments = comments;
+}
 
 
-// std::string FullPostDTO::get_organizer()
-// {
-//     return _organizer;
-// }
+std::string FullPostDTO::get_organizer()
+{
+    return _organizer;
+}
 
 
-// std::vector<CommentBL> FullPostDTO::get_comments()
-// {
-//     return _comments;
-// }
+std::vector<CommentDTO> FullPostDTO::get_comments()
+{
+    return _comments;
+}

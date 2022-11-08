@@ -1,45 +1,19 @@
-#pragma once
-
 #include "oatpp/web/server/api/ApiController.hpp"
 #include "oatpp/core/macro/codegen.hpp"
 #include "oatpp/core/macro/component.hpp"
 
-#include <sstream>
-#include <memory>
 #include "locator.hpp"
-#include "service/guest.h"
 #include "controller/auth.h"
-
-#include "model_dto/user.h"
-#include "model_dto/post.h"
-#include "model_dto/oatpp.hpp"
-
-
-class GuestController
-{
-public:
-    explicit GuestController(std::shared_ptr<GuestService> service): _guest_service(service) {};
-    explicit GuestController();
-    
-    std::vector<UserDTO> get_users();
-    std::vector<PostDTO> get_posts();
-    UserDTO get_user(int user_id);
-    PostDTO get_post(int post_id);
-
-    UserDTO sign_up(const std::string& name, const std::string& surname, const std::string& login,
-                    const std::string& password, const std::string& city, const std::string& access);
-
-protected:
-    std::shared_ptr<GuestService> _guest_service;
-};
+#include "controller/guest.h"
+#include "controller/client.h"
 
 
 #include OATPP_CODEGEN_BEGIN(ApiController)  // ===================================================
 
-class OatppGuestController: public oatpp::web::server::api::ApiController 
+class OatppController: public oatpp::web::server::api::ApiController 
 {
 public:
-    OatppGuestController(OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper))
+    OatppController(OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper))
         : oatpp::web::server::api::ApiController(objectMapper) {}
 
     ADD_CORS(users)
@@ -49,7 +23,7 @@ public:
         info->addResponse<Object<UsersOatpp>>(Status::CODE_200, "application/json");
         info->tags.push_back("Guest");
     }
-    ENDPOINT("GET", "api/v1/users", users) 
+    ENDPOINT("GET", "/api/v1/users", users) 
     {
         auto guest_controller = ServiceLocator::resolve<GuestController>();
         std::vector<UserDTO> users_dto = guest_controller->get_users();
@@ -80,7 +54,7 @@ public:
         info->addResponse<Object<PostsOatpp>>(Status::CODE_200, "application/json");
         info->tags.push_back("Guest");
     }
-    ENDPOINT("GET", "api/v1/posts", posts) 
+    ENDPOINT("GET", "/api/v1/posts", posts) 
     {
         auto guest_controller = ServiceLocator::resolve<GuestController>();
         std::vector<PostDTO> posts_dto = guest_controller->get_posts();
@@ -121,7 +95,7 @@ public:
         info->addResponse<String>(Status::CODE_404, "text/plain", "There is not user with such id");
         info->tags.push_back("Guest");
     }
-    ENDPOINT("GET", "api/v1/users/{id}", user_by_id, PATH(UInt32, id)) 
+    ENDPOINT("GET", "/api/v1/users/{id}", user_by_id, PATH(UInt32, id)) 
     {
         auto guest_controller = ServiceLocator::resolve<GuestController>();
         UserDTO user_dto = guest_controller->get_user(id);
@@ -140,6 +114,70 @@ public:
     }
 
 
+    ADD_CORS(full_posts)
+    ENDPOINT_INFO(full_posts) 
+    {
+        info->summary = "Get all full posts";
+        info->addResponse<Object<FullPostsOatpp>>(Status::CODE_200, "application/json");
+        info->addResponse<String>(Status::CODE_401, "text/plain", "Invalid token");
+        info->tags.push_back("Client");
+    }
+    ENDPOINT("GET", "/api/v1/posts/full", full_posts, QUERY(String, token)) 
+    {   
+        if (!ServiceLocator::resolve<AuthController>()->verify_token(token->c_str()))
+            return createResponse(Status::CODE_401, "ERROR");
+
+        auto client_controller = ServiceLocator::resolve<ClientController>();
+        std::vector<FullPostDTO> posts_dto = client_controller->get_full_posts();
+
+        auto posts = FullPostsOatpp::createShared();
+        posts->posts = {};
+
+        for (auto& post_dto: posts_dto)
+        {
+            auto post = FullPostOatpp::createShared();
+            
+            post->id = post_dto.get_id();
+            post->name = post_dto.get_name(); 
+
+            auto author_dto = post_dto.get_author();
+            post->author = UserOatpp::createShared();
+            post->author->id = author_dto.get_id();
+            post->author->full_name = author_dto.get_full_name(); 
+            post->author->login = author_dto.get_login();
+            post->author->city = author_dto.get_city();
+            post->author->access = author_dto.get_access();
+ 
+            post->information = post_dto.get_information();
+            post->organizer = post_dto.get_organizer();
+            post->city = post_dto.get_city();
+            post->date = post_dto.get_date();
+            
+            post->comments = {}; 
+            for (auto& comment_dto: post_dto.get_comments())
+            {
+                auto comment = CommentOatpp::createShared();    
+                comment->date = comment_dto.get_date();
+                comment->text = comment_dto.get_text();
+
+                auto comment_author_dto = comment_dto.get_author();
+                comment->author = UserOatpp::createShared();
+                comment->author->id = comment_author_dto.get_id();
+                comment->author->full_name = comment_author_dto.get_full_name(); 
+                comment->author->login = comment_author_dto.get_login();
+                comment->author->city = comment_author_dto.get_city();
+                comment->author->access = comment_author_dto.get_access();
+
+                post->comments->push_back(comment);
+            }
+
+            posts->posts->push_back(post);
+        }
+
+        return createDtoResponse(Status::CODE_200, posts);
+    }
+
+
     ADD_CORS(post_by_id)
     ENDPOINT_INFO(post_by_id) 
     {
@@ -148,7 +186,7 @@ public:
         info->addResponse<String>(Status::CODE_404, "text/plain", "There is not post with such id");
         info->tags.push_back("Guest");
     }
-    ENDPOINT("GET", "api/v1/posts/{id}", post_by_id, PATH(UInt32, id)) 
+    ENDPOINT("GET", "/api/v1/posts/{id}", post_by_id, PATH(UInt32, id)) 
     {
         auto guest_controller = ServiceLocator::resolve<GuestController>();
         PostDTO post_dto = guest_controller->get_post(id);

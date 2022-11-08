@@ -61,8 +61,8 @@ std::vector<CommentBL> CommentRepository::get_comments(int post_id)
 
     if (comments.empty())
     {
-        time_t time_now = time(nullptr);
-        throw CommentsGetException(__FILE__, __LINE__, ctime(&time_now));
+        log_info("There are not comments to post with id = " + std::to_string(post_id));
+        return {};
     }
 
     std::vector<CommentBL> comments_bl;

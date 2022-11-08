@@ -12,6 +12,7 @@ public:
                            std::shared_ptr<ICommentRepository> comment_repo,
                            std::shared_ptr<IUserRepository> user_repo):
         GuestService(post_repo, user_repo), _comment_repo(comment_repo) {};
+    explicit ClientService();
 
     CommentBL add_comment(const std::string& date, const std::string& text, int author_id, int post_id);
     std::string get_organizer(int post_id);

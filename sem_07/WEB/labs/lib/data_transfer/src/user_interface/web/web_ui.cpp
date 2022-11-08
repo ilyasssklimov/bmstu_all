@@ -10,8 +10,7 @@
 #include <repository/user.h>
 #include <repository/post.h>
 #include <repository/comment.h>
-
-#include "controller/guest.hpp"
+#include "controller/oatpp.hpp"
 
 
 std::unordered_map<size_t, std::shared_ptr<void>> ServiceLocator::_instances;
@@ -23,11 +22,13 @@ void WebUI::instantiate()
     ServiceLocator::instantiate<PostRepository, IPostRepository>();
     ServiceLocator::instantiate<CommentRepository, ICommentRepository>();
 
-    ServiceLocator::instantiate<GuestService>();
     ServiceLocator::instantiate<AuthService>();
+    ServiceLocator::instantiate<GuestService>();
+    ServiceLocator::instantiate<ClientService>();
 
-    ServiceLocator::instantiate<GuestController>();
     ServiceLocator::instantiate<AuthController>();
+    ServiceLocator::instantiate<GuestController>();
+    ServiceLocator::instantiate<ClientController>();
 }
 
 
@@ -37,18 +38,18 @@ int WebUI::run()
     OatppComponent components;
     
     OATPP_COMPONENT(std::shared_ptr<oatpp::web::server::HttpRouter>, router);
-    auto guest_controller = std::make_shared<OatppGuestController>();
-    router->addController(guest_controller);
-
     instantiate();
+
+    auto controller = std::make_shared<OatppController>();
+    router->addController(controller);
 
     OATPP_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, connectionHandler);
     OATPP_COMPONENT(std::shared_ptr<oatpp::network::ServerConnectionProvider>, connectionProvider);
     oatpp::network::Server server(connectionProvider, connectionHandler);
     OATPP_LOGI("LeisureAfisha", "Server running on port %s", connectionProvider->getProperty("port").getData());
 
-    auto swagger_guest_controller = oatpp::swagger::Controller::createShared(guest_controller->getEndpoints()); 
-    router->addController(swagger_guest_controller);
+    auto swagger_controller = oatpp::swagger::Controller::createShared(controller->getEndpoints()); 
+    router->addController(swagger_controller);
     
     server.run();
     oatpp::base::Environment::destroy();

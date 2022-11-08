@@ -49,9 +49,18 @@ bool AuthController::verify_token(std::string token)
     try
     {
         auto jwt = JWT::get_jwt(token);
-        int user_id = std::stoi(jwt.get_payload().get_value("user"));
-        std::string password = _auth_service->get_password(user_id);
-        return jwt.verify(password);
+        std::cout << "2";
+        std::string user_id = jwt.get_payload().get_value("user");
+        std::cout << "1";
+        if (user_id.empty())
+        {
+            time_t time_now = time(nullptr);
+            throw JWTException(__FILE__, __LINE__, ctime(&time_now));
+        }
+
+        std::string password = _auth_service->get_password(std::stoi(user_id));
+        bool result = jwt.verify(password);
+        return result;
     }
     catch (...)
     {

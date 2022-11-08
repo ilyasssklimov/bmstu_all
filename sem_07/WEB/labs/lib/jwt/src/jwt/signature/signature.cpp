@@ -37,6 +37,7 @@ std::string Signature::encode(std::string secret_key)
 			ss_signature << std::hex << std::setfill('0') << std::setw(2) << (int)x;
 
 		_signature = base64_encode(ss_signature.str(), true);
+		_signature = _signature.substr(0, _signature.size() - 2);
 		return _signature;
 	}
 

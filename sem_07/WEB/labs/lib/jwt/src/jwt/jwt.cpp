@@ -1,6 +1,7 @@
 #include "jwt/jwt.h"
 #include "base64/base64.h"
 #include "json/json.h"
+#include "exception.h"
 
 
 
@@ -35,25 +36,39 @@ std::string JWT::generate_token(std::string secret_key)
 
 std::string JWT::generate_signature(std::string secret_key)
 {
-	_signature = Signature(_header, _payload);
-	return _signature.encode(secret_key);
+	auto signature = Signature(_header, _payload);
+	return signature.encode(secret_key);
 }
 
 
 JWT JWT::get_jwt(std::string token)
 {
 	std::string upd_token = token;
+	size_t dot;
 
 	// header
-	size_t dot = upd_token.find(".");
+	if ((dot = upd_token.find(".")) == std::string::npos)
+	{
+        time_t time_now = time(nullptr);
+        throw JWTException(__FILE__, __LINE__, ctime(&time_now));
+	}
 	std::string json_header = base64_decode(upd_token.substr(0, dot), true);
 	std::vector<std::string> header_fields = JSON::json_to_fields(json_header);
+	if (header_fields.size() < 4 || header_fields[0] != "alg" || header_fields[2] != "typ")
+	{
+        time_t time_now = time(nullptr);
+        throw JWTException(__FILE__, __LINE__, ctime(&time_now));
+	}
 
 	Header header(header_fields[1], header_fields[3]);
 	upd_token.erase(0, dot + 1);
 	
 	// payload
-	dot = upd_token.find(".");
+	if ((dot = upd_token.find(".")) == std::string::npos)
+	{
+        time_t time_now = time(nullptr);
+        throw JWTException(__FILE__, __LINE__, ctime(&time_now));
+	}
 	std::string json_payload = base64_decode(upd_token.substr(0, dot), true);
 	std::vector<std::string> payload_fields = JSON::json_to_fields(json_payload);
 	
@@ -70,6 +85,6 @@ JWT JWT::get_jwt(std::string token)
 }
 
 bool JWT::verify(std::string secret_key)
-{
+{	 
 	return _signature.get_signature() == generate_signature(secret_key);
 }

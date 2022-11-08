@@ -3,6 +3,21 @@
 #include "exception.h"
 
 
+ClientService::ClientService(): GuestService()
+{
+    auto comment_repo = ServiceLocator::resolve<ICommentRepository>();
+
+    if (!comment_repo)
+    {
+        log_error("There are not repositories for ClientService");
+        time_t time_now = time(nullptr);
+        throw ServiceLocatorException(__FILE__, __LINE__, ctime(&time_now));
+    }
+
+    _comment_repo = comment_repo;
+}
+
+
 CommentBL ClientService::add_comment(const std::string &date, const std::string& text, int author_id, int post_id)
 {
     try

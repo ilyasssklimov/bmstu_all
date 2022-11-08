@@ -20,7 +20,6 @@ std::vector<std::string> JSON::json_to_fields(std::string json)
 	std::vector<std::string> fields;
 	std::string upd_json = json.substr(1, json.size() - 2) + ",";
 	
-	std::cout << upd_json << std::endl;
 	size_t comma = 0, colon = 0;
 	while ((comma = upd_json.find(",")) != std::string::npos && 
 		   (colon = upd_json.find(":")) != std::string::npos) 

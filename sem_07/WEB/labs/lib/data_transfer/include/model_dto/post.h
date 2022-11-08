@@ -7,6 +7,7 @@
 
 #include "model_bl/post.h"
 #include "model_dto/user.h"
+#include "model_dto/comment.h"
 
 
 class PostDTO
@@ -42,27 +43,27 @@ protected:
 };
 
 
-// class FullPostDTO: public PostDTO
-// {
-// public:
-//     FullPostDTO(int id, std::string name, UserDTO author, std::string information, std::string city, 
-//             std::string organizer, std::string date, std::vector<CommentDTO> comments):
-//         PostDTO(id, name, author, information, city, date), 
-//         _organizer(std::move(organizer)), _comments(std::move(comments)) {}
+class FullPostDTO: public PostDTO
+{
+public:
+    FullPostDTO(int id, std::string name, UserDTO author, std::string information, std::string city, 
+            std::string organizer, std::string date, std::vector<CommentDTO> comments):
+        PostDTO(id, name, author, information, city, date), 
+        _organizer(std::move(organizer)), _comments(std::move(comments)) {}
 
-//     FullPostDTO(int post_id, PostBL post_bl, std::vector<CommentBL> comments);
-//     FullPostDTO() = default;
+    FullPostDTO(int post_id, UserDTO author, PostBL post_bl, std::vector<CommentDTO> comments);
+    FullPostDTO() = default;
 
-//     std::string get_organizer();
-//     std::vector<CommentBL> get_comments();
+    std::string get_organizer();
+    std::vector<CommentDTO> get_comments();
 
-//     explicit operator bool() const { return !_name.empty(); }
-//     bool operator == (FullPostDTO post) const
-//     {
-//         return post.get_id() == _id;
-//     }
+    explicit operator bool() const { return !_name.empty(); }
+    bool operator == (FullPostDTO post) const
+    {
+        return post.get_id() == _id;
+    }
 
-// protected:
-//     std::string _organizer;
-//     std::vector<CommentBL> _comments;
-// };
+protected:
+    std::string _organizer;
+    std::vector<CommentDTO> _comments;
+};

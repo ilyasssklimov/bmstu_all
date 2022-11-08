@@ -233,4 +233,12 @@ public:
 };
 
 
+class JWTException: public BaseException
+{
+public:
+    JWTException(const std::string &filename, const int line, const char *time):
+            BaseException(filename, line, time, "Unable to convert token.") {};
+};
+
+
 #endif  // EXCEPTION_H
