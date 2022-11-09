@@ -49,9 +49,8 @@ bool AuthController::verify_token(std::string token)
     try
     {
         auto jwt = JWT::get_jwt(token);
-        std::cout << "2";
         std::string user_id = jwt.get_payload().get_value("user");
-        std::cout << "1";
+
         if (user_id.empty())
         {
             time_t time_now = time(nullptr);
@@ -64,8 +63,32 @@ bool AuthController::verify_token(std::string token)
     }
     catch (...)
     {
-        log_error("Invalid data in token while verification");
+        log_error("Get invalid data in token while verification");
     }
 
     return false;
+}
+
+
+int AuthController::get_id(std::string token)
+{
+    try
+    {
+        auto jwt = JWT::get_jwt(token);
+        std::string user_id = jwt.get_payload().get_value("user");
+
+        if (user_id.empty())
+        {
+            time_t time_now = time(nullptr);
+            throw JWTException(__FILE__, __LINE__, ctime(&time_now));
+        }
+
+        return std::stoi(user_id);
+    }
+    catch (...)
+    {
+        log_error("Get invalid data in token while verification");
+    }
+
+    return -1;
 }

@@ -98,3 +98,17 @@ std::vector<FullPostDTO> ClientController::get_full_posts(const std::string& dat
 
     return posts_dto;
 }
+
+
+CommentDTO ClientController::add_comment(const std::string& date, const std::string& text, int author_id, int post_id)
+{
+    CommentBL comment_bl = _client_service->add_comment(date, text, author_id, post_id);
+    if (comment_bl)
+    {
+        UserBL user_bl = _guest_service->get_user(author_id);
+        log_info("Success adding of comment from ClientController (author_id = " + std::to_string(author_id) + ")");
+
+        return CommentDTO(comment_bl, UserDTO(author_id, user_bl));
+    }
+    return {};
+}

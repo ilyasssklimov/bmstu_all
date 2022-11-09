@@ -314,6 +314,51 @@ public:
     }
 
 
+    ADD_CORS(add_comment)
+    ENDPOINT_INFO(add_comment) 
+    {
+        info->summary = "Add comment to post by id";
+        info->addResponse<Object<FullPostOatpp>>(Status::CODE_200, "application/json");
+        info->addResponse<String>(Status::CODE_401, "text/plain", "Invalid token");
+        info->addResponse<String>(Status::CODE_404, "text/plain", "There is not post with such id");
+        info->tags.push_back("Client");
+    }
+    ENDPOINT("POST", "/api/v1/posts/full/{id}/comments", add_comment, PATH(UInt32, id), QUERY(String, token), 
+             BODY_DTO(Object<NewCommentOatpp>, comment))
+    {
+        if (!ServiceLocator::resolve<AuthController>()->verify_token(token->c_str()))
+            return createResponse(Status::CODE_401, "ERROR");
+
+        int user_id = ServiceLocator::resolve<AuthController>()->get_id(token->c_str());
+        const time_t tm = time(nullptr);
+        char date[64];
+        strftime(date, std::size(date), "%d.%m.%Y", localtime(&tm));
+
+        auto client_controller = ServiceLocator::resolve<ClientController>();
+        CommentDTO comment_dto = client_controller->add_comment(date, comment->text, user_id, id);
+
+        if (comment_dto)
+        {
+            auto new_comment = CommentOatpp::createShared();
+
+            new_comment->date = date;
+            new_comment->text = comment->text; 
+
+            auto author_dto = comment_dto.get_author();
+            new_comment->author = UserOatpp::createShared();
+            new_comment->author->id = author_dto.get_id();
+            new_comment->author->full_name = author_dto.get_full_name(); 
+            new_comment->author->login = author_dto.get_login();
+            new_comment->author->city = author_dto.get_city();
+            new_comment->author->access = author_dto.get_access();
+
+            return createDtoResponse(Status::CODE_200, new_comment);
+        }
+
+        return createResponse(Status::CODE_404, "ERROR");
+    }
+
+
     ADD_CORS(post_by_id)
     ENDPOINT_INFO(post_by_id) 
     {
@@ -361,7 +406,7 @@ public:
         info->addResponse<String>(Status::CODE_502, "text/plain", "There is user with such login");
         info->tags.push_back("Guest");
     }
-    ENDPOINT("POST", "/api/v1/users/register", sign_up, BODY_DTO(Object<NewUserOatpp>, user))
+    ENDPOINT("POST", "/api/v1/register", sign_up, BODY_DTO(Object<NewUserOatpp>, user))
     {
         auto guest_controller = ServiceLocator::resolve<GuestController>();
 
@@ -397,7 +442,7 @@ public:
         info->addResponse<String>(Status::CODE_401, "text/plain", "Incorrect login / password");
         info->tags.push_back("Guest");
     }
-    ENDPOINT("POST", "/api/v1/users/auth", sign_in, BODY_DTO(Object<AuthUserOatpp>, user))
+    ENDPOINT("POST", "/api/v1/login", sign_in, BODY_DTO(Object<AuthUserOatpp>, user))
     {
         auto guest_controller = ServiceLocator::resolve<GuestController>();
 
