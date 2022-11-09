@@ -107,4 +107,14 @@ class FullPostsOatpp: public oatpp::DTO
     DTO_FIELD(List<Object<FullPostOatpp>>, posts);
 };
 
+class PostFilters: public oatpp::DTO
+{
+    DTO_INIT(PostFilters, DTO)
+
+    DTO_FIELD(String, date);
+    DTO_FIELD(String, name);
+    DTO_FIELD(String, city);
+    DTO_FIELD(String, author);
+};
+
 #include OATPP_CODEGEN_END(DTO)  // ===============================================================

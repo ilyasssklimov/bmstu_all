@@ -12,8 +12,8 @@ public:
 
     std::vector<FullPostDTO> get_full_posts();
     FullPostDTO get_full_post(int post_id);
-    std::vector<FullPostDTO> get_posts(const std::string& date, const std::string& name,
-                                       const std::string& city, const std::string& author);
+    std::vector<FullPostDTO> get_full_posts(const std::string& date, const std::string& name,
+                                            const std::string& city, const std::string& author);
 
     CommentDTO add_comment(const std::string& date, const std::string& text, int author_id, int post_id);
     UserDTO update(int user_id, const std::string& name, const std::string& surname, const std::string& login,

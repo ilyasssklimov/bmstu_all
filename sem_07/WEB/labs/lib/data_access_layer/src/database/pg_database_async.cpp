@@ -375,10 +375,21 @@ int PGDatabaseAsync::get_post_id(Post post)
 std::vector<Post> PGDatabaseAsync::get_posts(const std::string& date, const std::string& name,
                                              const std::string& city, int author)
 {
-    std::ostringstream query;
-    query << "SELECT * FROM " << DBNAME << ".post WHERE visible = true AND (date = " << apostrophes(date) 
-          << " OR name = " << apostrophes(name) << " OR city = " << apostrophes(city) 
-          << " OR author_id = " << author << ")";
+    std::ostringstream query, conditions;
+    query << "SELECT * FROM " << DBNAME << ".post WHERE visible = true";
+
+    if (!date.empty())
+        conditions << " AND date = " << apostrophes(date);
+    if (!name.empty())
+        conditions << " AND name = " << apostrophes(name);
+    if (!city.empty())
+        conditions << " AND city = " << apostrophes(city);
+    if (author != 0)
+        conditions << " AND author_id = " << author;
+
+    if (!conditions.str().empty())
+        query << conditions.str();
+    std::cout << query.str();
     pqxx::result response = execute_query(query);
 
     if (response.empty())

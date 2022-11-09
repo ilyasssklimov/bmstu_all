@@ -177,6 +177,142 @@ public:
         return createDtoResponse(Status::CODE_200, posts);
     }
 
+    
+    ADD_CORS(full_posts_filters)
+    ENDPOINT_INFO(full_posts_filters) 
+    {
+        info->summary = "Get all full posts with filters";
+        info->addResponse<Object<FullPostsOatpp>>(Status::CODE_200, "application/json");
+        info->addResponse<String>(Status::CODE_401, "text/plain", "Invalid token");
+        info->queryParams["date"].required = false;
+        info->queryParams["name"].required = false;
+        info->queryParams["city"].required = false;
+        info->queryParams["author"].required = false;
+        info->queryParams["date"].allowEmptyValue = true;
+        info->queryParams["name"].allowEmptyValue = true;
+        info->queryParams["city"].allowEmptyValue = true;
+        info->queryParams["author"].allowEmptyValue = true;
+        info->tags.push_back("Client");
+    }
+    ENDPOINT("GET", "/api/v1/posts/full/filters", full_posts_filters, QUERY(String, token), 
+             QUERY(String, date, "date", ""), QUERY(String, name, "name", ""), 
+             QUERY(String, city, "city", ""), QUERY(String, author, "author", "")) 
+    {   
+        if (!ServiceLocator::resolve<AuthController>()->verify_token(token->c_str()))
+            return createResponse(Status::CODE_401, "ERROR");
+
+        auto client_controller = ServiceLocator::resolve<ClientController>();
+        std::vector<FullPostDTO> posts_dto = client_controller->get_full_posts(date->c_str(), name->c_str(), 
+                                                                               city->c_str(), author->c_str());
+        auto posts = FullPostsOatpp::createShared();
+        posts->posts = {};
+
+        for (auto& post_dto: posts_dto)
+        {
+            auto post = FullPostOatpp::createShared();
+            
+            post->id = post_dto.get_id();
+            post->name = post_dto.get_name(); 
+
+            auto author_dto = post_dto.get_author();
+            post->author = UserOatpp::createShared();
+            post->author->id = author_dto.get_id();
+            post->author->full_name = author_dto.get_full_name(); 
+            post->author->login = author_dto.get_login();
+            post->author->city = author_dto.get_city();
+            post->author->access = author_dto.get_access();
+ 
+            post->information = post_dto.get_information();
+            post->organizer = post_dto.get_organizer();
+            post->city = post_dto.get_city();
+            post->date = post_dto.get_date();
+            
+            post->comments = {}; 
+            for (auto& comment_dto: post_dto.get_comments())
+            {
+                auto comment = CommentOatpp::createShared();    
+                comment->date = comment_dto.get_date();
+                comment->text = comment_dto.get_text();
+
+                auto comment_author_dto = comment_dto.get_author();
+                comment->author = UserOatpp::createShared();
+                comment->author->id = comment_author_dto.get_id();
+                comment->author->full_name = comment_author_dto.get_full_name(); 
+                comment->author->login = comment_author_dto.get_login();
+                comment->author->city = comment_author_dto.get_city();
+                comment->author->access = comment_author_dto.get_access();
+
+                post->comments->push_back(comment);
+            }
+
+            posts->posts->push_back(post);
+        }
+
+        return createDtoResponse(Status::CODE_200, posts);
+    }
+
+
+    ADD_CORS(full_post_by_id)
+    ENDPOINT_INFO(full_post_by_id) 
+    {
+        info->summary = "Get full post by id";
+        info->addResponse<Object<FullPostOatpp>>(Status::CODE_200, "application/json");
+        info->addResponse<String>(Status::CODE_401, "text/plain", "Invalid token");
+        info->addResponse<String>(Status::CODE_404, "text/plain", "There is not post with such id");
+        info->tags.push_back("Client");
+    }
+    ENDPOINT("GET", "/api/v1/posts/full/{id}", full_post_by_id, PATH(UInt32, id), QUERY(String, token)) 
+    {
+        if (!ServiceLocator::resolve<AuthController>()->verify_token(token->c_str()))
+            return createResponse(Status::CODE_401, "ERROR");
+
+        auto client_controller = ServiceLocator::resolve<ClientController>();
+        FullPostDTO post_dto = client_controller->get_full_post(id);
+
+        if (post_dto)
+        {
+            auto post = FullPostOatpp::createShared();
+            
+            post->id = post_dto.get_id();
+            post->name = post_dto.get_name(); 
+
+            auto author_dto = post_dto.get_author();
+            post->author = UserOatpp::createShared();
+            post->author->id = author_dto.get_id();
+            post->author->full_name = author_dto.get_full_name(); 
+            post->author->login = author_dto.get_login();
+            post->author->city = author_dto.get_city();
+            post->author->access = author_dto.get_access();
+ 
+            post->information = post_dto.get_information();
+            post->organizer = post_dto.get_organizer();
+            post->city = post_dto.get_city();
+            post->date = post_dto.get_date();
+            
+            post->comments = {}; 
+            for (auto& comment_dto: post_dto.get_comments())
+            {
+                auto comment = CommentOatpp::createShared();    
+                comment->date = comment_dto.get_date();
+                comment->text = comment_dto.get_text();
+
+                auto comment_author_dto = comment_dto.get_author();
+                comment->author = UserOatpp::createShared();
+                comment->author->id = comment_author_dto.get_id();
+                comment->author->full_name = comment_author_dto.get_full_name(); 
+                comment->author->login = comment_author_dto.get_login();
+                comment->author->city = comment_author_dto.get_city();
+                comment->author->access = comment_author_dto.get_access();
+
+                post->comments->push_back(comment);
+            }
+
+            return createDtoResponse(Status::CODE_200, post);
+        }
+
+        return createResponse(Status::CODE_404, "ERROR");
+    }
+
 
     ADD_CORS(post_by_id)
     ENDPOINT_INFO(post_by_id) 

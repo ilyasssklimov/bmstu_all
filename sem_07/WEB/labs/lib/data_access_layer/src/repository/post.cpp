@@ -98,7 +98,10 @@ std::vector<PostBL> PostRepository::get_unvisible_posts()
 std::vector<PostBL> PostRepository::get_posts(const std::string& date, const std::string& name,
                                               const std::string& city, const std::string& author)
 {
-    int author_id = _db->get_user_id(author);
+    int author_id = 0;
+    if (!author.empty())
+        author_id = _db->get_user_id(author);
+    
     std::vector<Post> posts = _db->get_posts(date, name, city, author_id);
     if (posts.empty())
     {
