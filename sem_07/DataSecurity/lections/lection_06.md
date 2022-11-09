@@ -85,7 +85,7 @@ R = 1
 
 $K = K / 2$
 
-$A = (A \cdot A) \bmod 2$
+$A = (A \cdot A) \bmod N$
 
 
 
