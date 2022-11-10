@@ -92,3 +92,10 @@ int AuthController::get_id(std::string token)
 
     return -1;
 }
+
+
+std::string AuthController::get_access(int user_id)
+{
+    log_info("Get access of user with id = " + std::to_string(user_id));
+    return _auth_service->get_access(user_id);
+}

@@ -21,7 +21,8 @@ public:
                     std::string organizer, std::string date) override;
     PostBL delete_post(int post_id) override;
     PostBL update_post(int post_id, std::string name, std::string information,
-                       std::string city, std::string date, bool visible) override;
+                       std::string city, std::string date) override;
+    PostBL update_post(int post_id, bool visible) override;
 
 private:
     std::shared_ptr<IDataBase> _db;

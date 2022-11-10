@@ -9,7 +9,7 @@ PostBL AdminService::submit_post(PostBL post)
     try
     {
         int post_id = _post_repo->get_post_id(post);
-        _post_repo->update_post(post_id, "", "", "", "", true);
+        _post_repo->update_post(post_id, true);
 
         log_info("Submit post with title \"" + post.get_name() + "\"");
         return post;

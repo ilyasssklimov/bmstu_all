@@ -6,6 +6,7 @@
 #include "controller/auth.h"
 #include "controller/guest.h"
 #include "controller/client.h"
+#include "controller/author.h"
 
 
 #include OATPP_CODEGEN_BEGIN(ApiController)  // ===================================================
@@ -359,22 +360,25 @@ public:
     }
 
 
-    ADD_CORS(update_user, "*", "GET,POST,OPTIONS,PUT,PATCH", "Origin, X-Requested-With, Content-Type, Accept")
+    ADD_CORS(update_user, "*", "GET,POST,OPTIONS,PATCH")
     ENDPOINT_INFO(update_user) 
     {
         info->summary = "Update user by id";
         info->addResponse<Object<NewUserOatpp>>(Status::CODE_200, "application/json");
         info->addResponse<String>(Status::CODE_401, "text/plain", "Invalid token");
         info->addResponse<String>(Status::CODE_400, "text/plain", "Unable to update user");
+        info->addResponse<String>(Status::CODE_403, "text/plain", "It is not your profile");
         info->tags.push_back("Client");
     }
-    ENDPOINT("PUT", "/api/v1/users", update_user, QUERY(String, token), 
+    ENDPOINT("PATCH", "/api/v1/users/{id}", update_user, PATH(UInt32, id), QUERY(String, token), 
              BODY_DTO(Object<UpdUserOatpp>, user))
     {
         if (!ServiceLocator::resolve<AuthController>()->verify_token(token->c_str()))
             return createResponse(Status::CODE_401, "ERROR");
 
-        int user_id = ServiceLocator::resolve<AuthController>()->get_id(token->c_str());
+        size_t user_id = ServiceLocator::resolve<AuthController>()->get_id(token->c_str());
+        if (user_id != id)
+            return createResponse(Status::CODE_401, "ERROR");
 
         auto client_controller = ServiceLocator::resolve<ClientController>();
         std::string name = user->name;
@@ -437,6 +441,172 @@ public:
         }
 
         return createResponse(Status::CODE_404, "ERROR");
+    }
+
+
+    ADD_CORS(add_post)
+    ENDPOINT_INFO(add_post) 
+    {
+        info->summary = "Add new post";
+        info->addResponse<Object<PostOatpp>>(Status::CODE_200, "application/json");
+        info->addResponse<String>(Status::CODE_401, "text/plain", "Invalid token");
+        info->addResponse<String>(Status::CODE_400, "text/plain", "Invalid data");
+        info->addResponse<String>(Status::CODE_403, "text/plain", "The access should be 'A' or 'M'");
+        info->tags.push_back("Author");
+    }
+    ENDPOINT("POST", "/api/v1/posts", add_post, QUERY(String, token), BODY_DTO(Object<NewPostOatpp>, post))
+    {
+        if (!ServiceLocator::resolve<AuthController>()->verify_token(token->c_str()))
+            return createResponse(Status::CODE_401, "ERROR");
+
+        int user_id = ServiceLocator::resolve<AuthController>()->get_id(token->c_str());
+        std::string access = ServiceLocator::resolve<AuthController>()->get_access(user_id);
+
+        if (access != "A" && access != "M")
+            return createResponse(Status::CODE_403, "ERROR");
+
+        auto author_controller = ServiceLocator::resolve<AuthorController>();
+        std::string name = post->name;
+        std::string information = post->information;
+        std::string city = post->city;
+        std::string organizer = post->organizer;
+
+        const time_t tm = time(nullptr);
+        char date[64];
+        strftime(date, std::size(date), "%d.%m.%Y", localtime(&tm));
+
+        PostDTO post_dto = author_controller->create_post(user_id, name, information, city, organizer, date);
+
+        if (post_dto)
+        {
+            auto post = PostOatpp::createShared();
+            
+            post->id = post_dto.get_id();
+            post->name = name; 
+
+            auto author_dto = post_dto.get_author();
+            post->author = UserOatpp::createShared();
+            post->author->id = author_dto.get_id();
+            post->author->full_name = author_dto.get_full_name();         
+            post->author->login = author_dto.get_login();
+            post->author->city = author_dto.get_city();
+            post->author->access = author_dto.get_access();
+ 
+            post->information = information;
+            post->city = city;
+            post->date = date;
+       
+            return createDtoResponse(Status::CODE_200, post);
+        }
+
+        return createResponse(Status::CODE_400, "ERROR");
+    }
+
+
+    ADD_CORS(delete_post, "*", "GET,POST,OPTIONS,DELETE")
+    ENDPOINT_INFO(delete_post) 
+    {
+        info->summary = "Delete post";
+        info->addResponse<Object<PostOatpp>>(Status::CODE_200, "application/json");
+        info->addResponse<String>(Status::CODE_401, "text/plain", "Invalid token");
+        info->addResponse<String>(Status::CODE_400, "text/plain", "Invalid data");
+        info->addResponse<String>(Status::CODE_403, "text/plain", "The access should be 'A' or 'M' and post should be yours");
+        info->tags.push_back("Author");
+    }
+    ENDPOINT("DELETE", "/api/v1/posts/{id}", delete_post, PATH(UInt32, id), QUERY(String, token))
+    {
+        if (!ServiceLocator::resolve<AuthController>()->verify_token(token->c_str()))
+            return createResponse(Status::CODE_401, "ERROR");
+
+        int user_id = ServiceLocator::resolve<AuthController>()->get_id(token->c_str());
+        std::string access = ServiceLocator::resolve<AuthController>()->get_access(user_id);
+
+        if (access != "A" && access != "M")
+            return createResponse(Status::CODE_403, "ERROR");
+
+        auto author_controller = ServiceLocator::resolve<AuthorController>();
+        PostDTO post_dto = author_controller->delete_post(user_id, id);
+
+        if (post_dto)
+        {
+            auto post = PostOatpp::createShared();
+            
+            post->id = post_dto.get_id();
+            post->name = post_dto.get_name(); 
+
+            auto author_dto = post_dto.get_author();
+            post->author = UserOatpp::createShared();
+            post->author->id = author_dto.get_id();
+            post->author->full_name = author_dto.get_full_name();         
+            post->author->login = author_dto.get_login();
+            post->author->city = author_dto.get_city();
+            post->author->access = author_dto.get_access();
+ 
+            post->information = post_dto.get_information();
+            post->city = post_dto.get_city();
+            post->date = post_dto.get_date();
+       
+            return createDtoResponse(Status::CODE_200, post);
+        }
+
+        return createResponse(Status::CODE_403, "ERROR");
+    }
+
+
+    ADD_CORS(update_post, "*", "GET,POST,OPTIONS,PATCH")
+    ENDPOINT_INFO(update_post) 
+    {
+        info->summary = "Update post by id";
+        info->addResponse<Object<PostOatpp>>(Status::CODE_200, "application/json");
+        info->addResponse<String>(Status::CODE_401, "text/plain", "Invalid token");
+        info->addResponse<String>(Status::CODE_400, "text/plain", "Unable to update user");
+        info->addResponse<String>(Status::CODE_403, "text/plain", "It is not your post");
+        info->tags.push_back("Author");
+    }
+    ENDPOINT("PATCH", "/api/v1/posts/{id}", update_post, PATH(UInt32, id), QUERY(String, token), 
+             BODY_DTO(Object<UpdPostOatpp>, user))
+    {
+        if (!ServiceLocator::resolve<AuthController>()->verify_token(token->c_str()))
+            return createResponse(Status::CODE_401, "ERROR");
+
+        int user_id = ServiceLocator::resolve<AuthController>()->get_id(token->c_str());
+        std::string access = ServiceLocator::resolve<AuthController>()->get_access(user_id);
+
+        if (access != "A" && access != "M")
+            return createResponse(Status::CODE_403, "ERROR");
+
+        auto author_controller = ServiceLocator::resolve<AuthorController>();
+
+        std::string name = user->name;
+        std::string information = user->information;
+        std::string city = user->city;
+        std::string date = user->date;
+        
+        PostDTO post_dto = author_controller->update_post(user_id, id, name, information, city, date);
+
+        if (post_dto)
+        {
+            auto post = PostOatpp::createShared();
+            
+            post->id = post_dto.get_id();
+            post->name = post_dto.get_name(); 
+
+            auto author_dto = post_dto.get_author();
+            post->author = UserOatpp::createShared();
+            post->author->id = author_dto.get_id();
+            post->author->full_name = author_dto.get_full_name();         
+            post->author->login = author_dto.get_login();
+            post->author->city = author_dto.get_city();
+            post->author->access = author_dto.get_access();
+ 
+            post->information = post_dto.get_information();
+            post->city = post_dto.get_city();
+            post->date = post_dto.get_date();
+       
+            return createDtoResponse(Status::CODE_200, post);
+        }
+
+        return createResponse(Status::CODE_403, "ERROR");
     }
 
 

@@ -25,10 +25,12 @@ void WebUI::instantiate()
     ServiceLocator::instantiate<AuthService>();
     ServiceLocator::instantiate<GuestService>();
     ServiceLocator::instantiate<ClientService>();
+    ServiceLocator::instantiate<AuthorService>();
 
     ServiceLocator::instantiate<AuthController>();
     ServiceLocator::instantiate<GuestController>();
     ServiceLocator::instantiate<ClientController>();
+    ServiceLocator::instantiate<AuthorController>();
 }
 
 

@@ -16,5 +16,6 @@ public:
                             std::string organizer, std::string date) = 0;
     virtual PostBL delete_post(int post_id) = 0;
     virtual PostBL update_post(int post_id, std::string name, std::string information,
-                               std::string city, std::string date, bool visible) = 0;
+                               std::string city, std::string date) = 0;
+    virtual PostBL update_post(int post_id, bool visible) = 0;
 };

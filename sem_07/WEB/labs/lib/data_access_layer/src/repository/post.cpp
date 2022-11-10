@@ -151,41 +151,37 @@ PostBL PostRepository::delete_post(int post_id)
 
 
 PostBL PostRepository::update_post(int post_id, std::string name, std::string information,
-                                   std::string city, std::string date, bool visible)
+                                   std::string city, std::string date)
 {
-    PostBL user = get_post(post_id);
+    PostBL post = get_post(post_id);
 
-    std::string upd_name;
-    if (!name.empty())
-        upd_name = name;
-    else
-        upd_name = user.get_name();
+    std::string upd_name = name.empty() ? post.get_name() : name;
+    std::string upd_information = information.empty() ? post.get_information() : information;
+    std::string upd_city = city.empty() ? post.get_city() : city;
+    std::string upd_date = date.empty() ? post.get_date() : date;
 
-    std::string upd_information;
-    if (!information.empty())
-        upd_information = information;
-    else
-        upd_information = user.get_information();
-
-    std::string upd_city;
-    if (!city.empty())
-        upd_city = city;
-    else
-        upd_city = user.get_city();
-
-    std::string upd_date;
-    if (!date.empty())
-        upd_date = date;
-    else
-        upd_date = user.get_date();
-
-    log_debug("Get all upd params for post with = " + std::to_string(post_id));
-    Post upd_post = _db->update_post(post_id, upd_name, upd_information, upd_city, upd_date, visible);
+    Post upd_post = _db->update_post(post_id, upd_name, upd_information, upd_city, upd_date, post.get_visible());
 
     if (!upd_post)
     {
         time_t time_now = time(nullptr);
-        throw UserUpdateException(__FILE__, __LINE__, ctime(&time_now));
+        throw PostUpdateException(__FILE__, __LINE__, ctime(&time_now));
+    }
+
+    return post_to_post_bl(upd_post);
+}
+
+
+PostBL PostRepository::update_post(int post_id, bool visible)
+{
+    PostBL post = get_post(post_id);
+    Post upd_post = _db->update_post(post_id, post.get_name(), post.get_information(), 
+                                     post.get_city(), post.get_date(), visible);
+
+    if (!upd_post)
+    {
+        time_t time_now = time(nullptr);
+        throw PostUpdateException(__FILE__, __LINE__, ctime(&time_now));
     }
 
     return post_to_post_bl(upd_post);
