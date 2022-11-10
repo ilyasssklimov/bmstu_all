@@ -46,6 +46,17 @@ class NewUserOatpp: public oatpp::DTO
     DTO_FIELD(String, access);
 };
 
+class UpdUserOatpp: public oatpp::DTO 
+{  
+    DTO_INIT(UpdUserOatpp, DTO)
+
+    DTO_FIELD(String, name);
+    DTO_FIELD(String, surname);
+    DTO_FIELD(String, login);
+    DTO_FIELD(String, password);
+    DTO_FIELD(String, city);
+};
+
 class UsersOatpp: public oatpp::DTO 
 {  
     DTO_INIT(UsersOatpp, DTO)

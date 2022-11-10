@@ -16,8 +16,8 @@ public:
                                             const std::string& city, const std::string& author);
 
     CommentDTO add_comment(const std::string& date, const std::string& text, int author_id, int post_id);
-    UserDTO update(int user_id, const std::string& name, const std::string& surname, const std::string& login,
-                   const std::string& password, const std::string& city);
+    UserDTO update_user(int user_id, const std::string& name, const std::string& surname, const std::string& login,
+                        const std::string& password, const std::string& city);
 
 protected:
     std::shared_ptr<ClientService> _client_service;

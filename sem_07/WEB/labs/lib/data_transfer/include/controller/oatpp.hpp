@@ -318,7 +318,7 @@ public:
     ENDPOINT_INFO(add_comment) 
     {
         info->summary = "Add comment to post by id";
-        info->addResponse<Object<FullPostOatpp>>(Status::CODE_200, "application/json");
+        info->addResponse<Object<CommentOatpp>>(Status::CODE_200, "application/json");
         info->addResponse<String>(Status::CODE_401, "text/plain", "Invalid token");
         info->addResponse<String>(Status::CODE_404, "text/plain", "There is not post with such id");
         info->tags.push_back("Client");
@@ -356,6 +356,49 @@ public:
         }
 
         return createResponse(Status::CODE_404, "ERROR");
+    }
+
+
+    ADD_CORS(update_user, "*", "GET,POST,OPTIONS,PUT,PATCH", "Origin, X-Requested-With, Content-Type, Accept")
+    ENDPOINT_INFO(update_user) 
+    {
+        info->summary = "Update user by id";
+        info->addResponse<Object<NewUserOatpp>>(Status::CODE_200, "application/json");
+        info->addResponse<String>(Status::CODE_401, "text/plain", "Invalid token");
+        info->addResponse<String>(Status::CODE_400, "text/plain", "Unable to update user");
+        info->tags.push_back("Client");
+    }
+    ENDPOINT("PUT", "/api/v1/users", update_user, QUERY(String, token), 
+             BODY_DTO(Object<UpdUserOatpp>, user))
+    {
+        if (!ServiceLocator::resolve<AuthController>()->verify_token(token->c_str()))
+            return createResponse(Status::CODE_401, "ERROR");
+
+        int user_id = ServiceLocator::resolve<AuthController>()->get_id(token->c_str());
+
+        auto client_controller = ServiceLocator::resolve<ClientController>();
+        std::string name = user->name;
+        std::string surname = user->surname;
+        std::string login = user->login;
+        std::string password = user->password;
+        std::string city = user->city;
+        UserDTO user_dto = client_controller->update_user(user_id, name, surname, login, password, city);
+
+        if (user_dto)
+        {
+            auto upd_user = NewUserOatpp::createShared();
+
+            upd_user->name = name;
+            upd_user->surname = surname;
+            upd_user->login = login;
+            upd_user->password = password;
+            upd_user->city = city;
+            upd_user->access = user_dto.get_access();
+
+            return createDtoResponse(Status::CODE_200, upd_user);
+        }
+
+        return createResponse(Status::CODE_400, "ERROR");
     }
 
 

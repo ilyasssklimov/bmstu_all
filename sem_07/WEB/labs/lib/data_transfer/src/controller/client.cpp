@@ -112,3 +112,20 @@ CommentDTO ClientController::add_comment(const std::string& date, const std::str
     }
     return {};
 }
+
+
+
+UserDTO ClientController::update_user(int user_id, const std::string& name, const std::string& surname, const std::string& login,
+                                      const std::string& password, const std::string& city)
+{    
+    UserBL user_bl = _client_service->update(user_id, name, surname, login, password, city);
+    if (user_bl)
+    {
+        int user_id = _guest_service->get_user_id(user_bl);
+        log_info("Success updating of user from ClientController with login = " + login);
+
+        return UserDTO(user_id, user_bl);
+    }
+    return {};
+
+}
