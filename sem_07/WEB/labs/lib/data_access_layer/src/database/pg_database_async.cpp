@@ -517,7 +517,7 @@ int PGDatabaseAsync::get_comment_id(Comment comment)
     std::ostringstream query;
     query << "SELECT * FROM " << DBNAME << ".comment WHERE date = " << apostrophes(comment.get_date()) 
           << " AND text = " << apostrophes(comment.get_text()) << " AND author_id = " 
-          << comment.get_author_id() << " AND post_id = " + comment.get_post_id();
+          << comment.get_author_id() << " AND post_id = " << comment.get_post_id();
     pqxx::result response = execute_query(query);
 
     if (response.empty())

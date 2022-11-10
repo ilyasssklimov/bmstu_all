@@ -14,6 +14,9 @@ public:
         GuestService(post_repo, user_repo), _comment_repo(comment_repo) {};
     explicit ClientService();
 
+    int get_comment_id(CommentBL comment);
+    CommentBL get_comment(int comment_id);
+
     CommentBL add_comment(const std::string& date, const std::string& text, int author_id, int post_id);
     std::string get_organizer(int post_id);
     std::vector<PostBL> get_posts(const std::string& date, const std::string& name,

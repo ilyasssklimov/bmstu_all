@@ -19,6 +19,8 @@ public:
     UserDTO update_user(int user_id, const std::string& name, const std::string& surname, const std::string& login,
                         const std::string& password, const std::string& city);
 
+    CommentDTO get_comment(int comment_id);
+
 protected:
     std::shared_ptr<ClientService> _client_service;
 };

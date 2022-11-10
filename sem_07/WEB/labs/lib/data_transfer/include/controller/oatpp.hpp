@@ -7,6 +7,7 @@
 #include "controller/guest.h"
 #include "controller/client.h"
 #include "controller/author.h"
+#include "controller/admin.h"
 
 
 #include OATPP_CODEGEN_BEGIN(ApiController)  // ===================================================
@@ -157,7 +158,8 @@ public:
             post->comments = {}; 
             for (auto& comment_dto: post_dto.get_comments())
             {
-                auto comment = CommentOatpp::createShared();    
+                auto comment = CommentOatpp::createShared();   
+                comment->id = comment_dto.get_id(); 
                 comment->date = comment_dto.get_date();
                 comment->text = comment_dto.get_text();
 
@@ -232,6 +234,7 @@ public:
             for (auto& comment_dto: post_dto.get_comments())
             {
                 auto comment = CommentOatpp::createShared();    
+                comment->id = comment_dto.get_id();
                 comment->date = comment_dto.get_date();
                 comment->text = comment_dto.get_text();
 
@@ -294,6 +297,7 @@ public:
             for (auto& comment_dto: post_dto.get_comments())
             {
                 auto comment = CommentOatpp::createShared();    
+                comment->id = comment_dto.get_id();
                 comment->date = comment_dto.get_date();
                 comment->text = comment_dto.get_text();
 
@@ -354,6 +358,196 @@ public:
             new_comment->author->access = author_dto.get_access();
 
             return createDtoResponse(Status::CODE_200, new_comment);
+        }
+
+        return createResponse(Status::CODE_404, "ERROR");
+    }
+
+
+    ADD_CORS(delete_comment, "*", "GET,POST,OPTIONS,DELETE")
+    ENDPOINT_INFO(delete_comment) 
+    {
+        info->summary = "Delete comment";
+        info->addResponse<Object<PostOatpp>>(Status::CODE_200, "application/json");
+        info->addResponse<String>(Status::CODE_401, "text/plain", "Invalid token");
+        info->addResponse<String>(Status::CODE_400, "text/plain", "Invalid data");
+        info->addResponse<String>(Status::CODE_403, "text/plain", "The access should be 'M'");
+        info->tags.push_back("Admin");
+    }
+    ENDPOINT("DELETE", "/api/v1/posts/full/{post_id}/comments/{comment_id}", delete_comment, 
+             PATH(UInt32, post_id), PATH(UInt32, comment_id), QUERY(String, token))
+    {
+        if (!ServiceLocator::resolve<AuthController>()->verify_token(token->c_str()))
+            return createResponse(Status::CODE_401, "ERROR");
+
+        int user_id = ServiceLocator::resolve<AuthController>()->get_id(token->c_str());
+        std::string access = ServiceLocator::resolve<AuthController>()->get_access(user_id);
+
+        if (access != "M")
+            return createResponse(Status::CODE_403, "ERROR");
+
+        auto admin_controller = ServiceLocator::resolve<AdminController>();
+        if (post_id != (size_t) admin_controller->get_comment(comment_id).get_post_id())
+            return createResponse(Status::CODE_400, "ERROR");
+
+        CommentDTO comment_dto = admin_controller->delete_comment(comment_id);
+        if (comment_dto)
+        {
+            auto comment = CommentOatpp::createShared();
+
+            comment->id = comment_dto.get_id();
+            comment->date = comment_dto.get_date();
+            comment->text = comment_dto.get_text(); 
+
+            auto author_dto = comment_dto.get_author();
+            comment->author = UserOatpp::createShared();
+            comment->author->id = author_dto.get_id();
+            comment->author->full_name = author_dto.get_full_name(); 
+            comment->author->login = author_dto.get_login();
+            comment->author->city = author_dto.get_city();
+            comment->author->access = author_dto.get_access();
+
+            return createDtoResponse(Status::CODE_200, comment);
+        }
+
+        return createResponse(Status::CODE_403, "ERROR");
+    }
+
+
+    ADD_CORS(delete_user, "*", "GET,POST,OPTIONS,DELETE")
+    ENDPOINT_INFO(delete_user) 
+    {
+        info->summary = "Delete user";
+        info->addResponse<Object<UserOatpp>>(Status::CODE_200, "application/json");
+        info->addResponse<String>(Status::CODE_401, "text/plain", "Invalid token");
+        info->addResponse<String>(Status::CODE_400, "text/plain", "Invalid data");
+        info->addResponse<String>(Status::CODE_403, "text/plain", "The access should be 'M'");
+        info->tags.push_back("Admin");
+    }
+    ENDPOINT("DELETE", "/api/v1/users/{id}", delete_user, PATH(UInt32, id), QUERY(String, token))
+    {
+        if (!ServiceLocator::resolve<AuthController>()->verify_token(token->c_str()))
+            return createResponse(Status::CODE_401, "ERROR");
+
+        int user_id = ServiceLocator::resolve<AuthController>()->get_id(token->c_str());
+        std::string access = ServiceLocator::resolve<AuthController>()->get_access(user_id);
+
+        if (access != "M")
+            return createResponse(Status::CODE_403, "ERROR");
+
+        UserDTO user_dto = ServiceLocator::resolve<AdminController>()->delete_user(id);
+
+        if (user_dto)
+        {
+            auto user = UserOatpp::createShared();
+            user->id = user_dto.get_id();
+            user->full_name = user_dto.get_full_name();         
+            user->login = user_dto.get_login();
+            user->city = user_dto.get_city();
+            user->access = user_dto.get_access();
+       
+            return createDtoResponse(Status::CODE_200, user);
+        }
+
+        return createResponse(Status::CODE_403, "ERROR");
+    }
+
+
+    ADD_CORS(waiting_posts)
+    ENDPOINT_INFO(waiting_posts) 
+    {
+        info->summary = "Get all waiting posts";
+        info->addResponse<Object<PostsOatpp>>(Status::CODE_200, "application/json");
+        info->addResponse<String>(Status::CODE_401, "text/plain", "Invalid token");
+        info->addResponse<String>(Status::CODE_403, "text/plain", "You should be admin");
+        info->tags.push_back("Admin");
+    }
+    ENDPOINT("GET", "/api/v1/posts/waiting", waiting_posts, QUERY(String, token)) 
+    {
+        if (!ServiceLocator::resolve<AuthController>()->verify_token(token->c_str()))
+            return createResponse(Status::CODE_401, "ERROR");
+
+        int user_id = ServiceLocator::resolve<AuthController>()->get_id(token->c_str());
+        std::string access = ServiceLocator::resolve<AuthController>()->get_access(user_id);
+
+        if (access != "M")
+            return createResponse(Status::CODE_403, "ERROR");
+
+        auto admin_controller = ServiceLocator::resolve<AdminController>();
+        std::vector<PostDTO> posts_dto = admin_controller->get_waiting_posts();
+
+        auto posts = PostsOatpp::createShared();
+        posts->posts = {};
+
+        for (auto& post_dto: posts_dto)
+        {   
+            auto post = PostOatpp::createShared();
+            
+            post->id = post_dto.get_id();
+            post->name = post_dto.get_name(); 
+
+            auto author_dto = post_dto.get_author();
+            post->author = UserOatpp::createShared();
+            post->author->id = author_dto.get_id();
+            post->author->full_name = author_dto.get_full_name();         
+            post->author->login = author_dto.get_login();
+            post->author->city = author_dto.get_city();
+            post->author->access = author_dto.get_access();
+ 
+            post->information = post_dto.get_information();
+            post->city = post_dto.get_city();
+            post->date = post_dto.get_date();
+       
+            posts->posts->push_back(post);
+        }
+
+        return createDtoResponse(Status::CODE_200, posts);
+    }  
+
+
+    ADD_CORS(submit_post, "*", "GET,POST,OPTIONS,PATCH")
+    ENDPOINT_INFO(submit_post) 
+    {
+        info->summary = "Get post by id";
+        info->addResponse<Object<PostOatpp>>(Status::CODE_200, "application/json");
+        info->addResponse<String>(Status::CODE_401, "text/plain", "Invalid token");
+        info->addResponse<String>(Status::CODE_404, "text/plain", "Unable to find post as waiting");
+        info->addResponse<String>(Status::CODE_403, "text/plain", "You should be admin");
+        info->tags.push_back("Admin");
+    }
+    ENDPOINT("PATCH", "/api/v1/posts/waiting/{id}", submit_post, PATH(UInt32, id), QUERY(String, token)) 
+    {    
+        if (!ServiceLocator::resolve<AuthController>()->verify_token(token->c_str()))
+            return createResponse(Status::CODE_401, "ERROR");
+
+        int user_id = ServiceLocator::resolve<AuthController>()->get_id(token->c_str());
+        std::string access = ServiceLocator::resolve<AuthController>()->get_access(user_id);
+
+        if (access != "M")
+            return createResponse(Status::CODE_403, "ERROR");
+
+        auto admin_controller = ServiceLocator::resolve<AdminController>();
+        PostDTO post_dto = admin_controller->submit_post(id);
+        if (post_dto)
+        {
+            auto post = PostOatpp::createShared();
+            
+            post->id = post_dto.get_id();
+            post->name = post_dto.get_name(); 
+
+            auto author_dto = post_dto.get_author();
+            post->author = UserOatpp::createShared();
+            post->author->id = author_dto.get_id();
+            post->author->full_name = author_dto.get_full_name();         
+            post->author->login = author_dto.get_login();
+            post->author->city = author_dto.get_city();
+            post->author->access = author_dto.get_access();
+ 
+            post->information = post_dto.get_information();
+            post->city = post_dto.get_city();
+            post->date = post_dto.get_date();
+       
+            return createDtoResponse(Status::CODE_200, post);
         }
 
         return createResponse(Status::CODE_404, "ERROR");
@@ -444,6 +638,70 @@ public:
     }
 
 
+    ADD_CORS(sign_up)
+    ENDPOINT_INFO(sign_up) 
+    {
+        info->summary = "User registration";
+        info->addResponse<Object<AuthOatpp>>(Status::CODE_200, "application/json");
+        info->addResponse<String>(Status::CODE_400, "text/plain", "Some field is empty or access is not 'C' or 'A'");
+        info->addResponse<String>(Status::CODE_502, "text/plain", "There is user with such login");
+        info->tags.push_back("Guest");
+    }
+    ENDPOINT("POST", "/api/v1/register", sign_up, BODY_DTO(Object<NewUserOatpp>, user))
+    {
+        auto guest_controller = ServiceLocator::resolve<GuestController>();
+
+        std::string name = user->name;
+        std::string surname = user->surname;
+        std::string login = user->login;
+        std::string password = user->password;
+        std::string city = user->city;
+        std::string access = user->access;
+
+        if (name.empty() || surname.empty() || login.empty() || password.empty() || city.empty() || access.empty()
+            || (access != "C" && access != "A"))
+            return createResponse(Status::CODE_400, "ERROR");
+
+        UserDTO user_dto = guest_controller->sign_up(name, surname, login, password, city, access);
+        if (user_dto)
+        {
+            auto auth = AuthOatpp::createShared();
+            int user_id = user_dto.get_id();
+            auth->token = ServiceLocator::resolve<AuthController>()->generate_token(user_id);
+            
+            return createDtoResponse(Status::CODE_200, auth);
+        }
+
+        return createResponse(Status::CODE_502, "ERROR");
+    }
+
+    ADD_CORS(sign_in)
+    ENDPOINT_INFO(sign_in) 
+    {
+        info->summary = "User authorization";
+        info->addResponse<Object<AuthOatpp>>(Status::CODE_200, "application/json");
+        info->addResponse<String>(Status::CODE_401, "text/plain", "Incorrect login / password");
+        info->tags.push_back("Guest");
+    }
+    ENDPOINT("POST", "/api/v1/login", sign_in, BODY_DTO(Object<AuthUserOatpp>, user))
+    {
+        auto guest_controller = ServiceLocator::resolve<GuestController>();
+
+        std::string login = user->login;
+        std::string password = user->password;
+        std::string token = ServiceLocator::resolve<AuthController>()->generate_token(login, password);
+
+        if (!token.empty())
+        {
+            auto auth = AuthOatpp::createShared();
+            auth->token = token;
+            return createDtoResponse(Status::CODE_200, auth);
+        }
+       
+        return createResponse(Status::CODE_401, "ERROR");
+    }
+
+    
     ADD_CORS(add_post)
     ENDPOINT_INFO(add_post) 
     {
@@ -458,7 +716,7 @@ public:
     {
         if (!ServiceLocator::resolve<AuthController>()->verify_token(token->c_str()))
             return createResponse(Status::CODE_401, "ERROR");
-
+        
         int user_id = ServiceLocator::resolve<AuthController>()->get_id(token->c_str());
         std::string access = ServiceLocator::resolve<AuthController>()->get_access(user_id);
 
@@ -510,8 +768,9 @@ public:
         info->addResponse<Object<PostOatpp>>(Status::CODE_200, "application/json");
         info->addResponse<String>(Status::CODE_401, "text/plain", "Invalid token");
         info->addResponse<String>(Status::CODE_400, "text/plain", "Invalid data");
-        info->addResponse<String>(Status::CODE_403, "text/plain", "The access should be 'A' or 'M' and post should be yours");
+        info->addResponse<String>(Status::CODE_403, "text/plain", "The access should be 'A' or 'M' and if 'A' post should be yours");
         info->tags.push_back("Author");
+        info->tags.push_back("Admin");
     }
     ENDPOINT("DELETE", "/api/v1/posts/{id}", delete_post, PATH(UInt32, id), QUERY(String, token))
     {
@@ -521,11 +780,13 @@ public:
         int user_id = ServiceLocator::resolve<AuthController>()->get_id(token->c_str());
         std::string access = ServiceLocator::resolve<AuthController>()->get_access(user_id);
 
-        if (access != "A" && access != "M")
+        PostDTO post_dto;
+        if (access == "A")
+            post_dto = ServiceLocator::resolve<AuthorController>()->delete_post(user_id, id);
+        else if (access == "M")
+            post_dto = ServiceLocator::resolve<AdminController>()->delete_post(id);
+        else
             return createResponse(Status::CODE_403, "ERROR");
-
-        auto author_controller = ServiceLocator::resolve<AuthorController>();
-        PostDTO post_dto = author_controller->delete_post(user_id, id);
 
         if (post_dto)
         {
@@ -607,70 +868,6 @@ public:
         }
 
         return createResponse(Status::CODE_403, "ERROR");
-    }
-
-
-    ADD_CORS(sign_up)
-    ENDPOINT_INFO(sign_up) 
-    {
-        info->summary = "User registration";
-        info->addResponse<Object<AuthOatpp>>(Status::CODE_200, "application/json");
-        info->addResponse<String>(Status::CODE_400, "text/plain", "Some field is empty or access is not 'C' or 'A'");
-        info->addResponse<String>(Status::CODE_502, "text/plain", "There is user with such login");
-        info->tags.push_back("Guest");
-    }
-    ENDPOINT("POST", "/api/v1/register", sign_up, BODY_DTO(Object<NewUserOatpp>, user))
-    {
-        auto guest_controller = ServiceLocator::resolve<GuestController>();
-
-        std::string name = user->name;
-        std::string surname = user->surname;
-        std::string login = user->login;
-        std::string password = user->password;
-        std::string city = user->city;
-        std::string access = user->access;
-
-        if (name.empty() || surname.empty() || login.empty() || password.empty() || city.empty() || access.empty()
-            || (access != "C" && access != "A"))
-            return createResponse(Status::CODE_400, "ERROR");
-
-        UserDTO user_dto = guest_controller->sign_up(name, surname, login, password, city, access);
-        if (user_dto)
-        {
-            auto auth = AuthOatpp::createShared();
-            int user_id = user_dto.get_id();
-            auth->token = ServiceLocator::resolve<AuthController>()->generate_token(user_id);
-            
-            return createDtoResponse(Status::CODE_200, auth);
-        }
-
-        return createResponse(Status::CODE_502, "ERROR");
-    }
-
-    ADD_CORS(sign_in)
-    ENDPOINT_INFO(sign_in) 
-    {
-        info->summary = "User authorization";
-        info->addResponse<Object<AuthOatpp>>(Status::CODE_200, "application/json");
-        info->addResponse<String>(Status::CODE_401, "text/plain", "Incorrect login / password");
-        info->tags.push_back("Guest");
-    }
-    ENDPOINT("POST", "/api/v1/login", sign_in, BODY_DTO(Object<AuthUserOatpp>, user))
-    {
-        auto guest_controller = ServiceLocator::resolve<GuestController>();
-
-        std::string login = user->login;
-        std::string password = user->password;
-        std::string token = ServiceLocator::resolve<AuthController>()->generate_token(login, password);
-
-        if (!token.empty())
-        {
-            auto auth = AuthOatpp::createShared();
-            auth->token = token;
-            return createDtoResponse(Status::CODE_200, auth);
-        }
-       
-        return createResponse(Status::CODE_401, "ERROR");
     }
 };
 

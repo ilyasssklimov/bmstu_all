@@ -33,9 +33,10 @@ std::vector<FullPostDTO> ClientController::get_full_posts()
         std::vector<CommentDTO> comments_dto;
         for (auto& comment_bl: comments_bl)
         {
+            int comment_id = _client_service->get_comment_id(comment_bl);
             int comment_author_id = comment_bl.get_author_id();
             UserBL comment_author_bl = _guest_service->get_user(comment_author_id);
-            comments_dto.push_back(CommentDTO(comment_bl, UserDTO(comment_author_id, comment_author_bl)));
+            comments_dto.push_back(CommentDTO(comment_id, comment_bl, UserDTO(comment_author_id, comment_author_bl)));
         }
 
         posts_dto.push_back(FullPostDTO(post_id, UserDTO(post_author_id, post_author_bl), post_bl, comments_dto));
@@ -58,9 +59,10 @@ FullPostDTO ClientController::get_full_post(int post_id)
         std::vector<CommentDTO> comments_dto;
         for (auto& comment_bl: comments_bl)
         {
+            int comment_id = _client_service->get_comment_id(comment_bl);
             int comment_author_id = comment_bl.get_author_id();
             UserBL comment_author_bl = _guest_service->get_user(comment_author_id);
-            comments_dto.push_back(CommentDTO(comment_bl, UserDTO(comment_author_id, comment_author_bl)));
+            comments_dto.push_back(CommentDTO(comment_id, comment_bl, UserDTO(comment_author_id, comment_author_bl)));
         }
 
         log_info("Get post from ClientController with id = " + std::to_string(post_id));
@@ -88,9 +90,10 @@ std::vector<FullPostDTO> ClientController::get_full_posts(const std::string& dat
         std::vector<CommentDTO> comments_dto;
         for (auto& comment_bl: comments_bl)
         {
+            int comment_id = _client_service->get_comment_id(comment_bl);
             int comment_author_id = comment_bl.get_author_id();
             UserBL comment_author_bl = _guest_service->get_user(comment_author_id);
-            comments_dto.push_back(CommentDTO(comment_bl, UserDTO(comment_author_id, comment_author_bl)));
+            comments_dto.push_back(CommentDTO(comment_id, comment_bl, UserDTO(comment_author_id, comment_author_bl)));
         }
 
         posts_dto.push_back(FullPostDTO(post_id, UserDTO(post_author_id, post_author_bl), post_bl, comments_dto));
@@ -105,10 +108,11 @@ CommentDTO ClientController::add_comment(const std::string& date, const std::str
     CommentBL comment_bl = _client_service->add_comment(date, text, author_id, post_id);
     if (comment_bl)
     {
+        int comment_id = _client_service->get_comment_id(comment_bl);
         UserBL user_bl = _guest_service->get_user(author_id);
         log_info("Success adding of comment from ClientController (author_id = " + std::to_string(author_id) + ")");
 
-        return CommentDTO(comment_bl, UserDTO(author_id, user_bl));
+        return CommentDTO(comment_id, comment_bl, UserDTO(author_id, user_bl));
     }
     return {};
 }
@@ -128,4 +132,19 @@ UserDTO ClientController::update_user(int user_id, const std::string& name, cons
     }
     return {};
 
+}   
+
+
+CommentDTO ClientController::get_comment(int comment_id)
+{
+    CommentBL comment_bl = _client_service->get_comment(comment_id);
+    if (comment_bl)
+    {
+        int author_id = comment_bl.get_author_id();
+        UserBL user_bl = _guest_service->get_user(author_id);
+        log_info("Success get comment from ClientController (author_id = " + std::to_string(author_id) + ")");
+
+        return CommentDTO(comment_id, comment_bl, UserDTO(author_id, user_bl));
+    }
+    return {};
 }

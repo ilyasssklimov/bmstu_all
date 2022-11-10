@@ -81,7 +81,7 @@ std::vector<PostBL> PostRepository::get_unvisible_posts()
     if (posts.empty())
     {
         time_t time_now = time(nullptr);
-        throw PostGetException(__FILE__, __LINE__, ctime(&time_now));
+        throw PostsGetException(__FILE__, __LINE__, ctime(&time_now));
     }
 
     std::vector<PostBL> posts_bl;

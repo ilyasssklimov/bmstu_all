@@ -18,6 +18,50 @@ ClientService::ClientService(): GuestService()
 }
 
 
+int ClientService::get_comment_id(CommentBL comment)
+{
+    try
+    {
+        int comment_id = _comment_repo->get_comment_id(comment);
+        log_info("Get comment id = " + std::to_string(comment_id));
+        return comment_id;
+    }
+    catch (CommentGetException &e)
+    {
+        log_error(e.what());
+    }
+    catch (std::exception &e)
+    {
+        log_error(e.what());
+        log_error("Some error while getting comment id");
+    }
+
+    return {};
+}
+
+
+CommentBL ClientService::get_comment(int comment_id)
+{   
+    try
+    {
+        CommentBL comment = _comment_repo->get_comment(comment_id);
+        log_info("Get comment with id = " + std::to_string(comment_id));
+        return comment;
+    }
+    catch (CommentGetException &e)
+    {
+        log_error(e.what());
+    }
+    catch (...)
+    {
+        log_error("Some error while getting comment");
+    }
+
+    return {};
+
+}
+
+
 CommentBL ClientService::add_comment(const std::string &date, const std::string& text, int author_id, int post_id)
 {
     try

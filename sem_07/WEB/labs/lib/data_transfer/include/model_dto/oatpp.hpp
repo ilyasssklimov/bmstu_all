@@ -68,6 +68,7 @@ class CommentOatpp: public oatpp::DTO
 {  
     DTO_INIT(CommentOatpp, DTO)
 
+    DTO_FIELD(UInt32, id);
     DTO_FIELD(String, date);
     DTO_FIELD(String, text);
     DTO_FIELD(Object<UserOatpp>, author);

@@ -60,7 +60,7 @@ PostDTO AuthorController::update_post(int user_id, int post_id, const std::strin
         (post_bl = _author_service->update_post(post_id, name, info, city, date)))
     {
         int author_id = post_bl.get_author_id();
-        UserBL author_bl = _guest_service->get_user(author_id);
+        UserBL author_bl = _author_service->get_user(author_id);
         log_info("Update post from AuthorController with id = " + std::to_string(post_id));
         return PostDTO(post_id, UserDTO(author_id, author_bl), post_bl);
     }

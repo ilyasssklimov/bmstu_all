@@ -15,7 +15,8 @@ add_library(data_transfer STATIC
         src/controller/auth.cpp
         src/controller/guest.cpp
         src/controller/client.cpp
-        src/controller/author.cpp)
+        src/controller/author.cpp
+        src/controller/admin.cpp)
 
 target_include_directories(data_transfer PUBLIC include)
 add_definitions(-DOATPP_SWAGGER_RES_PATH="/mnt/d/it/bmstu_all/sem_07/web/labs/static/api/")
