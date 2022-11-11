@@ -39,3 +39,33 @@ UserDTO CommentDTO::get_author()
 {
     return _author;
 }
+
+
+oatpp::Object<CommentOatpp> CommentDTO::get_oatpp_object()
+{
+    auto comment = CommentOatpp::createShared(); 
+
+    comment->id = get_id(); 
+    comment->date = get_date();
+    comment->text = get_text();
+    comment->author = get_author().get_oatpp_object();
+
+    return comment;
+}
+
+
+oatpp::Object<CommentsOatpp> CommentDTO::get_oatpp_comments(std::vector<CommentDTO> comments_dto)
+{
+    auto comments = CommentsOatpp::createShared();
+    comments->comments = {};
+
+    for (auto& comment_dto: comments_dto)
+    {
+        auto comment = comment_dto.get_oatpp_object();
+        comments->comments->push_back(comment);
+    }
+
+    return comments;
+}
+
+

@@ -1,7 +1,7 @@
 #include "locator.hpp"
 #include "logger.h"
 #include "exception.h"
-#include "controller/client.h"
+#include "controller/client.hpp"
 
 
 ClientController::ClientController(): GuestController()

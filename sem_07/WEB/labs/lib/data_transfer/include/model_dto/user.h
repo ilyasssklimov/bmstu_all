@@ -5,7 +5,32 @@
 #include <utility>
 #include <vector>
 
+#include "oatpp/core/macro/codegen.hpp"
+#include "oatpp/core/Types.hpp"
+
 #include "model_bl/user.h"
+
+
+#include OATPP_CODEGEN_BEGIN(DTO)  // =============================================================
+
+class UserOatpp: public oatpp::DTO 
+{  
+    DTO_INIT(UserOatpp, DTO)
+
+    DTO_FIELD(UInt32, id);
+    DTO_FIELD(String, full_name);
+    DTO_FIELD(String, login);
+    DTO_FIELD(String, city);
+    DTO_FIELD(String, access);
+};
+
+class UsersOatpp: public oatpp::DTO 
+{  
+    DTO_INIT(UsersOatpp, DTO)
+    DTO_FIELD(List<Object<UserOatpp>>, users);
+};
+
+#include OATPP_CODEGEN_END(DTO)  // ===============================================================
 
 
 class UserDTO
@@ -22,6 +47,9 @@ public:
     std::string get_login();
     std::string get_city();
     std::string get_access();
+
+    oatpp::Object<UserOatpp> get_oatpp_object();
+    static oatpp::Object<UsersOatpp> get_oatpp_users(std::vector<UserDTO> users_dto);
 
     explicit operator bool() const { return !_login.empty(); }
     bool operator == (UserDTO user) const

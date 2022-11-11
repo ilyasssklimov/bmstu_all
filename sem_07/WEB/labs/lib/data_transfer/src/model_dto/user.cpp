@@ -38,3 +38,32 @@ std::string UserDTO::get_access()
 {
     return _access;
 }
+
+
+oatpp::Object<UserOatpp> UserDTO::get_oatpp_object()
+{
+    auto user = UserOatpp::createShared();
+
+    user->id = get_id();
+    user->full_name = get_full_name();         
+    user->login = get_login();
+    user->city = get_city();
+    user->access = get_access();
+
+    return user;
+}
+
+
+oatpp::Object<UsersOatpp> UserDTO::get_oatpp_users(std::vector<UserDTO> users_dto)
+{
+    auto users = UsersOatpp::createShared();
+    users->users = {};
+
+    for (auto& user_dto: users_dto)
+    {
+        auto user = user_dto.get_oatpp_object();
+        users->users->push_back(user);
+    }
+
+    return users;
+}

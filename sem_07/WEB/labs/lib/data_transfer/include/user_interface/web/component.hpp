@@ -40,7 +40,8 @@ public:
          .setVersion("1.0")
          .setContactName("Klimov Ilya")
          .setContactUrl("https://github.com/ilyasssklimov")
-         .addServer("http://localhost:8001", "server on localhost");   
+         .addServer("http://localhost:8001", "server on localhost")
+         .addSecurityScheme("JWT-auth", oatpp::swagger::DocumentInfo::SecuritySchemeBuilder::DefaultBearerAuthorizationSecurityScheme());
          return builder.build();
     }());
 

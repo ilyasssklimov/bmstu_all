@@ -5,9 +5,56 @@
 #include <utility>
 #include <vector>
 
+#include "oatpp/core/macro/codegen.hpp"
+#include "oatpp/core/Types.hpp"
+
 #include "model_bl/post.h"
 #include "model_dto/user.h"
 #include "model_dto/comment.h"
+
+
+#include OATPP_CODEGEN_BEGIN(DTO)  // =============================================================
+
+class PreviewOatpp: public oatpp::DTO 
+{  
+    DTO_INIT(PreviewOatpp, DTO)
+
+    DTO_FIELD(UInt32, id);
+    DTO_FIELD(String, name);
+    DTO_FIELD(Object<UserOatpp>, author);
+    DTO_FIELD(String, information);
+    DTO_FIELD(String, city);
+    DTO_FIELD(String, date);
+};
+
+class PreviewsOatpp: public oatpp::DTO 
+{  
+    DTO_INIT(PreviewsOatpp, DTO)
+    DTO_FIELD(List<Object<PreviewOatpp>>, previews);
+};
+
+
+class PostOatpp: public oatpp::DTO
+{
+    DTO_INIT(PostOatpp, DTO)
+
+    DTO_FIELD(UInt32, id);
+    DTO_FIELD(String, name);
+    DTO_FIELD(Object<UserOatpp>, author);
+    DTO_FIELD(String, information);
+    DTO_FIELD(String, organizer);
+    DTO_FIELD(String, city);
+    DTO_FIELD(String, date);
+    DTO_FIELD(Object<CommentsOatpp>, comments);
+};
+
+class PostsOatpp: public oatpp::DTO 
+{  
+    DTO_INIT(PostsOatpp, DTO)
+    DTO_FIELD(List<Object<PostOatpp>>, posts);
+};
+
+#include OATPP_CODEGEN_END(DTO)  // ===============================================================
 
 
 class PostDTO
@@ -26,6 +73,9 @@ public:
     std::string get_information();
     std::string get_city();
     std::string get_date();
+
+    oatpp::Object<PreviewOatpp> get_oatpp_object();
+    static oatpp::Object<PreviewsOatpp> get_oatpp_previews(std::vector<PostDTO> posts_dto);
 
     explicit operator bool() const { return !_name.empty(); }
     bool operator == (PostDTO post) const
@@ -56,6 +106,9 @@ public:
 
     std::string get_organizer();
     std::vector<CommentDTO> get_comments();
+
+    oatpp::Object<PostOatpp> get_oatpp_object();
+    static oatpp::Object<PostsOatpp> get_oatpp_posts(std::vector<FullPostDTO> posts_dto);
 
     explicit operator bool() const { return !_name.empty(); }
     bool operator == (FullPostDTO post) const
