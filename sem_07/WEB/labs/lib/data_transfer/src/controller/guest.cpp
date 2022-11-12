@@ -66,7 +66,7 @@ PostDTO GuestController::get_post(int post_id)
 {
     PostBL post_bl = _guest_service->get_post(post_id);
 
-    if (post_bl)
+    if (post_bl && post_bl.get_visible())
     {
         int author_id = post_bl.get_author_id();
         UserBL author_bl = _guest_service->get_user(author_id);

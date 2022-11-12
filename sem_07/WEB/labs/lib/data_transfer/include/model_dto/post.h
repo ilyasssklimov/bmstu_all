@@ -54,6 +54,27 @@ class PostsOatpp: public oatpp::DTO
     DTO_FIELD(List<Object<PostOatpp>>, posts);
 };
 
+
+class NewPostOatpp: public oatpp::DTO
+{
+    DTO_INIT(NewPostOatpp, DTO)
+
+    DTO_FIELD(String, name);
+    DTO_FIELD(String, information);
+    DTO_FIELD(String, city);
+    DTO_FIELD(String, organizer);
+};
+
+class UpdPostOatpp: public oatpp::DTO
+{
+    DTO_INIT(UpdPostOatpp, DTO)
+
+    DTO_FIELD(String, name);
+    DTO_FIELD(String, information);
+    DTO_FIELD(String, city);
+    DTO_FIELD(String, date);
+};
+
 #include OATPP_CODEGEN_END(DTO)  // ===============================================================
 
 

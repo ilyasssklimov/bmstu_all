@@ -211,6 +211,17 @@ User PGDatabaseAsync::delete_user(int user_id)
               pqxx::to_string(response[0][3]), pqxx::to_string(response[0][4]),
               pqxx::to_string(response[0][5]), pqxx::to_string(response[0][6]));
 
+
+    query.str("");
+    query << "SELECT * FROM " << DBNAME << ".post WHERE author_id = " << user_id;;
+    response = execute_query(query);
+
+    for (const auto &post_db : response)
+    {
+        int post_id = std::stoi(pqxx::to_string(post_db[0]));
+        delete_post(post_id);
+    }
+
     query.str("");
     query << "DELETE FROM " << DBNAME << ".user WHERE id = " << user_id;
     execute_query(query);
@@ -389,7 +400,7 @@ std::vector<Post> PGDatabaseAsync::get_posts(const std::string& date, const std:
 
     if (!conditions.str().empty())
         query << conditions.str();
-    std::cout << query.str();
+
     pqxx::result response = execute_query(query);
 
     if (response.empty())
@@ -449,6 +460,13 @@ Post PGDatabaseAsync::delete_post(int post_id)
     {
         log_error("Unable to delete post from async PostgreSQL DB with id = " + std::to_string(post_id));
         return {};
+    }
+
+    std::vector<Comment> comments = get_comments(post_id);
+    for (auto& comment: comments)
+    {
+        int comment_id = get_comment_id(comment);
+        delete_comment(comment_id);
     }
 
     Post post(pqxx::to_string(response[0][1]), std::stoi(pqxx::to_string(response[0][2])),

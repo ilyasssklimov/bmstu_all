@@ -10,11 +10,12 @@
 #include <repository/user.h>
 #include <repository/post.h>
 #include <repository/comment.h>
-#include "controller/oatpp.hpp"
 
 #include "controller/auth.hpp"
 #include "controller/guest.hpp"
 #include "controller/client.hpp"
+#include "controller/author.hpp"
+#include "controller/admin.hpp"
 
 
 std::unordered_map<size_t, std::shared_ptr<void>> ServiceLocator::_instances;
@@ -52,12 +53,15 @@ int WebUI::run()
     OATPP_COMPONENT(std::shared_ptr<oatpp::web::server::HttpRouter>, router);
     instantiate();
 
-    auto auth_controller = std::make_shared<OatppAuthController>();
-    auto guest_controller = std::make_shared<OatppGuestController>();
-    auto client_controller = std::make_shared<OatppClientController>();
-    router->addController(auth_controller);
-    router->addController(guest_controller);
-    router->addController(client_controller);
+    std::vector<std::shared_ptr<oatpp::web::server::api::ApiController>> controllers = {
+        std::make_shared<OatppAuthController>(),
+        std::make_shared<OatppGuestController>(),
+        std::make_shared<OatppAdminController>(),
+        std::make_shared<OatppClientController>(),
+        std::make_shared<OatppAuthorController>()
+    };
+    for (auto& controller: controllers)
+        router->addController(controller);
 
     OATPP_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, connectionHandler);
     OATPP_COMPONENT(std::shared_ptr<oatpp::network::ServerConnectionProvider>, connectionProvider);
@@ -65,9 +69,8 @@ int WebUI::run()
     OATPP_LOGI("LeisureAfisha", "Server running on port %s", connectionProvider->getProperty("port").getData());
     
     oatpp::web::server::api::Endpoints docEndpoints;
-    docEndpoints.append(auth_controller->getEndpoints());
-    docEndpoints.append(guest_controller->getEndpoints());
-    docEndpoints.append(client_controller->getEndpoints());
+    for (auto& controller: controllers)
+        docEndpoints.append(controller->getEndpoints());
     router->addController(oatpp::swagger::Controller::createShared(docEndpoints)); 
     
     server.run();

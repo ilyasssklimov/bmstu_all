@@ -10,7 +10,6 @@
 
 #include "model_dto/user.h"
 #include "model_dto/post.h"
-#include "model_dto/oatpp.hpp"
 
 #include "locator.hpp"
 
@@ -44,6 +43,7 @@ public:
 
 
     // Get all users
+    ADD_CORS(users)
     ENDPOINT_INFO(users) 
     {
         info->summary = "Get all users";
@@ -60,6 +60,7 @@ public:
 
 
     // Get user by id
+    ADD_CORS(user_by_id)
     ENDPOINT_INFO(user_by_id) 
     {
         info->summary = "Get user by id";
@@ -79,6 +80,7 @@ public:
 
 
     // Get all previews
+    ADD_CORS(previews)
     ENDPOINT_INFO(previews) 
     {
         info->summary = "Get all previews";
@@ -95,6 +97,7 @@ public:
 
 
     // Get preview by id
+    ADD_CORS(preview_by_id)
     ENDPOINT_INFO(preview_by_id) 
     {
         info->summary = "Get preview by id";

@@ -30,6 +30,14 @@ class CommentsOatpp: public oatpp::DTO
     DTO_FIELD(List<Object<CommentOatpp>>, comments);
 };
 
+class NewCommentOatpp: public oatpp::DTO
+{
+    DTO_INIT(NewCommentOatpp, DTO)
+
+    DTO_FIELD(String, text);
+};
+
+
 #include OATPP_CODEGEN_END(DTO)  // ===============================================================
 
 

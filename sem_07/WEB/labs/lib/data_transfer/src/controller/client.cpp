@@ -50,7 +50,7 @@ FullPostDTO ClientController::get_full_post(int post_id)
 {
     PostBL post_bl = _guest_service->get_post(post_id);
 
-    if (post_bl)
+    if (post_bl && post_bl.get_visible())
     {
         int post_author_id = post_bl.get_author_id();
         UserBL post_author_bl = _guest_service->get_user(post_author_id);
