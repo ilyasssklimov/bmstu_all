@@ -1,5 +1,8 @@
 #pragma once
 
+#include "logger.h"
+#include "locator.hpp"
+
 #include "database/database.h"
 #include "user_interface/user_interface.h"
 
@@ -12,4 +15,16 @@ public:
 
 private:
     void instantiate();
+};
+
+
+class Server
+{
+public:
+    explicit Server(std::string port): _port(port) {}
+
+    std::string get_port() { return _port; }
+
+private:
+    std::string _port;
 };

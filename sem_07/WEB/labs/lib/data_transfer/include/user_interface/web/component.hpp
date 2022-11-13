@@ -1,5 +1,7 @@
 #pragma once
 
+#include "web_ui.h"
+
 #include "oatpp/web/server/HttpConnectionHandler.hpp"
 #include "oatpp/network/tcp/server/ConnectionProvider.hpp"
 #include "oatpp/parser/json/mapping/ObjectMapper.hpp"
@@ -15,7 +17,7 @@ class OatppComponent
 public:
     OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::ServerConnectionProvider>, serverConnectionProvider)([] {
         return oatpp::network::tcp::server::ConnectionProvider::createShared(
-            {"localhost", 8001, oatpp::network::Address::IP_4}
+            {"localhost", (v_uint16) std::stoi(ServiceLocator::resolve<Server>()->get_port()), oatpp::network::Address::IP_4}
         );
     }());
   
@@ -40,7 +42,7 @@ public:
          .setVersion("1.0")
          .setContactName("Klimov Ilya")
          .setContactUrl("https://github.com/ilyasssklimov")
-         .addServer("http://localhost:8001", "server on localhost")
+         .addServer("http://localhost:" + ServiceLocator::resolve<Server>()->get_port(), "server on localhost")
          .addSecurityScheme("JWT-auth", oatpp::swagger::DocumentInfo::SecuritySchemeBuilder::DefaultBearerAuthorizationSecurityScheme());
          return builder.build();
     }());

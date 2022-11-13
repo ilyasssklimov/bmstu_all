@@ -1,9 +1,6 @@
 #include "oatpp/network/Server.hpp"
 #include "oatpp-swagger/Controller.hpp"
 
-#include "logger.h"
-#include "locator.hpp"
-
 #include "user_interface/web/component.hpp"
 #include "user_interface/web/web_ui.h"
 #include "database/pg_database_async.h"
@@ -20,7 +17,7 @@
 
 std::unordered_map<size_t, std::shared_ptr<void>> ServiceLocator::_instances;
 void WebUI::instantiate()
-{        
+{
     ServiceLocator::instantiate<PGDatabaseAsync, IDataBase>(_db);
 
     ServiceLocator::instantiate<UserRepository, IUserRepository>();
