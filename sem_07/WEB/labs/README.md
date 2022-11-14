@@ -25,3 +25,21 @@
 ## ER-диаграмма сущностей
 ![ER-диаграмма](inc/img/er.png)
 
+## Нагрузочное тестирование
+
+|                Запрос                |          Без балансировки           |           С балансировкой           |
+| :----------------------------------: | :---------------------------------: | :---------------------------------: |
+|    ab -n 10 -c 1 localhost/api/v1    | ![test_01_1](./inc/img/ab_01_1.png) | ![test_01_2](./inc/img/ab_01_2.png) |
+|   ab -n 100 -c 1 localhost/api/v1    | ![test_02_1](./inc/img/ab_02_1.png) | ![test_02_2](./inc/img/ab_02_2.png) |
+|   ab -n 100 -c 10 localhost/api/v1   | ![test_03_1](./inc/img/ab_03_1.png) | ![test_03_2](./inc/img/ab_03_2.png) |
+|   ab -n 1000 -c 1 localhost/api/v1   | ![test_04_1](./inc/img/ab_04_1.png) | ![test_04_2](./inc/img/ab_04_2.png) |
+|  ab -n 1000 -c 10 localhost/api/v1   | ![test_05_1](./inc/img/ab_05_1.png) | ![test_05_2](./inc/img/ab_05_2.png) |
+|  ab -n 1000 -c 100 localhost/api/v1  | ![test_06_1](./inc/img/ab_06_1.png) | ![test_06_2](./inc/img/ab_06_2.png) |
+|  ab -n 10000 -c 1 localhost/api/v1   | ![test_07_1](./inc/img/ab_07_1.png) | ![test_07_2](./inc/img/ab_07_2.png) |
+|  ab -n 10000 -c 10 localhost/api/v1  | ![test_08_1](./inc/img/ab_08_1.png) | ![test_08_2](./inc/img/ab_08_2.png) |
+| ab -n 10000 -c 100 localhost/api/v1  | ![test_09_1](./inc/img/ab_09_1.png) | ![test_09_2](./inc/img/ab_09_2.png) |
+|  ab -n 100000 -c 1 localhost/api/v1  | ![test_10_1](./inc/img/ab_10_1.png) | ![test_10_2](./inc/img/ab_10_2.png) |
+| ab -n 100000 -c 10 localhost/api/v1  | ![test_11_1](./inc/img/ab_11_1.png) | ![test_11_2](./inc/img/ab_11_2.png) |
+| ab -n 100000 -c 100 localhost/api/v1 | ![test_12_1](./inc/img/ab_12_1.png) | ![test_12_2](./inc/img/ab_12_2.png) |
+
+Таким образом, видно, что при малом количестве запросов балансировка дает выигрыш в два раза, однако при их увеличении эта разница сокращается. Так, при 100000 запросах время обработки примерно одинаковое. Это может быть связано с тем, что так как все три сервера запущены на одной машине, то время может увеличиваться ввиду блокировок.
