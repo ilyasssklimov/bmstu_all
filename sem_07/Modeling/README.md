@@ -13,4 +13,6 @@
 
 ## Лабораторные работы
 
-- [ЛР1 (изучение функций плотности и распределения случайных величин)](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/Modeling/labs/lab_01) - 4 вариант
+- [ЛР1 (Изучение функций плотности и распределения случайных величин)](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/Modeling/labs/lab_01) – 4 вариант
+- [ЛР2 (Марковские случайные процессы)](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/Modeling/labs/lab_02)
+- [ЛР3 (Генерация псевдослучайных последовательностей)](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/Modeling/labs/lab_03) – критерий Холлина
