@@ -3,6 +3,7 @@
 ## Семинары
 
 - [Семинар 1](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Philosophy/seminars/seminar_01.md)
+- [Семинар 3](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Philosophy/seminars/seminar_03.md)
 
 ## Доклады
 
