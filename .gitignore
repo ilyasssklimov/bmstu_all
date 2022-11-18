@@ -10,3 +10,4 @@ enc_*
 dec_*
 *.zip
 test_zip.*
+*.sig
