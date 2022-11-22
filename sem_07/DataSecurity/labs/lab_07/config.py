@@ -1,2 +1,4 @@
 DATA_DIR = r'.\data'
-END_FREQ = b'-\n'
+
+SEP = b'\x00'
+END_FREQ = SEP + SEP
