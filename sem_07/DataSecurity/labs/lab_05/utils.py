@@ -24,7 +24,7 @@ def is_coprime(a: int, b: int) -> bool:
     return euclid(a, b) == 1
 
 
-def extended_euclid_coprime(a: int, b: int) -> tuple[int, int]:
+def extended_euclid(a: int, b: int) -> tuple[int, int]:
     e = np.eye(2, dtype='int64')
     r = a % b
 

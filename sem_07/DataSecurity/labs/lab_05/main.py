@@ -15,7 +15,7 @@ def test_string(rsa: RSA):
 
 
 def test_file(rsa: RSA):
-    file = FileTarget(DATA_DIR, 'bmstu.png')
+    file = FileTarget(DATA_DIR, 'text.txt')
     enc = rsa.encipher(file)
 
     enc_file = FileTarget(DATA_DIR, enc)

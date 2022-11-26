@@ -22,7 +22,7 @@ class RSA:
         return e
 
     def __count_private_key(self):
-        _, d = utils.extended_euclid_coprime(self.__fi, self.__e)
+        _, d = utils.extended_euclid(self.__fi, self.__e)
         return d if d > 0 else d + self.__fi
 
     def encipher(self, target: BaseTarget):
