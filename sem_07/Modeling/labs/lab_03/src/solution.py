@@ -1,10 +1,5 @@
-import matplotlib
-import matplotlib.pyplot as plt
-import numpy as np
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QMessageBox, QLabel, QDoubleSpinBox, QAbstractSpinBox, QSizePolicy
+from PyQt5.QtWidgets import QMessageBox
 from design import Ui_MainWindow
 from rand import AlgorithmGenerator, TableGenerator, HollinCriterion
 
