@@ -53,7 +53,7 @@ class Tree:
 
         def put(self, item: Item):
             for i, cur_item in enumerate(self.data):
-                if cur_item.freq >= item.freq:
+                if cur_item.freq > item.freq:
                     self.data.insert(i, item)
                     return
             self.data.append(item)
