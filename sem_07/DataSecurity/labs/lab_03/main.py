@@ -7,7 +7,8 @@ def main():
     filename = 'text.txt'
     des = DES()
 
-    enc_filename = des.encipher(DATA_DIR, filename)
+    key = des.generate_key()
+    enc_filename = des.encipher(key, DATA_DIR, filename)
 
 
 if __name__ == '__main__':

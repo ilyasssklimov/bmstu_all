@@ -1,8 +1,28 @@
+from config import TABLES_DIR
+import os
+
+
 class FileUtils:
     @staticmethod
-    def prepare(filename: str) -> list[int]:
-        with open(filename, 'rb') as f:
+    def prepare(dirname: str, filename: str) -> list[int]:
+        with open(os.path.join(dirname, filename), 'rb') as f:
             return list(f.read())
+
+    @staticmethod
+    def read_one_dimensional(filename: str) -> list[int]:
+        with open(os.path.join(TABLES_DIR, filename), 'r') as f:
+            table = map(int, f.read().split())
+
+        return list(table)
+
+    @staticmethod
+    def read_three_dimensional(filename: str) -> list[list[list[int]]]:
+        with open(os.path.join(TABLES_DIR, filename), 'r') as f:
+            blocks = [row.split('\n') for row in f.read().split('\n\n')]
+            table = [list(map(lambda x: list(map(int, x.split())), block))
+                     for block in blocks]
+
+        return table
 
     # def prepare_encrypted(self, n: int) -> list[int]:
     #     n = -(-len(str(bin(n))[2:]) // 8)
