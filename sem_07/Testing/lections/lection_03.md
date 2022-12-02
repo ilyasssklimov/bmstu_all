@@ -62,9 +62,9 @@
 2. Разные движки браузеров / фреймворки.
 3. Необходимость отрисовки.
 4. Неоптимизированность.
-5. Зависимость от аппаратной плаформы.
+5. Зависимость от аппаратной платформы.
 6. Screen geometry.
 
 ---
 
-[Лекция 2](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Testing/lections/lection_02.md)
+[Лекция 2](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Testing/lections/lection_02.md) [Лекция 4](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Testing/lections/lection_04.md)
