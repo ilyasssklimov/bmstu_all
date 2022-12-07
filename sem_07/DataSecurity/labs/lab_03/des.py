@@ -70,7 +70,7 @@ class DES:
             output_filename = 'enc_' + filename
 
         rounded_keys = self.get_rounded_keys(key)
-        file_blocks = FileUtils.prepare(dirname, filename)
+        file_blocks = FileUtils.prepare(dirname, filename, encrypted=True)
         enc_bits: list[str] = []
 
         for block in file_blocks:

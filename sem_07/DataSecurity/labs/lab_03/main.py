@@ -1,6 +1,5 @@
 from config import DATA_DIR
 from des import DES
-import os
 
 
 def main():

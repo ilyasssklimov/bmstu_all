@@ -21,7 +21,7 @@ class FileUtils:
         return table
 
     @staticmethod
-    def prepare(dirname: str, filename: str) -> list[list[int]]:
+    def prepare(dirname: str, filename: str, encrypted: bool = False) -> list[list[int]]:
         block_length = 8
         with open(os.path.join(dirname, filename), 'rb') as f:
             file_bytes = f.read()
@@ -32,6 +32,8 @@ class FileUtils:
             if last_length != block_length:
                 lack = block_length - last_length
                 blocks[-1].extend([lack for _ in range(lack)])
+            elif encrypted:
+                blocks.append([block_length for _ in range(block_length)])
 
             bit_blocks = [list(map(lambda byte: list(f'{byte:08b}'), block)) for block in blocks]
             return [list(map(int, chain(*block))) for block in bit_blocks]
@@ -44,40 +46,9 @@ class FileUtils:
     @staticmethod
     def delete_extra_bytes(file_bytes: list[int]):
         last_byte = file_bytes[-1]
-        if last_byte > 7 or last_byte == 0:
+        if not 0 < last_byte <= 8:
             return
 
         extra_bytes = file_bytes[(-last_byte):]
         if len(set(extra_bytes)) == 1:
             del file_bytes[-last_byte:]
-
-    # def prepare_encrypted(self, n: int) -> list[int]:
-    #     n = -(-len(str(bin(n))[2:]) // 8)
-    #     enc_nums = []
-    #
-    #     with open(os.path.join(self.__dirname, self.__filename), 'rb') as f:
-    #         while byte := f.read(n):
-    #             enc_nums.append(int.from_bytes(byte, 'big'))
-    #
-    #     return enc_nums
-    #
-    # def convert_encrypted(self, encrypted, n: int) -> str:
-    #     filename = f'enc_{self.__filename}'
-    #     n = -(-len(str(bin(n))[2:]) // 8)
-    #
-    #     with open(os.path.join(self.__dirname, filename), 'wb') as f:
-    #         for number in encrypted:
-    #             f.write(number.to_bytes(n, 'big'))
-    #
-    #     return filename
-    #
-    # def convert_decrypted(self, decrypted) -> str:
-    #     filename = f'dec_{self.__filename}'
-    #
-    #     with open(os.path.join(self.__dirname, filename), 'wb') as f:
-    #         f.write(bytearray(decrypted))
-    #
-    #     return filename
-    #
-    # def get_filename(self) -> str:
-    #     return self.__filename
