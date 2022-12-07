@@ -1,13 +1,9 @@
 from config import TABLES_DIR
+from itertools import chain
 import os
 
 
 class FileUtils:
-    @staticmethod
-    def prepare(dirname: str, filename: str) -> list[int]:
-        with open(os.path.join(dirname, filename), 'rb') as f:
-            return list(f.read())
-
     @staticmethod
     def read_one_dimensional(filename: str) -> list[int]:
         with open(os.path.join(TABLES_DIR, filename), 'r') as f:
@@ -23,6 +19,37 @@ class FileUtils:
                      for block in blocks]
 
         return table
+
+    @staticmethod
+    def prepare(dirname: str, filename: str) -> list[list[int]]:
+        block_length = 8
+        with open(os.path.join(dirname, filename), 'rb') as f:
+            file_bytes = f.read()
+            blocks = [list(file_bytes[i:(i + block_length)])
+                      for i in range(0, len(file_bytes), block_length)]
+
+            last_length = len(blocks[-1])
+            if last_length != block_length:
+                lack = block_length - last_length
+                blocks[-1].extend([lack for _ in range(lack)])
+
+            bit_blocks = [list(map(lambda byte: list(f'{byte:08b}'), block)) for block in blocks]
+            return [list(map(int, chain(*block))) for block in bit_blocks]
+
+    @staticmethod
+    def write(dirname: str, filename: str, file_bytes: list[int]):
+        with open(os.path.join(dirname, filename), 'wb') as f:
+            f.write(bytearray(file_bytes))
+
+    @staticmethod
+    def delete_extra_bytes(file_bytes: list[int]):
+        last_byte = file_bytes[-1]
+        if last_byte > 7 or last_byte == 0:
+            return
+
+        extra_bytes = file_bytes[(-last_byte):]
+        if len(set(extra_bytes)) == 1:
+            del file_bytes[-last_byte:]
 
     # def prepare_encrypted(self, n: int) -> list[int]:
     #     n = -(-len(str(bin(n))[2:]) // 8)
