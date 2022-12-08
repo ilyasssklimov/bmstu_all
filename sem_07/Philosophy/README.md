@@ -11,3 +11,5 @@
 - [Томас Гоббс](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Philosophy/reports/Thomas%20Hobbes)
 - [Дени Дидро](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Philosophy/reports/Denis%20Diderot)
 - [Людвиг Фейербах](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Philosophy/reports/Ludwig%20Feuerbach)
+- [Иоганн Готлиб Фихте](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Philosophy/reports/Johann%20Gottlieb%20Fichte)
+- [Сёрен Кьеркегор](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Philosophy/reports/Soren%20Kierkegaard)
