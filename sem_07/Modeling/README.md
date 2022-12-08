@@ -18,3 +18,4 @@
 - [ЛР3 (Генерация псевдослучайных последовательностей)](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/labs/lab_03) – критерий Холлина
 - [ЛР4 (Моделирование аппарата обслуживания)](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/labs/lab_04) – 4 вариант (распределение Эрланга)
 - [ЛР5 (Моделирование информационного центра)](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/labs/lab_05)
+- [ЛР6 (Моделирование сдачи экзамена)](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/labs/lab_06)
