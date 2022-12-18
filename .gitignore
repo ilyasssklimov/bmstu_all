@@ -11,3 +11,5 @@ dec_*
 *.zip
 test_zip.*
 *.sig
+unzip_*
+static

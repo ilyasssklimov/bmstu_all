@@ -1,0 +1,35 @@
+.post {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 300px;
+    height: 360px;
+    border: 3px solid;
+    border-color: #D3D3D3;
+    background-color: #EAF0FF;
+}
+
+.name {
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.data {
+    position: absolute;
+    margin: auto;
+    top: 10%;
+    bottom: 50%;
+    left: 5%;
+
+    font-size: 18px;
+    font-style: italic;
+}
+
+p {
+    margin: 2px;
+}

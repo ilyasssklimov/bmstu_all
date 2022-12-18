@@ -1,0 +1,11 @@
+.search {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 30%;
+    height: 32px;
+    width: 300px;
+    font-size: 16px;
+    border-color: #D3D3D3;
+}
