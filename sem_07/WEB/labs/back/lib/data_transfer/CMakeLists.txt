@@ -19,7 +19,7 @@ add_library(data_transfer STATIC
         src/controller/admin.cpp)
 
 target_include_directories(data_transfer PUBLIC include)
-add_definitions(-DOATPP_SWAGGER_RES_PATH="/mnt/d/it/bmstu_all/sem_07/web/labs/static/api/")
+add_definitions(-DOATPP_SWAGGER_RES_PATH="/mnt/d/it/bmstu_all/sem_07/web/labs/back/static/api/")
 
 target_link_libraries(data_transfer PUBLIC
         data_access_layer 
