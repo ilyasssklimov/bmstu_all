@@ -8,7 +8,7 @@ const Post = ({ name, author, city, date, information }:
         let infoLength = 220;
         return (
             <div className="post">
-                <text className="name">{ name }</text>
+                <span className="name">{ name }</span>
                 <div className="data">
                     <p>Автор: { author }</p>
                     <p>Город: { city }</p>
