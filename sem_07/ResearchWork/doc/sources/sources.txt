@@ -1,22 +1,24 @@
-1. Методика статического анализа для поиска дефектов естественной семантики программных объектов и ее программная реализация на базе инфраструктуры компилятора LLVM и фронтенда Clang
-2. Глоссарий
-3. ГОСТ
-4. Юхименко
-5. https://qrsolutions.com.au/defects-in-software-testing/
-6. https://www.geeksforgeeks.org/techniques-to-identify-defects/
-7. https://logrocon.ru/news/testing_is
-8. https://aws.amazon.com/ru/what-is/machine-learning/
-9. Рашка
+1.  src_01.pdf
+2.  src_02.pdf
+3.  src_03.pdf
+4.  src_04.pdf
+5.  https://qrsolutions.com.au/defects-in-software-testing/
+6.  https://www.geeksforgeeks.org/techniques-to-identify-defects/
+7.  https://logrocon.ru/news/testing_is
+8.  https://base.garant.ru/72838946/
+9.  https://urait.ru/book/mashinnoe-obuchenie-508804
 10. https://learn.microsoft.com/ru-ru/azure/machine-learning/concept-deep-learning-vs-machine-learning
-11. Software_Defects_Prediction_using_Machine_Learning_Algorithms
-12. A Survey on Machine Learning Techniques for Source Code Analysis
-
----
-https://habr.com/ru/company/pvs-studio/blog/484208/ 
-https://www.hindawi.com/journals/complexity/2020/6688075/
-http://www.defectmanagement.com/defectmanagement/finddefect.htm#:~:text=Techniques%20to%20find%20defects%20can,physically%20executed%20to%20identify%20defects.
-Черкасов Иванов
-
-https://github.com/OOPSLA-2019-BugDetection/OOPSLA-2019-BugDetection
-https://github.com/michaelpradel/DeepBugs
-Paper_12-Software_Bug_Prediction_using_Machine_Learning
+11. src_11.pdf
+12. src_12.pdf
+13. src_13.pdf
+14. src_14.pdf
+15. src_15.pdf
+16. src_16.pdf
+17. src_17.pdf
+18. src_18.pdf
+19. https://ranalytics.github.io/data-mining/index.html
+20. src_20.pdf
+21. src_21.pdf
+22. https://aws.amazon.com/ru/what-is/boosting/
+23. src_23.pdf
+24. http://promise.site.uottawa.ca/SERepository/datasets-page.html
