@@ -3,11 +3,7 @@
 #include "service/auth.h"
 #include "builder/user.h"
 #include "test_repository/user.h"
-/*
-    std::string get_password(int user_id);
-    std::string get_access(int user_id);
-    int get_user_id(const std::string &login, const std::string &password);
-*/
+
 
 TEST(SERVICE_AUTH_TEST, GET_PASSWORD)
 {

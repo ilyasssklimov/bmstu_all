@@ -79,8 +79,7 @@ TEST(SERVICE_AUTHOR_TEST, UPDATE_POST)
     );
 
     // Act
-    PostBL upd_post = service.update_post(0, "new_name", "", "", ""
-    );
+    PostBL upd_post = service.update_post(0, "new_name", "", "", "");
 
     // Assert
     EXPECT_EQ(upd_post.get_name(), "new_name");

@@ -1,8 +1,14 @@
 #pragma once
 
 #include <algorithm>
-#include "service/client.h"
 
+#include "builder/user.h"
+#include "builder/post.h"
+#include "builder/comment.h"
+
+#include "test_repository/user.h"
+#include "test_repository/post.h"
+#include "test_repository/comment.h"
 
 class UserRepository: public IUserRepository
 {
