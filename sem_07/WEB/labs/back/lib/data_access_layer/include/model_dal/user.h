@@ -6,16 +6,22 @@
 #include <vector>
 
 #include "post.h"
+#include "model_bl/user.h"
 
 
 class User
 {
 public:
+    User() = default;
+
     User(std::string name, std::string surname, std::string login, 
          std::string password, std::string city, std::string access):
          _name(std::move(name)), _surname(std::move(surname)), _login(std::move(login)),
          _password(std::move(password)), _city(std::move(city)), _access(std::move(access)) {};
-    User() = default;
+
+    User(UserBL user): _name(user.get_name()), _surname(user.get_surname()), 
+        _login(user.get_login()), _password(user.get_password()), _city(user.get_city()), 
+        _access(user.get_access()) {}
 
     std::string get_name();
     std::string get_surname();

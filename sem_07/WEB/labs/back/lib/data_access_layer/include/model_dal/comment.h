@@ -4,13 +4,19 @@
 #include <string>
 #include <utility>
 
+#include "model_bl/comment.h"
+
 
 class Comment
 {
 public:
+    Comment(): _author_id(-1), _post_id(-1) {}
+
     Comment(std::string date, std::string text, int author_id, int post_id):
-            _date(std::move(date)), _text(std::move(text)), _author_id(author_id), _post_id(post_id) {};
-    Comment(): _author_id(-1), _post_id(-1) {};
+            _date(std::move(date)), _text(std::move(text)), _author_id(author_id), _post_id(post_id) {}
+
+    Comment(CommentBL comment): _date(comment.get_date()), _text(comment.get_text()),
+        _author_id(comment.get_author_id()), _post_id(comment.get_post_id()) {}
 
     std::string get_date();
     std::string get_text();
