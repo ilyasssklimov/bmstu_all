@@ -1,7 +1,4 @@
 add_executable(test_business
-        src/builder/user.cpp
-        src/builder/post.cpp
-        src/builder/comment.cpp
         src/test_repository/user.cpp
         src/test_repository/post.cpp
         src/test_repository/comment.cpp
