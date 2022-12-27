@@ -7,7 +7,7 @@ const MainPage = () => {
     let guestService = new GuestService()
     let previewsArray = guestService.getPreviews()
 
-    function renderPreviews(previewsArray: Promise<PreviewModel[]>) {
+    function renderPreviews(previewsArray: PreviewModel[]) {
         let fromIndex = 0
         let toIndex = 9
         const previews = previewsArray.slice(fromIndex, toIndex).map((preview, i) => {
@@ -29,7 +29,7 @@ const MainPage = () => {
         )
     }
 
-    const previews = renderPreviews(previewsArray)
+    // const previews = renderPreviews(previewsArray)
 
     return (
         <div className="main_page">

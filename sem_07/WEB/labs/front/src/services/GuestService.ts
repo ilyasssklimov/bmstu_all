@@ -9,7 +9,7 @@ class GuestService {
         if (!result.ok) {
             throw new Error(`Error while fetching ${url}, status: ${result.status}`);
         }
-    
+        
         return await result.json();
     }
 
