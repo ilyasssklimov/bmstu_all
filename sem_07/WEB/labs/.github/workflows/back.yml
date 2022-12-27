@@ -1,0 +1,22 @@
+name: backend
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checking-out repository
+        uses: actions/checkout@v2
+
+      - name: Testing by cppcheck
+        run: |
+          sudo apt install cppcheck
+          cppcheck -q --enable=all --inconclusive back/
