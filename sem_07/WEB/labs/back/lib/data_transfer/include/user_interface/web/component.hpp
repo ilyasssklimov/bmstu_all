@@ -48,8 +48,7 @@ public:
     }());
 
     OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::swagger::Resources>, swaggerResources)([] {  
-        //return oatpp::swagger::Resources::loadResources(OATPP_SWAGGER_RES_PATH);
-        return oatpp::swagger::Resources::loadResources("/mnt/d/it/bmstu_all/sem_07/web/labs/back/static/api/");
+        return oatpp::swagger::Resources::loadResources(OATPP_SWAGGER_RES_PATH);
     }());
 
     OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::swagger::ControllerPaths>, controllerPaths)([] {
