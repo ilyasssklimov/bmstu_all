@@ -41,8 +41,8 @@ TEST(SERVICE_AUTH_TEST, GET_USER_ID)
 {
     // Arrange
     auto builder = UserBuilder();
-    UserBL user_1 = builder.build();
-    UserBL user_2 = builder.build();
+    UserBL user_1 = builder.with_login("login_1").build(false);
+    UserBL user_2 = builder.with_login("login_2").build(false);
 
     auto user_repo = new UserRepository({ user_1, user_2 });
     auto service = AuthService(std::shared_ptr<UserRepository>(user_repo));

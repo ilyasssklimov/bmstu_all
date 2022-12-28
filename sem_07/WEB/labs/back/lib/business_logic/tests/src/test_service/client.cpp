@@ -42,8 +42,8 @@ TEST(SERVICE_CLIENT_TEST, GET_POSTS_BY_FILTERS)
 {
     // Arrange
     auto post_builder = PostBuilder();
-    PostBL post_1 = post_builder.build();
-    PostBL post_2 = post_builder.build();
+    PostBL post_1 = post_builder.with_date("01.01.1970").build(false);
+    PostBL post_2 = post_builder.with_date("02.01.1970").build(false);
 
     auto user_repo = new UserRepository(std::vector<UserBL>());
     auto post_repo = new PostRepository({ post_1, post_2 }); 
@@ -55,11 +55,11 @@ TEST(SERVICE_CLIENT_TEST, GET_POSTS_BY_FILTERS)
     );
 
     // Act
-    std::vector<PostBL> get_comments = service.get_posts(post_1.get_date(), "", "", "");
+    std::vector<PostBL> get_posts = service.get_posts(post_1.get_date(), "", "", "");
 
     // Assert
-    EXPECT_EQ(get_comments[0], post_1);
-    EXPECT_EQ(get_comments.size(), 1);
+    EXPECT_EQ(get_posts[0], post_1);
+    EXPECT_EQ(get_posts.size(), 1);
 }
 
 
