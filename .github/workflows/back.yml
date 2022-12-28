@@ -20,7 +20,7 @@ jobs:
         run: |
           sudo apt-get -y update
           sudo apt-get -y install libgtest-dev
-          sudo apt-get -y install google-mock
+          sudo apt-get -y install libgmock-dev
               
       - name: Unit testing
         run: |
