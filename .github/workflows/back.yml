@@ -21,8 +21,8 @@ jobs:
           sudo apt-get -y update
           sudo apt-get -y install libgtest-dev
           sudo apt-get -y install libgmock-dev
-              
-      - name: Unit testing
+      
+      - name: Build tests
         run: |
           cd sem_07/WEB/labs/back
           mkdir build
@@ -30,6 +30,8 @@ jobs:
           cmake .. -DWITH_TESTS=1
           make
           
+      - name: Unit testing
+        run: |
           echo "Testing business logic..."
           ./lib/business_logic/tests/test_business
           echo "Testing data access layer..."
