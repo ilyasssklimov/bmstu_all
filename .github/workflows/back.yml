@@ -2,9 +2,9 @@ name: backend
 
 on:
   push:
-    branches: [ main ]
+    branches: [ sem_07 ]
   pull_request:
-    branches: [ main ]
+    branches: [ sem_07 ]
 
   workflow_dispatch:
 
