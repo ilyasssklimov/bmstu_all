@@ -72,8 +72,8 @@ TEST(REPOSITORY_POST_TEST, GET_POSTS_BY_FILTERS)
     // Arrange
     auto mock_db = new MockDatabase();
     auto builder = PostBuilder();
-    PostBL post_1 = builder.build();
-    PostBL post_2 = builder.build();
+    PostBL post_1 = builder.with_name("name_1").build(false);
+    PostBL post_2 = builder.with_name("name_2").build(false);
     std::vector<PostBL> posts_bl = { post_1, post_2 };
     std::vector<Post> posts = { Post(post_1), Post(post_2) };
 
