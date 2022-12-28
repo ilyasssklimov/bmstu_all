@@ -19,4 +19,4 @@ jobs:
       - name: Testing by cppcheck
         run: |
           sudo apt install cppcheck
-          cppcheck -q --enable=all --inconclusive back/
+          cppcheck -q --enable=all --inconclusive sem_07/WEB/labs/back/
