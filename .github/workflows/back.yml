@@ -16,11 +16,13 @@ jobs:
       - name: Checking-out repository
         uses: actions/checkout@v2
       
-      - name: Unit testing
+      - name: Install dependecies
         run: |
           sudo apt install libgtest-dev
           sudo apt-get -y install google-mock
-          
+              
+      - name: Unit testing
+        run: |
           cd sem_07/WEB/labs/back
           mkdir build
           cd build
