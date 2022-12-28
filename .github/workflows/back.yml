@@ -19,7 +19,8 @@ jobs:
       - name: Unit testing
         run: |
           sudo apt install libgtest-dev
-          sudo apt install google-mock
+          sudo apt-get -y install google-mock
+          
           cd sem_07/WEB/labs/back
           mkdir build
           cd build
