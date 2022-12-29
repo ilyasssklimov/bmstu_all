@@ -23,14 +23,15 @@ jobs:
           sudo apt-get -y install libgmock-dev
       
       - name: Build tests
+        working-directory: sem_07/WEB/labs/back
         run: |
-          cd sem_07/WEB/labs/back
           mkdir build
           cd build
           cmake .. -DWITH_TESTS=1
           make
           
       - name: Unit testing
+        working-directory: sem_07/WEB/labs/back/build
         run: |
           echo "Testing business logic..."
           ./lib/business_logic/tests/test_business
