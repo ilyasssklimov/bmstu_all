@@ -145,7 +145,7 @@ TEST(SERVICE_GUEST_INT_TEST, GET_POSTS)
 
     add_post_to_db(db, post_1);
     add_post_to_db(db, post_2);
-    
+
     int id_1 = db->get_post_id(Post(post_1));
     int id_2 = db->get_post_id(Post(post_2));
 
@@ -196,12 +196,10 @@ TEST(SERVICE_GUEST_INT_TEST, GET_POST)
     PostBL post_1 = builder
                     .with_name("name_1")
                     .with_author_id(user_id)
-                    .with_visible(true)
                     .build(false);
     PostBL post_2 = builder
                     .with_name("name_2")
                     .with_author_id(user_id)
-                    .with_visible(true)
                     .build(false);
 
     add_post_to_db(db, post_1);
