@@ -14,7 +14,7 @@
 class TestUserRepository: public IUserRepository
 {
 public:
-    TestUserRepository(std::vector<UserBL> users): _users(users) { std::cout << "Fake constructor repo\n"; }
+    TestUserRepository(std::vector<UserBL> users): _users(users) {}
 
     UserBL get_user(int user_id) override;
     int get_user_id(UserBL user) override;
