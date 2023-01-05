@@ -60,7 +60,7 @@ jobs:
       - name: Create database
         working-directory: sem_07/WEB/labs/back/lib/data_access_layer/src/sql_script
         run: |
-          psql "user=postgres password=postgres port=5432 hostaddr=127.0.0.1" -c "CREATE DATABASE test_db"
+          psql "user=postgres password=postgres port=5432 hostaddr=127.0.0.1" -c "CREATE DATABASE software"
           psql "user=postgres password=postgres port=5432 hostaddr=127.0.0.1" < table.sql
           psql "user=postgres password=postgres port=5432 hostaddr=127.0.0.1" < constraint.sql
       
