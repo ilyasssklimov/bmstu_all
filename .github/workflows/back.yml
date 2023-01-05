@@ -60,9 +60,9 @@ jobs:
       - name: Create database
         working-directory: sem_07/WEB/labs/back/lib/data_access_layer/src/sql_script
         run: |
-          psql "user-postgres password=postgres port=5432 hostaddr=localhost' -c "CREATE DATABASE test_db"
-          psql "user-postgres password=postgres port=5432 hostaddr=localhost' < table.sql
-          psql "user-postgres password=postgres port=5432 hostaddr=localhost' < constraint.sql
+          psql "user=postgres password=postgres port=5432 hostaddr=localhost' -c "CREATE DATABASE test_db"
+          psql "user=postgres password=postgres port=5432 hostaddr=localhost' < table.sql
+          psql "user=postgres password=postgres port=5432 hostaddr=localhost' < constraint.sql
       
       - name: Intgration testing business_logic
         working-directory: sem_07/WEB/labs/back/build
