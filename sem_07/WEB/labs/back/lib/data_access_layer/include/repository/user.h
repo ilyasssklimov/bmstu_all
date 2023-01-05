@@ -8,7 +8,7 @@
 class UserRepository: public IUserRepository
 {
 public:
-    explicit UserRepository(std::shared_ptr<IDataBase> db): _db(db) {};
+    explicit UserRepository(std::shared_ptr<IDataBase> db): _db(db) {}
     explicit UserRepository();
     
     UserBL get_user(int user_id) override;
