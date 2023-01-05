@@ -44,6 +44,7 @@ public:
                      const std::string& password, const std::string& city) override;
     User update_user(User user, const std::string &name, std::string surname, std::string login,
                      const std::string &password, const std::string &city) override;
+    void delete_users() override;
 
     std::vector<Post> get_posts() override;
     std::vector<Post> get_unvisible_posts() override;
@@ -56,6 +57,7 @@ public:
     Post delete_post(int post_id) override;
     Post update_post(int post_id, std::string name, std::string information,
                      std::string city, std::string data, bool visible) override;
+    void delete_posts() override;
 
     Comment get_comment(int comment_id) override;
     int get_comment_id(Comment comment) override;
@@ -63,6 +65,7 @@ public:
     Comment add_comment(std::string data, std::string text, int author_id, int post_id) override;
     Comment delete_comment(int comment_id) override;
     Comment update_comment(int comment_id, std::string date, std::string text) override;
+    void delete_comments() override;
 
 private:
     std::shared_ptr<PGPoolConnection> _pg_pool;

@@ -22,6 +22,7 @@ public:
                              const std::string& password, const std::string& city) = 0;
     virtual User update_user(User user, const std::string &name, std::string surname, std::string login,
                              const std::string &password, const std::string &city) = 0;
+    virtual void delete_users() = 0;
 
     virtual std::vector<Post> get_posts() = 0;
     virtual std::vector<Post> get_unvisible_posts() = 0;
@@ -34,6 +35,7 @@ public:
     virtual Post delete_post(int post_id) = 0;
     virtual Post update_post(int post_id, std::string name, std::string information,
                              std::string city, std::string date, bool visible) = 0;
+    virtual void delete_posts() = 0;
 
     virtual Comment get_comment(int comment_id) = 0;
     virtual int get_comment_id(Comment comment) = 0;
@@ -41,4 +43,5 @@ public:
     virtual Comment add_comment(std::string date, std::string text, int author_id, int post_id) = 0;
     virtual Comment delete_comment(int comment_id) = 0;
     virtual Comment update_comment(int comment_id, std::string date, std::string text) = 0;
+    virtual void delete_comments() = 0;
 };
