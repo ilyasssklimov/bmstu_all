@@ -12,7 +12,7 @@
 
 std::unordered_map<size_t, std::shared_ptr<void>> ServiceLocator::_instances;
 
-TEST(INTEGRATION_TESTS, GUEST_SERVICE)
+TEST(SERVICE_GUEST_INT_TEST, SIGN_UP)
 {
     // Arrange
     UserBL user = UserBuilder().build();
@@ -37,29 +37,39 @@ TEST(INTEGRATION_TESTS, GUEST_SERVICE)
     EXPECT_EQ(add_user, user);
     EXPECT_EQ(user_repo->get_users().size(), 1);
     EXPECT_EQ(user_repo->get_users()[0], user);
+
+    db->delete_users();
 }
 
 
-// TEST(SERVICE_GUEST_TEST, SIGN_IN)
-// {
-//     // Arrange
-//     UserBL user = UserBuilder().build();
+TEST(SERVICE_GUEST_INT_TEST, SIGN_IN)
+{
+    // Arrange
+    UserBL user = UserBuilder().build();
 
-//     auto user_repo = new UserRepository({ user });
-//     auto post_repo = new PostRepository(std::vector<PostBL>());   
-//     auto service = GuestService(
-//         std::shared_ptr<PostRepository>(post_repo),
-//         std::shared_ptr<UserRepository>(user_repo)
-//     );
+    auto db = std::make_shared<PGDatabaseAsync>(PGDatabaseParams);
+    db->add_user(
+        user.get_name(),
+        user.get_surname(),
+        user.get_login(),
+        user.get_password(),
+        user.get_city(),
+        user.get_access()
+    );
+    auto user_repo = std::make_shared<UserRepository>(db);
+    auto post_repo = std::make_shared<PostRepository>(db);
+    auto service = GuestService(post_repo, user_repo);
 
-//     // Act
-//     UserBL yes_user = service.sign_in(user.get_login(), user.get_password());
-//     UserBL no_user = service.sign_in("login_false", "password_false");
+    // Act
+    UserBL yes_user = service.sign_in(user.get_login(), user.get_password());
+    UserBL no_user = service.sign_in("login_fake", "password_fake");
 
-//     // Assert
-//     EXPECT_TRUE((bool) yes_user);
-//     EXPECT_FALSE((bool) no_user);
-// }
+    // Assert
+    EXPECT_TRUE((bool) yes_user);
+    EXPECT_FALSE((bool) no_user);
+
+    db->delete_users();
+}
 
 
 // TEST(SERVICE_GUEST_TEST, GET_USERS)
