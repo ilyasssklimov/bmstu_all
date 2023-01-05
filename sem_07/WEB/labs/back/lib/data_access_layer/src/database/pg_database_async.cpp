@@ -660,3 +660,29 @@ void PGDatabaseAsync::delete_comments()
     query << "DELETE FROM " << DBNAME << ".comment";
     execute_query(query);
 }
+
+
+void add_user_to_db(std::shared_ptr<PGDatabaseAsync> db, UserBL user)
+{
+    db->add_user(
+        user.get_name(),
+        user.get_surname(),
+        user.get_login(),
+        user.get_password(),
+        user.get_city(),
+        user.get_access()
+    );
+}
+
+
+void add_post_to_db(std::shared_ptr<PGDatabaseAsync> db, PostBL post)
+{
+    db->add_post(
+        post.get_name(),
+        post.get_author_id(),
+        post.get_information(),
+        post.get_city(),
+        post.get_organizer(),
+        post.get_date()
+    );
+}

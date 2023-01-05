@@ -72,3 +72,7 @@ private:
     pqxx::result execute_query(std::string& query);
     pqxx::result execute_query(std::ostringstream& query);
 };
+
+
+void add_user_to_db(std::shared_ptr<PGDatabaseAsync> db, UserBL user);
+void add_post_to_db(std::shared_ptr<PGDatabaseAsync> db, PostBL post);
