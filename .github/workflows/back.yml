@@ -11,16 +11,33 @@ on:
 jobs:
   testing:
     runs-on: ubuntu-latest
-
+    
+    services:
+      postgres:
+        image: postgres:latest
+        
+        env:
+          POSTGRES_PASSWORD: postgres
+          
+        ports:
+          - 5432:5432
+          
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          
     steps:
       - name: Checking-out repository
         uses: actions/checkout@v2
       
       - name: Install dependecies
         run: |
-          sudo apt-get -y update
-          sudo apt-get -y install libgtest-dev
-          sudo apt-get -y install libgmock-dev
+          sudo apt -y update
+          sudo apt -y install libgtest-dev
+          sudo apt -y install libgmock-dev
+          sudo apt -y install postgresql postgresql-contrib
       
       - name: Build tests
         working-directory: sem_07/WEB/labs/back
@@ -30,12 +47,19 @@ jobs:
           cmake .. -DWITH_TESTS=1
           make
           
-      - name: Unit testing business logic
+      - name: Unit testing business_logic
         working-directory: sem_07/WEB/labs/back/build
         run: |
           ./lib/business_logic/tests/test_business
           
-      - name: Unit testing data access layer
+      - name: Unit testing data_access_layer
         working-directory: sem_07/WEB/labs/back/build
         run: |
           ./lib/data_access_layer/tests/test_data
+      
+      - name: Create database
+        working-directory: sem_07/WEB/labs/lib/data_access_layer/sql_script
+        run: |
+          psql "user-postgres password=postgres port=5432 hostaddr=localhost' -c "CREATE DATABASE test_db"
+          psql "user-postgres password=postgres port=5432 hostaddr=localhost' < table.sql
+          psql "user-postgres password=postgres port=5432 hostaddr=localhost' < constraint.sql
