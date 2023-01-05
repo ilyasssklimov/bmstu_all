@@ -145,6 +145,26 @@ TEST(SERVICE_GUEST_INT_TEST, GET_POSTS)
 
     add_post_to_db(db, post_1);
     add_post_to_db(db, post_2);
+    
+    int id_1 = db->get_post_id(Post(post_1));
+    int id_2 = db->get_post_id(Post(post_2));
+
+    db->update_post(
+        id_1,
+        post_1.get_name(),
+        post_1.get_information(),
+        post_1.get_city(),
+        post_1.get_date(),
+        true
+    );
+    db->update_post(
+        id_2,
+        post_2.get_name(),
+        post_2.get_information(),
+        post_2.get_city(),
+        post_2.get_date(),
+        true
+    );
 
     auto user_repo = std::make_shared<UserRepository>(db);
     auto post_repo = std::make_shared<PostRepository>(db);
@@ -157,6 +177,9 @@ TEST(SERVICE_GUEST_INT_TEST, GET_POSTS)
     EXPECT_EQ(posts[0], post_1);
     EXPECT_EQ(posts[1], post_2);
     EXPECT_EQ(posts.size(), 2);
+
+    db->delete_posts();
+    db->delete_users();
 }
 
 
@@ -173,10 +196,12 @@ TEST(SERVICE_GUEST_INT_TEST, GET_POST)
     PostBL post_1 = builder
                     .with_name("name_1")
                     .with_author_id(user_id)
+                    .with_visible(true)
                     .build(false);
     PostBL post_2 = builder
                     .with_name("name_2")
                     .with_author_id(user_id)
+                    .with_visible(true)
                     .build(false);
 
     add_post_to_db(db, post_1);
@@ -195,4 +220,7 @@ TEST(SERVICE_GUEST_INT_TEST, GET_POST)
     // Assert
     EXPECT_EQ(get_post_1, post_1);
     EXPECT_EQ(get_post_2, post_2);
+
+    db->delete_posts();
+    db->delete_users();
 }
