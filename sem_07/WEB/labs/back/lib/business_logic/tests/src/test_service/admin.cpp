@@ -24,13 +24,13 @@ TEST(SERVICE_ADMIN_TEST, GET_WAITING_POSTS)
                     .with_name("name_2")
                     .build(false);
 
-    auto user_repo = new UserRepository(std::vector<UserBL>());
-    auto post_repo = new PostRepository({ post_1, post_2 }); 
-    auto comment_repo = new CommentRepository(std::vector<CommentBL>());  
+    auto user_repo = new TestUserRepository(std::vector<UserBL>());
+    auto post_repo = new TestPostRepository({ post_1, post_2 }); 
+    auto comment_repo = new TestCommentRepository(std::vector<CommentBL>());  
     auto service = AdminService(
-        std::shared_ptr<PostRepository>(post_repo),
-        std::shared_ptr<CommentRepository>(comment_repo),
-        std::shared_ptr<UserRepository>(user_repo)
+        std::shared_ptr<TestPostRepository>(post_repo),
+        std::shared_ptr<TestCommentRepository>(comment_repo),
+        std::shared_ptr<TestUserRepository>(user_repo)
     );
 
     // Act
@@ -51,13 +51,13 @@ TEST(SERVICE_ADMIN_TEST, SUBMIT_POST)
                  .with_visible(false)
                  .build(false);
 
-    auto user_repo = new UserRepository(std::vector<UserBL>());
-    auto post_repo = new PostRepository({ post }); 
-    auto comment_repo = new CommentRepository(std::vector<CommentBL>());  
+    auto user_repo = new TestUserRepository(std::vector<UserBL>());
+    auto post_repo = new TestPostRepository({ post }); 
+    auto comment_repo = new TestCommentRepository(std::vector<CommentBL>());  
     auto service = AdminService(
-        std::shared_ptr<PostRepository>(post_repo),
-        std::shared_ptr<CommentRepository>(comment_repo),
-        std::shared_ptr<UserRepository>(user_repo)
+        std::shared_ptr<TestPostRepository>(post_repo),
+        std::shared_ptr<TestCommentRepository>(comment_repo),
+        std::shared_ptr<TestUserRepository>(user_repo)
     );
 
     // Act
@@ -75,13 +75,13 @@ TEST(SERVICE_ADMIN_TEST, DELETE_USER)
     // Arrange
     UserBL user = UserBuilder().build();
 
-    auto user_repo = new UserRepository({ user });
-    auto post_repo = new PostRepository(std::vector<PostBL>()); 
-    auto comment_repo = new CommentRepository(std::vector<CommentBL>());  
+    auto user_repo = new TestUserRepository({ user });
+    auto post_repo = new TestPostRepository(std::vector<PostBL>()); 
+    auto comment_repo = new TestCommentRepository(std::vector<CommentBL>());  
     auto service = AdminService(
-        std::shared_ptr<PostRepository>(post_repo),
-        std::shared_ptr<CommentRepository>(comment_repo),
-        std::shared_ptr<UserRepository>(user_repo)
+        std::shared_ptr<TestPostRepository>(post_repo),
+        std::shared_ptr<TestCommentRepository>(comment_repo),
+        std::shared_ptr<TestUserRepository>(user_repo)
     );
 
     // Act
@@ -98,13 +98,13 @@ TEST(SERVICE_ADMIN_TEST, DELETE_POST)
     // Arrange
     PostBL post = PostBuilder().build();
 
-    auto user_repo = new UserRepository(std::vector<UserBL>());
-    auto post_repo = new PostRepository({ post }); 
-    auto comment_repo = new CommentRepository(std::vector<CommentBL>());  
+    auto user_repo = new TestUserRepository(std::vector<UserBL>());
+    auto post_repo = new TestPostRepository({ post }); 
+    auto comment_repo = new TestCommentRepository(std::vector<CommentBL>());  
     auto service = AdminService(
-        std::shared_ptr<PostRepository>(post_repo),
-        std::shared_ptr<CommentRepository>(comment_repo),
-        std::shared_ptr<UserRepository>(user_repo)
+        std::shared_ptr<TestPostRepository>(post_repo),
+        std::shared_ptr<TestCommentRepository>(comment_repo),
+        std::shared_ptr<TestUserRepository>(user_repo)
     );
 
     // Act
@@ -121,13 +121,13 @@ TEST(SERVICE_ADMIN_TEST, DELETE_COMMENT)
     // Arrange
     CommentBL comment = CommentBuilder().build();
 
-    auto user_repo = new UserRepository(std::vector<UserBL>());
-    auto post_repo = new PostRepository(std::vector<PostBL>()); 
-    auto comment_repo = new CommentRepository({ comment });  
+    auto user_repo = new TestUserRepository(std::vector<UserBL>());
+    auto post_repo = new TestPostRepository(std::vector<PostBL>()); 
+    auto comment_repo = new TestCommentRepository({ comment });  
     auto service = AdminService(
-        std::shared_ptr<PostRepository>(post_repo),
-        std::shared_ptr<CommentRepository>(comment_repo),
-        std::shared_ptr<UserRepository>(user_repo)
+        std::shared_ptr<TestPostRepository>(post_repo),
+        std::shared_ptr<TestCommentRepository>(comment_repo),
+        std::shared_ptr<TestUserRepository>(user_repo)
     );
 
     // Act

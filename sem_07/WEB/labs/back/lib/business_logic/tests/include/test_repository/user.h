@@ -10,10 +10,11 @@
 #include "test_repository/post.h"
 #include "test_repository/comment.h"
 
-class UserRepository: public IUserRepository
+
+class TestUserRepository: public IUserRepository
 {
 public:
-    UserRepository(std::vector<UserBL> users): _users(users) {}
+    TestUserRepository(std::vector<UserBL> users): _users(users) { std::cout << "Fake constructor repo\n"; }
 
     UserBL get_user(int user_id) override;
     int get_user_id(UserBL user) override;

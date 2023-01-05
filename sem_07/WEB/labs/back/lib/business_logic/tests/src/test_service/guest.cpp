@@ -14,11 +14,11 @@ TEST(SERVICE_GUEST_TEST, SIGN_UP)
     // Arrange
     UserBL user = UserBuilder().build();
 
-    auto user_repo = new UserRepository(std::vector<UserBL>());
-    auto post_repo = new PostRepository(std::vector<PostBL>());   
+    auto user_repo = new TestUserRepository(std::vector<UserBL>());
+    auto post_repo = new TestPostRepository(std::vector<PostBL>());   
     auto service = GuestService(
-        std::shared_ptr<PostRepository>(post_repo),
-        std::shared_ptr<UserRepository>(user_repo)
+        std::shared_ptr<TestPostRepository>(post_repo),
+        std::shared_ptr<TestUserRepository>(user_repo)
     );
 
     // Act
@@ -43,11 +43,11 @@ TEST(SERVICE_GUEST_TEST, SIGN_IN)
     // Arrange
     UserBL user = UserBuilder().build();
 
-    auto user_repo = new UserRepository({ user });
-    auto post_repo = new PostRepository(std::vector<PostBL>());   
+    auto user_repo = new TestUserRepository({ user });
+    auto post_repo = new TestPostRepository(std::vector<PostBL>());   
     auto service = GuestService(
-        std::shared_ptr<PostRepository>(post_repo),
-        std::shared_ptr<UserRepository>(user_repo)
+        std::shared_ptr<TestPostRepository>(post_repo),
+        std::shared_ptr<TestUserRepository>(user_repo)
     );
 
     // Act
@@ -67,11 +67,11 @@ TEST(SERVICE_GUEST_TEST, GET_USERS)
     UserBL user_1 = builder.build();
     UserBL user_2 = builder.build();
 
-    auto user_repo = new UserRepository({ user_1, user_2 });
-    auto post_repo = new PostRepository(std::vector<PostBL>());   
+    auto user_repo = new TestUserRepository({ user_1, user_2 });
+    auto post_repo = new TestPostRepository(std::vector<PostBL>());   
     auto service = GuestService(
-        std::shared_ptr<PostRepository>(post_repo),
-        std::shared_ptr<UserRepository>(user_repo)
+        std::shared_ptr<TestPostRepository>(post_repo),
+        std::shared_ptr<TestUserRepository>(user_repo)
     );
 
     // Act
@@ -91,11 +91,11 @@ TEST(SERVICE_GUEST_TEST, GET_USER)
     UserBL user_1 = builder.build();
     UserBL user_2 = builder.build();
 
-    auto user_repo = new UserRepository({ user_1, user_2 });
-    auto post_repo = new PostRepository(std::vector<PostBL>());   
+    auto user_repo = new TestUserRepository({ user_1, user_2 });
+    auto post_repo = new TestPostRepository(std::vector<PostBL>());   
     auto service = GuestService(
-        std::shared_ptr<PostRepository>(post_repo),
-        std::shared_ptr<UserRepository>(user_repo)
+        std::shared_ptr<TestPostRepository>(post_repo),
+        std::shared_ptr<TestUserRepository>(user_repo)
     );
 
     // Act
@@ -115,11 +115,11 @@ TEST(SERVICE_GUEST_TEST, GET_POSTS)
     PostBL post_1 = builder.build();
     PostBL post_2 = builder.build();
 
-    auto user_repo = new UserRepository(std::vector<UserBL>());
-    auto post_repo = new PostRepository({ post_1, post_2 });   
+    auto user_repo = new TestUserRepository(std::vector<UserBL>());
+    auto post_repo = new TestPostRepository({ post_1, post_2 });   
     auto service = GuestService(
-        std::shared_ptr<PostRepository>(post_repo),
-        std::shared_ptr<UserRepository>(user_repo)
+        std::shared_ptr<TestPostRepository>(post_repo),
+        std::shared_ptr<TestUserRepository>(user_repo)
     );
 
     // Act
@@ -139,11 +139,11 @@ TEST(SERVICE_GUEST_TEST, GET_POST)
     PostBL post_1 = builder.build();
     PostBL post_2 = builder.build();
 
-    auto user_repo = new UserRepository(std::vector<UserBL>());
-    auto post_repo = new PostRepository({ post_1, post_2 });   
+    auto user_repo = new TestUserRepository(std::vector<UserBL>());
+    auto post_repo = new TestPostRepository({ post_1, post_2 });   
     auto service = GuestService(
-        std::shared_ptr<PostRepository>(post_repo),
-        std::shared_ptr<UserRepository>(user_repo)
+        std::shared_ptr<TestPostRepository>(post_repo),
+        std::shared_ptr<TestUserRepository>(user_repo)
     );
 
     // Act

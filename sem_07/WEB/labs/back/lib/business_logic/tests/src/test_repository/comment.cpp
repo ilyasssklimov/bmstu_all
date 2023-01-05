@@ -2,13 +2,13 @@
 #include "test_repository/comment.h"
 
 
-CommentBL CommentRepository::get_comment(int comment_id)
+CommentBL TestCommentRepository::get_comment(int comment_id)
 {
     return _comments[comment_id];
 }
 
 
-std::vector<CommentBL> CommentRepository::get_comments(int post_id)
+std::vector<CommentBL> TestCommentRepository::get_comments(int post_id)
 {
     std::vector<CommentBL> comments;
 
@@ -22,13 +22,13 @@ std::vector<CommentBL> CommentRepository::get_comments(int post_id)
 }
 
 
-int CommentRepository::get_comment_id(CommentBL comment)
+int TestCommentRepository::get_comment_id(CommentBL comment)
 {
     return std::distance(_comments.begin(), std::find(_comments.begin(), _comments.end(), comment));
 }
 
 
-CommentBL CommentRepository::add_comment(std::string date, std::string text, int author_id, int post_id)
+CommentBL TestCommentRepository::add_comment(std::string date, std::string text, int author_id, int post_id)
 {
     CommentBL comment(date, text, author_id, post_id);
     _comments.push_back(comment);
@@ -36,7 +36,7 @@ CommentBL CommentRepository::add_comment(std::string date, std::string text, int
 }
 
 
-CommentBL CommentRepository::delete_comment(int comment_id)
+CommentBL TestCommentRepository::delete_comment(int comment_id)
 {
     CommentBL comment = _comments[comment_id];
     _comments.erase(_comments.begin() + comment_id);
@@ -44,7 +44,7 @@ CommentBL CommentRepository::delete_comment(int comment_id)
 }
 
 
-CommentBL CommentRepository::update_comment(int comment_id, std::string date, std::string text)
+CommentBL TestCommentRepository::update_comment(int comment_id, std::string date, std::string text)
 {
     CommentBL comment = _comments[comment_id];
 

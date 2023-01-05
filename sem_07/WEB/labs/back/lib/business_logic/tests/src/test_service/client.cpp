@@ -16,13 +16,13 @@ TEST(SERVICE_CLIENT_TEST, ADD_COMMENT)
     PostBL post = PostBuilder().build();
     CommentBL comment = CommentBuilder().build();
 
-    auto user_repo = new UserRepository({ user });
-    auto post_repo = new PostRepository({ post }); 
-    auto comment_repo = new CommentRepository(std::vector<CommentBL>());  
+    auto user_repo = new TestUserRepository({ user });
+    auto post_repo = new TestPostRepository({ post }); 
+    auto comment_repo = new TestCommentRepository(std::vector<CommentBL>());  
     auto service = ClientService(
-        std::shared_ptr<PostRepository>(post_repo),
-        std::shared_ptr<CommentRepository>(comment_repo),
-        std::shared_ptr<UserRepository>(user_repo)
+        std::shared_ptr<TestPostRepository>(post_repo),
+        std::shared_ptr<TestCommentRepository>(comment_repo),
+        std::shared_ptr<TestUserRepository>(user_repo)
     );
 
     // Act
@@ -45,13 +45,13 @@ TEST(SERVICE_CLIENT_TEST, GET_POSTS_BY_FILTERS)
     PostBL post_1 = post_builder.with_date("01.01.1970").build(false);
     PostBL post_2 = post_builder.with_date("02.01.1970").build(false);
 
-    auto user_repo = new UserRepository(std::vector<UserBL>());
-    auto post_repo = new PostRepository({ post_1, post_2 }); 
-    auto comment_repo = new CommentRepository(std::vector<CommentBL>());  
+    auto user_repo = new TestUserRepository(std::vector<UserBL>());
+    auto post_repo = new TestPostRepository({ post_1, post_2 }); 
+    auto comment_repo = new TestCommentRepository(std::vector<CommentBL>());  
     auto service = ClientService(
-        std::shared_ptr<PostRepository>(post_repo),
-        std::shared_ptr<CommentRepository>(comment_repo),
-        std::shared_ptr<UserRepository>(user_repo)
+        std::shared_ptr<TestPostRepository>(post_repo),
+        std::shared_ptr<TestCommentRepository>(comment_repo),
+        std::shared_ptr<TestUserRepository>(user_repo)
     );
 
     // Act
@@ -68,13 +68,13 @@ TEST(SERVICE_CLIENT_TEST, UPDATE_USER)
     // Arrange
     UserBL user = UserBuilder().build();
 
-    auto user_repo = new UserRepository({ user });
-    auto post_repo = new PostRepository(std::vector<PostBL>()); 
-    auto comment_repo = new CommentRepository(std::vector<CommentBL>());  
+    auto user_repo = new TestUserRepository({ user });
+    auto post_repo = new TestPostRepository(std::vector<PostBL>()); 
+    auto comment_repo = new TestCommentRepository(std::vector<CommentBL>());  
     auto service = ClientService(
-        std::shared_ptr<PostRepository>(post_repo),
-        std::shared_ptr<CommentRepository>(comment_repo),
-        std::shared_ptr<UserRepository>(user_repo)
+        std::shared_ptr<TestPostRepository>(post_repo),
+        std::shared_ptr<TestCommentRepository>(comment_repo),
+        std::shared_ptr<TestUserRepository>(user_repo)
     );
 
     // Act

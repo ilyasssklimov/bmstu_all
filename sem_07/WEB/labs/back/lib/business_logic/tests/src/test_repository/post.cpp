@@ -3,26 +3,26 @@
 #include "logger.h"
 
 
-PostBL PostRepository::get_post(int post_id) 
+PostBL TestPostRepository::get_post(int post_id) 
 {
     return _posts[post_id];
 }
 
 
-int PostRepository::get_post_id(PostBL post)
+int TestPostRepository::get_post_id(PostBL post)
 {
     return std::distance(_posts.begin(), std::find(_posts.begin(), _posts.end(), post));
 }
 
 
-std::vector<PostBL> PostRepository::get_posts()
+std::vector<PostBL> TestPostRepository::get_posts()
 {
     return _posts;
 }
 
 
-std::vector<PostBL> PostRepository::get_posts(const std::string& date, const std::string& name,
-                                              const std::string& city, const std::string&)
+std::vector<PostBL> TestPostRepository::get_posts(const std::string& date, const std::string& name,
+                                                  const std::string& city, const std::string&)
 {
     std::vector<PostBL> posts;
 
@@ -36,7 +36,7 @@ std::vector<PostBL> PostRepository::get_posts(const std::string& date, const std
 }
 
 
-std::vector<PostBL> PostRepository::get_unvisible_posts()
+std::vector<PostBL> TestPostRepository::get_unvisible_posts()
 {
     std::vector<PostBL> posts;
 
@@ -51,8 +51,8 @@ std::vector<PostBL> PostRepository::get_unvisible_posts()
 
 
 
-PostBL PostRepository::add_post(std::string name, int author_id, std::string information, std::string city,
-                                std::string organizer, std::string date)
+PostBL TestPostRepository::add_post(std::string name, int author_id, std::string information, std::string city,
+                                    std::string organizer, std::string date)
 {
     PostBL post(name, author_id, information, city, organizer, date, false);
     _posts.push_back(post);
@@ -60,7 +60,7 @@ PostBL PostRepository::add_post(std::string name, int author_id, std::string inf
 }
 
 
-PostBL PostRepository::delete_post(int post_id)
+PostBL TestPostRepository::delete_post(int post_id)
 {
     PostBL post = _posts[post_id];
     _posts.erase(_posts.begin() + post_id);
@@ -68,8 +68,8 @@ PostBL PostRepository::delete_post(int post_id)
 }
 
 
-PostBL PostRepository::update_post(int post_id, std::string name, std::string information, 
-                                   std::string city, std::string date)
+PostBL TestPostRepository::update_post(int post_id, std::string name, std::string information, 
+                                       std::string city, std::string date)
 {
     PostBL post = _posts[post_id];
 
@@ -86,7 +86,7 @@ PostBL PostRepository::update_post(int post_id, std::string name, std::string in
 }
 
 
-PostBL PostRepository::update_post(int post_id, bool visible)
+PostBL TestPostRepository::update_post(int post_id, bool visible)
 {
     PostBL post = _posts[post_id];
 

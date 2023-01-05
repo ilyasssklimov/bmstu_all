@@ -4,10 +4,10 @@
 #include "service/guest.h"
 
 
-class PostRepository: public IPostRepository
+class TestPostRepository: public IPostRepository
 {
 public:
-    PostRepository(std::vector<PostBL> posts): _posts(posts) {}
+    TestPostRepository(std::vector<PostBL> posts): _posts(posts) {}
 
     PostBL get_post(int post_id) override;
     int get_post_id(PostBL post) override;

@@ -4,10 +4,10 @@
 #include "service/client.h"
 
 
-class CommentRepository: public ICommentRepository
+class TestCommentRepository: public ICommentRepository
 {
 public:
-    CommentRepository(std::vector<CommentBL> comments): _comments(comments) {}
+    TestCommentRepository(std::vector<CommentBL> comments): _comments(comments) {}
 
     CommentBL get_comment(int comment_id) override;
     std::vector<CommentBL> get_comments(int post_id) override;
