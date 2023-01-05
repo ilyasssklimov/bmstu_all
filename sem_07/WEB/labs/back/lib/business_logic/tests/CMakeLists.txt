@@ -12,3 +12,12 @@ target_include_directories(test_business PUBLIC include)
 target_link_libraries(test_business business_logic GTest::Main)
 
 add_test(NAME test_business COMMAND test_business)
+
+
+add_executable(int_test_business
+        src/int_test_service/guest.cpp)
+
+target_include_directories(int_test_business PUBLIC include)
+target_link_libraries(int_test_business business_logic data_access_layer GTest::Main)
+
+add_test(NAME int_test_business COMMAND int_test_business)
