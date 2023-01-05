@@ -58,7 +58,7 @@ jobs:
           ./lib/data_access_layer/tests/test_data
       
       - name: Create database
-        working-directory: sem_07/WEB/labs/back/lib/data_access_layer/sql_script
+        working-directory: sem_07/WEB/labs/back/lib/data_access_layer/src/sql_script
         run: |
           psql "user-postgres password=postgres port=5432 hostaddr=localhost' -c "CREATE DATABASE test_db"
           psql "user-postgres password=postgres port=5432 hostaddr=localhost' < table.sql
