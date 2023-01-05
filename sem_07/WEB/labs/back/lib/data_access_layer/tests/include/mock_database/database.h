@@ -17,6 +17,7 @@ public:
     	                            const std::string& login, const std::string& password, const std::string& city), (override));
     MOCK_METHOD(User, update_user, (User user, const std::string &name, std::string surname, std::string login,
                                     const std::string &password, const std::string &city), (override));
+    MOCK_METHOD(void, delete_users, (), (override));
 
     MOCK_METHOD(std::vector<Post>, get_posts, (), (override));
     MOCK_METHOD(std::vector<Post>, get_unvisible_posts, (), (override));
@@ -29,6 +30,7 @@ public:
     MOCK_METHOD(Post, delete_post, (int post_id), (override));
     MOCK_METHOD(Post, update_post, (int post_id, std::string name, std::string information,
                                     std::string city, std::string date, bool visible), (override));
+    MOCK_METHOD(void, delete_posts, (), (override));
 
     MOCK_METHOD(Comment, get_comment, (int comment_id), (override));
     MOCK_METHOD(int, get_comment_id, (Comment comment), (override));
@@ -36,4 +38,5 @@ public:
     MOCK_METHOD(Comment, add_comment, (std::string date, std::string text, int author_id, int post_id), (override));
     MOCK_METHOD(Comment, delete_comment, (int comment_id), (override));
     MOCK_METHOD(Comment, update_comment, (int comment_id, std::string date, std::string text), (override));
+    MOCK_METHOD(void, delete_comments, (), (override));
 };

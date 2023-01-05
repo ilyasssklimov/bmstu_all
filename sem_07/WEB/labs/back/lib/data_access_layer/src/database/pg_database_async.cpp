@@ -286,6 +286,17 @@ User PGDatabaseAsync::update_user(User user, const std::string &name, std::strin
 }
 
 
+void PGDatabaseAsync::delete_users()
+{
+    std::ostringstream query;
+    query << "DELETE FROM " << DBNAME << ".user";
+    pqxx::result response = execute_query(query);
+
+    if (response.empty())
+        log_error("Unable to delete users from async PostgreSQL DB");
+}
+
+
 std::vector<Post> PGDatabaseAsync::get_posts()
 {    
     std::ostringstream query;
@@ -510,6 +521,17 @@ Post PGDatabaseAsync::update_post(int post_id, std::string name, std::string inf
 }
 
 
+void PGDatabaseAsync::delete_posts()
+{    
+    std::ostringstream query;
+    query << "DELETE FROM " << DBNAME << ".post";
+    pqxx::result response = execute_query(query);
+
+    if (response.empty())
+        log_error("Unable to delete posts from async PostgreSQL DB");
+}
+
+
 Comment PGDatabaseAsync::get_comment(int comment_id)
 {
     std::ostringstream query;
@@ -635,4 +657,15 @@ Comment PGDatabaseAsync::update_comment(int comment_id, std::string date, std::s
     
     log_info("UPDATE comment from async PostgreSQL DB with id = " + std::to_string(comment_id));
     return comment;
+}
+
+
+void PGDatabaseAsync::delete_comments()
+{
+    std::ostringstream query;
+    query << "DELETE FROM " << DBNAME << ".comment";
+    pqxx::result response = execute_query(query);
+
+    if (response.empty())
+        log_error("Unable to delete comments from async PostgreSQL DB");
 }
