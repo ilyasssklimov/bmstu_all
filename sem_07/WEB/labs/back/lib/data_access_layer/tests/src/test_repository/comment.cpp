@@ -6,12 +6,6 @@
 #include "builder/comment.h"
 
 
-/*
-
-
-*/
-
-
 TEST(REPOSITORY_COMMENT_TEST, GET_COMMENT)
 {
     // Arrange 
