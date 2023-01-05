@@ -12,6 +12,8 @@
 
 std::unordered_map<size_t, std::shared_ptr<void>> ServiceLocator::_instances;
 
+
+
 TEST(SERVICE_GUEST_INT_TEST, SIGN_UP)
 {
     // Arrange
@@ -48,14 +50,8 @@ TEST(SERVICE_GUEST_INT_TEST, SIGN_IN)
     UserBL user = UserBuilder().build();
 
     auto db = std::make_shared<PGDatabaseAsync>(PGDatabaseParams);
-    db->add_user(
-        user.get_name(),
-        user.get_surname(),
-        user.get_login(),
-        user.get_password(),
-        user.get_city(),
-        user.get_access()
-    );
+    add_user_to_db(db, user);
+
     auto user_repo = std::make_shared<UserRepository>(db);
     auto post_repo = std::make_shared<PostRepository>(db);
     auto service = GuestService(post_repo, user_repo);
@@ -76,26 +72,13 @@ TEST(SERVICE_GUEST_INT_TEST, GET_USERS)
 {
     // Arrange
     auto builder = UserBuilder();
-    UserBL user_1 = builder.build();
-    UserBL user_2 = builder.build();
+    UserBL user_1 = builder.with_login("login_1").build(false);
+    UserBL user_2 = builder.with_login("login_2").build(false);
 
     auto db = std::make_shared<PGDatabaseAsync>(PGDatabaseParams);
-    db->add_user(
-        user_1.get_name(),
-        user_1.get_surname(),
-        user_1.get_login(),
-        user_1.get_password(),
-        user_1.get_city(),
-        user_1.get_access()
-    );
-    db->add_user(
-        user_2.get_name(),
-        user_2.get_surname(),
-        user_2.get_login(),
-        user_2.get_password(),
-        user_2.get_city(),
-        user_2.get_access()
-    );
+    add_user_to_db(db, user_1);
+    add_user_to_db(db, user_2);
+
     auto user_repo = std::make_shared<UserRepository>(db);
     auto post_repo = std::make_shared<PostRepository>(db);
     auto service = GuestService(post_repo, user_repo);
@@ -112,73 +95,104 @@ TEST(SERVICE_GUEST_INT_TEST, GET_USERS)
 }
 
 
-// TEST(SERVICE_GUEST_TEST, GET_USER)
-// {
-//     // Arrange
-//     auto builder = UserBuilder();
-//     UserBL user_1 = builder.build();
-//     UserBL user_2 = builder.build();
+TEST(SERVICE_GUEST_INT_TEST, GET_USER)
+{
+    // Arrange
+    auto builder = UserBuilder();
+    UserBL user_1 = builder.with_login("login_1").build(false);
+    UserBL user_2 = builder.with_login("login_2").build(false);
 
-//     auto user_repo = new UserRepository({ user_1, user_2 });
-//     auto post_repo = new PostRepository(std::vector<PostBL>());   
-//     auto service = GuestService(
-//         std::shared_ptr<PostRepository>(post_repo),
-//         std::shared_ptr<UserRepository>(user_repo)
-//     );
+    auto db = std::make_shared<PGDatabaseAsync>(PGDatabaseParams);
+    add_user_to_db(db, user_1);
+    add_user_to_db(db, user_2);
+    int id_1 = db->get_user_id(user_1.get_login());
+    int id_2 = db->get_user_id(user_2.get_login());
 
-//     // Act
-//     UserBL get_user_1 = service.get_user(0);
-//     UserBL get_user_2 = service.get_user(1);
+    auto user_repo = std::make_shared<UserRepository>(db);
+    auto post_repo = std::make_shared<PostRepository>(db);
+    auto service = GuestService(post_repo, user_repo);
 
-//     // Assert
-//     EXPECT_EQ(get_user_1, user_1);
-//     EXPECT_EQ(get_user_2, user_2);
-// }
+    // Act
+    UserBL get_user_1 = service.get_user(id_1);
+    UserBL get_user_2 = service.get_user(id_2);
 
+    // Assert
+    EXPECT_EQ(get_user_1, user_1);
+    EXPECT_EQ(get_user_2, user_2);
 
-// TEST(SERVICE_GUEST_TEST, GET_POSTS)
-// {
-//     // Arrange
-//     auto builder = PostBuilder();
-//     PostBL post_1 = builder.build();
-//     PostBL post_2 = builder.build();
-
-//     auto user_repo = new UserRepository(std::vector<UserBL>());
-//     auto post_repo = new PostRepository({ post_1, post_2 });   
-//     auto service = GuestService(
-//         std::shared_ptr<PostRepository>(post_repo),
-//         std::shared_ptr<UserRepository>(user_repo)
-//     );
-
-//     // Act
-//     std::vector<PostBL> posts = service.get_posts();
-
-//     // Assert
-//     EXPECT_EQ(posts[0], post_1);
-//     EXPECT_EQ(posts[1], post_2);
-//     EXPECT_EQ(posts.size(), 2);
-// }
+    db->delete_users();
+}
 
 
-// TEST(SERVICE_GUEST_TEST, GET_POST)
-// {
-//     // Arrange
-//     auto builder = PostBuilder();
-//     PostBL post_1 = builder.build();
-//     PostBL post_2 = builder.build();
+TEST(SERVICE_GUEST_INT_TEST, GET_POSTS)
+{
+    // Arrange
+    UserBL user = UserBuilder().build();
 
-//     auto user_repo = new UserRepository(std::vector<UserBL>());
-//     auto post_repo = new PostRepository({ post_1, post_2 });   
-//     auto service = GuestService(
-//         std::shared_ptr<PostRepository>(post_repo),
-//         std::shared_ptr<UserRepository>(user_repo)
-//     );
+    auto db = std::make_shared<PGDatabaseAsync>(PGDatabaseParams);
+    add_user_to_db(db, user);
+    int user_id = db->get_user_id(user.get_login());
 
-//     // Act
-//     PostBL get_post_1 = service.get_post(0);
-//     PostBL get_post_2 = service.get_post(1);
+    auto builder = PostBuilder();
+    PostBL post_1 = builder
+                    .with_name("name_1")
+                    .with_author_id(user_id)
+                    .build(false);
+    PostBL post_2 = builder
+                    .with_name("name_2")
+                    .with_author_id(user_id)
+                    .build(false);
 
-//     // Assert
-//     EXPECT_EQ(get_post_1, post_1);
-//     EXPECT_EQ(get_post_2, post_2);
-// }
+    add_post_to_db(db, post_1);
+    add_post_to_db(db, post_2);
+
+    auto user_repo = std::make_shared<UserRepository>(db);
+    auto post_repo = std::make_shared<PostRepository>(db);
+    auto service = GuestService(post_repo, user_repo);
+
+    // Act
+    std::vector<PostBL> posts = service.get_posts();
+
+    // Assert
+    EXPECT_EQ(posts[0], post_1);
+    EXPECT_EQ(posts[1], post_2);
+    EXPECT_EQ(posts.size(), 2);
+}
+
+
+TEST(SERVICE_GUEST_INT_TEST, GET_POST)
+{
+    // Arrange
+    UserBL user = UserBuilder().build();
+
+    auto db = std::make_shared<PGDatabaseAsync>(PGDatabaseParams);
+    add_user_to_db(db, user);
+    int user_id = db->get_user_id(user.get_login());
+
+    auto builder = PostBuilder();
+    PostBL post_1 = builder
+                    .with_name("name_1")
+                    .with_author_id(user_id)
+                    .build(false);
+    PostBL post_2 = builder
+                    .with_name("name_2")
+                    .with_author_id(user_id)
+                    .build(false);
+
+    add_post_to_db(db, post_1);
+    add_post_to_db(db, post_2);
+    int id_1 = db->get_post_id(Post(post_1));
+    int id_2 = db->get_post_id(Post(post_2));
+
+    auto user_repo = std::make_shared<UserRepository>(db);
+    auto post_repo = std::make_shared<PostRepository>(db);
+    auto service = GuestService(post_repo, user_repo);
+
+    // Act
+    PostBL get_post_1 = service.get_post(id_1);
+    PostBL get_post_2 = service.get_post(id_2);
+
+    // Assert
+    EXPECT_EQ(get_post_1, post_1);
+    EXPECT_EQ(get_post_2, post_2);
+}
