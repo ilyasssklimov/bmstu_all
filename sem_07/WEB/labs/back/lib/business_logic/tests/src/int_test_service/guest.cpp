@@ -20,8 +20,6 @@ TEST(INTEGRATION_TESTS, GUEST_SERVICE)
     auto db = std::make_shared<PGDatabaseAsync>(PGDatabaseParams);
     auto user_repo = std::make_shared<UserRepository>(db);
     auto post_repo = std::make_shared<PostRepository>(db);
-    std::cout << user_repo << std::endl;
-    std::cout << typeid(user_repo).name() << std::endl;
 
     auto service = GuestService(post_repo, user_repo);
 
