@@ -686,3 +686,14 @@ void add_post_to_db(std::shared_ptr<PGDatabaseAsync> db, PostBL post)
         post.get_date()
     );
 }
+
+
+void add_comment_to_db(std::shared_ptr<PGDatabaseAsync> db, CommentBL comment)
+{
+    db->add_comment(
+        comment.get_date(),
+        comment.get_text(),
+        comment.get_author_id(),
+        comment.get_post_id()
+    );
+}
