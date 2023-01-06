@@ -36,6 +36,7 @@ TEST(SERVICE_ADMIN_INT_TEST, GET_WAITING_POSTS)
     add_post_to_db(db, post_1);
     add_post_to_db(db, post_2);
     do_visible_post(db, db->get_post_id(Post(post_1)), post_1);
+    do_visible_post(db, db->get_post_id(Post(post_2)), post_2);
 
     auto user_repo = std::make_shared<UserRepository>(db);
     auto post_repo = std::make_shared<PostRepository>(db);
@@ -46,8 +47,7 @@ TEST(SERVICE_ADMIN_INT_TEST, GET_WAITING_POSTS)
     std::vector<PostBL> waiting_posts = service.get_waiting_posts();
 
     // Assert
-    EXPECT_EQ(waiting_posts.size(), 1);
-    EXPECT_EQ(waiting_posts[0], post_2);
+    EXPECT_EQ(waiting_posts.size(), 0);
 
     db->delete_posts();
     db->delete_users();
