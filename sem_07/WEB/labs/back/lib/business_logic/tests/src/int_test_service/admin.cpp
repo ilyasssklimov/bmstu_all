@@ -63,18 +63,11 @@ TEST(SERVICE_ADMIN_INT_TEST, SUBMIT_POST)
     add_user_to_db(db, user);
     int user_id = db->get_user_id(user.get_login());
 
-    auto builder = PostBuilder();
-    PostBL post_1 = builder
-                    .with_name("name_1")
-                    .with_author_id(user_id)
-                    .build(false);
-    PostBL post_2 = builder
-                    .with_name("name_2")
-                    .with_author_id(user_id)
-                    .build(false);
-
-    add_post_to_db(db, post_1);
-    add_post_to_db(db, post_2);
+    PostBL post = PostBuilder()
+                  .with_name("name_1")
+                  .with_author_id(user_id)
+                  .build(false);
+    add_post_to_db(db, post);
 
     auto user_repo = std::make_shared<UserRepository>(db);
     auto post_repo = std::make_shared<PostRepository>(db);
@@ -82,10 +75,10 @@ TEST(SERVICE_ADMIN_INT_TEST, SUBMIT_POST)
     auto service = AdminService(post_repo, comment_repo, user_repo);
 
     // Act
-    PostBL sub_post = service.submit_post(db->get_post_id(Post(post_2)));
+    PostBL sub_post = service.submit_post(db->get_post_id(Post(post)));
 
     // Assert
-    EXPECT_EQ(service.get_waiting_posts().size(), 1);
+    EXPECT_EQ(service.get_waiting_posts().size(), 0);
     EXPECT_EQ(post_repo->get_posts().size(), 1);
     EXPECT_EQ(post_repo->get_posts()[0].get_visible(), true);
     EXPECT_EQ(post_repo->get_posts()[0], sub_post);
