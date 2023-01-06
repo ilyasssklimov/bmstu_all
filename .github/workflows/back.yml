@@ -68,4 +68,9 @@ jobs:
         working-directory: sem_07/WEB/labs/back/build
         run: |
           ./lib/business_logic/tests/int_test_business
+     
+      - name: Intgration testing data_access_layer
+        working-directory: sem_07/WEB/labs/back/build
+        run: |
+          ./lib/data_access_layer/tests/int_test_data
       
