@@ -697,3 +697,16 @@ void add_comment_to_db(std::shared_ptr<PGDatabaseAsync> db, CommentBL comment)
         comment.get_post_id()
     );
 }
+
+
+void do_visible_post(std::shared_ptr<PGDatabaseAsync> db, int post_id, PostBL post)
+{
+    db->update_post(
+        post_id,
+        post.get_name(),
+        post.get_information(),
+        post.get_city(),
+        post.get_date(),
+        true
+    );
+}

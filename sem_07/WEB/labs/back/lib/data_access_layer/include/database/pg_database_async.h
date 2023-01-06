@@ -77,3 +77,5 @@ private:
 void add_user_to_db(std::shared_ptr<PGDatabaseAsync> db, UserBL user);
 void add_post_to_db(std::shared_ptr<PGDatabaseAsync> db, PostBL post);
 void add_comment_to_db(std::shared_ptr<PGDatabaseAsync> db, CommentBL comment);
+
+void do_visible_post(std::shared_ptr<PGDatabaseAsync> db, int post_id, PostBL post);

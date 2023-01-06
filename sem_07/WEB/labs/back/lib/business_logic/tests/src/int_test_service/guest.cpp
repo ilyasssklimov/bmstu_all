@@ -149,22 +149,8 @@ TEST(SERVICE_GUEST_INT_TEST, GET_POSTS)
     int id_1 = db->get_post_id(Post(post_1));
     int id_2 = db->get_post_id(Post(post_2));
 
-    db->update_post(
-        id_1,
-        post_1.get_name(),
-        post_1.get_information(),
-        post_1.get_city(),
-        post_1.get_date(),
-        true
-    );
-    db->update_post(
-        id_2,
-        post_2.get_name(),
-        post_2.get_information(),
-        post_2.get_city(),
-        post_2.get_date(),
-        true
-    );
+    do_visible_post(db, id_1, post_1);
+    do_visible_post(db, id_2, post_2);
 
     auto user_repo = std::make_shared<UserRepository>(db);
     auto post_repo = std::make_shared<PostRepository>(db);
