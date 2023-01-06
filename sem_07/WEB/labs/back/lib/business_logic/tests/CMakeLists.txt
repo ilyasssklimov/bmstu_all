@@ -16,7 +16,10 @@ add_test(NAME test_business COMMAND test_business)
 
 add_executable(int_test_business
         src/int_test_service/guest.cpp
-        src/int_test_service/client.cpp)
+        src/int_test_service/auth.cpp
+        src/int_test_service/client.cpp
+        src/int_test_service/author.cpp
+        src/int_test_service/admin.cpp)
 
 target_include_directories(int_test_business PUBLIC include)
 target_link_libraries(int_test_business business_logic data_access_layer GTest::Main)
