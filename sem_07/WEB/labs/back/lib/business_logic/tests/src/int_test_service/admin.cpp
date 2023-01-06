@@ -25,10 +25,12 @@ TEST(SERVICE_ADMIN_INT_TEST, GET_WAITING_POSTS)
     PostBL post_1 = builder
                     .with_name("name_1")
                     .with_author_id(user_id)
+                    .with_visible(false)
                     .build(false);
     PostBL post_2 = builder
                     .with_name("name_2")
                     .with_author_id(user_id)
+                    .with_visible(false)
                     .build(false);
 
     add_post_to_db(db, post_1);
@@ -41,11 +43,11 @@ TEST(SERVICE_ADMIN_INT_TEST, GET_WAITING_POSTS)
     auto service = AdminService(post_repo, comment_repo, user_repo);
 
     // Act
-    std::vector<PostBL> posts = service.get_waiting_posts();
+    std::vector<PostBL> waiting_posts = service.get_waiting_posts();
 
     // Assert
-    EXPECT_EQ(posts.size(), 1);
-    EXPECT_EQ(posts[0], post_2);
+    EXPECT_EQ(waiting_posts.size(), 1);
+    EXPECT_EQ(waiting_posts[0], post_2);
 
     db->delete_posts();
     db->delete_users();
