@@ -93,11 +93,6 @@ std::vector<PostBL> PostRepository::get_posts(const std::string& date, const std
         author_id = _db->get_user_id(author);
     
     std::vector<Post> posts = _db->get_posts(date, name, city, author_id);
-    if (posts.empty())
-    {
-        time_t time_now = time(nullptr);
-        throw PostsGetException(__FILE__, __LINE__, ctime(&time_now));
-    }
 
     std::vector<PostBL> posts_bl;
     for (auto &post: posts)
