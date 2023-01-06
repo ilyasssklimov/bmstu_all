@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS public.post (
     city VARCHAR(30),
     organizer VARCHAR(50),
     date VARCHAR(10),
-    visible BOOLEAN DEFAULT true
+    visible BOOLEAN DEFAULT false
 );
 
 
