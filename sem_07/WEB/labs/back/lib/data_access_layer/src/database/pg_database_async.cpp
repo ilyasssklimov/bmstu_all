@@ -620,7 +620,7 @@ Comment PGDatabaseAsync::update_comment(int comment_id, std::string date, std::s
 
     query.str("");
     query << "UPDATE " << DBNAME << ".comment SET date = " << apostrophes(date) << ", text = " 
-          << apostrophes(text) << " WHERE id = " + comment_id;
+          << apostrophes(text) << " WHERE id = " << comment_id;
     execute_query(query);
 
     
