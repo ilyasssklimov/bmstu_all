@@ -59,12 +59,6 @@ std::vector<CommentBL> CommentRepository::get_comments(int post_id)
 {
     std::vector<Comment> comments = _db->get_comments(post_id);
 
-    if (comments.empty())
-    {
-        log_info("There are not comments to post with id = " + std::to_string(post_id));
-        return {};
-    }
-
     std::vector<CommentBL> comments_bl;
     for (auto &comment: comments)
     {

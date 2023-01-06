@@ -59,11 +59,6 @@ int PostRepository::get_post_id(PostBL post)
 std::vector<PostBL> PostRepository::get_posts()
 {
     std::vector<Post> posts = _db->get_posts();
-    if (posts.empty())
-    {
-        time_t time_now = time(nullptr);
-        throw PostGetException(__FILE__, __LINE__, ctime(&time_now));
-    }
 
     std::vector<PostBL> posts_bl;
     for (auto &post: posts)
@@ -78,12 +73,7 @@ std::vector<PostBL> PostRepository::get_posts()
 std::vector<PostBL> PostRepository::get_unvisible_posts()
 {
     std::vector<Post> posts = _db->get_unvisible_posts();
-    if (posts.empty())
-    {
-        time_t time_now = time(nullptr);
-        throw PostsGetException(__FILE__, __LINE__, ctime(&time_now));
-    }
-
+    
     std::vector<PostBL> posts_bl;
     for (auto &post: posts)
     {

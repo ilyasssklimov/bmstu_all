@@ -299,12 +299,6 @@ std::vector<Post> PGDatabaseAsync::get_posts()
     std::ostringstream query;
     query << "SELECT * FROM " << DBNAME << ".post WHERE visible = true";
     pqxx::result response = execute_query(query);
- 
-    if (response.empty())
-    {
-        log_error("Response of getting all posts from async PostgreSQ DB is empty");
-        return {};
-    }
 
     log_info("Get all posts from async PostgreSQL DB");
     std::vector<Post> posts;
@@ -410,13 +404,6 @@ std::vector<Post> PGDatabaseAsync::get_posts(const std::string& date, const std:
         query << conditions.str();
 
     pqxx::result response = execute_query(query);
-
-    if (response.empty())
-    {
-        log_error("Response of getting posts with filters from async PostgreSQL DB is empty");
-        return {};
-    }
-
     log_info("Get posts with filters from async PostgreSQL DB");
     std::vector<Post> posts;
 
@@ -570,13 +557,7 @@ std::vector<Comment> PGDatabaseAsync::get_comments(int post_id)
     std::ostringstream query;
     query << "SELECT * FROM " << DBNAME << ".comment WHERE post_id = " << post_id;
     pqxx::result response = execute_query(query);
-
-    if (response.empty())
-    {
-        log_error("Unable to find comments from async PostgreSQL DB with post_id = " + std::to_string(post_id));
-        return {};
-    }
-
+    
     std::vector<Comment> comments;
     for (const auto &comment_db : response)
     {

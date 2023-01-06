@@ -80,12 +80,6 @@ std::vector<UserBL> UserRepository::get_users()
 {
     std::vector<User> users = _db->get_users();
 
-    if (users.empty())
-    {
-        time_t time_now = time(nullptr);
-        throw UsersGetException(__FILE__, __LINE__, ctime(&time_now));
-    }
-
     std::vector<UserBL> users_bl;
     for (auto &user: users)
     {
