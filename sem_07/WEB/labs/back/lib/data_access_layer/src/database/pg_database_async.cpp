@@ -320,12 +320,6 @@ std::vector<Post> PGDatabaseAsync::get_unvisible_posts()
     std::ostringstream query;
     query << "SELECT * FROM " << DBNAME << ".post WHERE visible = false";
     pqxx::result response = execute_query(query);
- 
-    if (response.empty())
-    {
-        log_error("Response of getting unvisible posts from async PostgreSQ DB is empty");
-        return {};
-    }
 
     log_info("Get unvisible posts from async PostgreSQL DB");
     std::vector<Post> posts;
