@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 
 #include "database/pg_database_async.h"
 #include "repository/user.h"
