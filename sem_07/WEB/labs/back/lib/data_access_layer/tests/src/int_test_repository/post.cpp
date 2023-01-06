@@ -148,6 +148,16 @@ TEST(REPOSITORY_POST_INT_TEST, GET_UNVISIBLE_POSTS)
     PostBL post = PostBuilder().with_author_id(user_id).build(false);
     add_post_to_db(db, post);
 
+    int post_id = db->get_post_id(Post(post));
+    db->update_post(
+        post_id, 
+        post.get_name(),
+        post.get_information(),
+        post.get_city(),
+        post.get_date(),
+        false
+    );
+
     auto post_repo = std::make_shared<PostRepository>(db);
 
     // Act
