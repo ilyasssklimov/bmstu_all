@@ -59,6 +59,11 @@ public:
     static oatpp::Object<CommentsOatpp> get_oatpp_comments(std::vector<CommentDTO> comments_dto);
 
     explicit operator bool() const { return !_date.empty(); }
+    
+    bool operator == (CommentDTO comment) const
+    {
+        return comment.get_id() == _id;
+    }
 
 private:
     int _id;
