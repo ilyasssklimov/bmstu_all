@@ -45,7 +45,15 @@ jobs:
           cd build
           cmake ..
           sudo make install
-      
+          cd ..
+          
+          git clone https://github.com/oatpp/oatpp-swagger
+          cd oatpp-swagger
+          mkdir build
+          cd build
+          cmake ..
+          sudo make install
+          
       - name: Build tests
         working-directory: sem_07/WEB/labs/back
         run: |
