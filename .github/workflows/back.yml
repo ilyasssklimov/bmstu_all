@@ -38,6 +38,13 @@ jobs:
           sudo apt -y install libgtest-dev
           sudo apt -y install libgmock-dev
           sudo apt -y install postgresql postgresql-contrib
+          
+          git clone https://github.com/oatpp/oatpp 
+          cd oatpp
+          mkdir build
+          cd build
+          cmake ..
+          make install
       
       - name: Build tests
         working-directory: sem_07/WEB/labs/back
