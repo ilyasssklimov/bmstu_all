@@ -28,3 +28,7 @@ target_link_libraries(data_transfer PUBLIC
         oatpp::oatpp
         oatpp::oatpp-swagger
 )
+
+if (BUILD_TESTS)
+    add_subdirectory(tests)
+endif()
