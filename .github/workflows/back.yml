@@ -59,7 +59,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -DWITH_TESTS=1
+          cmake .. -DWITH_TESTS=1 -DOATPP_SWAGGER_RES_PATH="oatpp-swagger/res/"
           make
           
       - name: Unit testing business_logic
