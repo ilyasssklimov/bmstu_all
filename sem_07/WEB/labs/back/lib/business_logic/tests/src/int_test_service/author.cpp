@@ -74,7 +74,7 @@ TEST(SERVICE_AUTHOR_INT_TEST, DELETE_POST)
 
     // Assert
     EXPECT_EQ(del_post, post);
-    EXPECT_EQ(post_repo->get_posts().size(), 1);
+    EXPECT_EQ(post_repo->get_posts().size(), 0);
 
     db->delete_posts();
     db->delete_users();
