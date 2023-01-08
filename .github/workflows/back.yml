@@ -59,7 +59,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -DWITH_TESTS=1 -DOATPP_SWAGGER_RES_PATH="oatpp-swagger/res/"
+          cmake .. -DWITH_TESTS=1
           make
           
       - name: Unit testing business_logic
@@ -89,3 +89,19 @@ jobs:
         run: |
           ./lib/data_access_layer/tests/int_test_data
       
+      - name: Failure checking
+        working-directory: sem_07/WEB/labs/back/lib/data_access_layer/src/sql_script
+        if: failure()
+        run: |
+          psql "user=postgres password=postgres port=5432 hostaddr=127.0.0.1 dbname=software" < cleaning.sql
+      
+      - name: E2E test
+        working-directory: sem_07/WEB/labs/back/build
+        run: |
+          ./lib/data_transfer/tests/e2e_test
+      
+      - name: Failure checking
+        working-directory: sem_07/WEB/labs/back/lib/data_access_layer/src/sql_script
+        if: failure()
+        run: |
+          psql "user=postgres password=postgres port=5432 hostaddr=127.0.0.1 dbname=software" < cleaning.sql
