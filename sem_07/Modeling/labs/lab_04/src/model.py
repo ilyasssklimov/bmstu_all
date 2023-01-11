@@ -1,6 +1,6 @@
+import math
 import random
 from typing import Optional
-from scipy.stats import gamma
 import queue
 
 EPS = 1e-5
@@ -55,7 +55,6 @@ class Service:
         self.__lambda = _lambda
         self.__free_back_p = free_back_p
         self.__request: Optional[Request] = None
-        self.__cur_x = 0.
 
     def when_ready(self) -> float:
         return self.__request.get_serve_time()
@@ -68,8 +67,11 @@ class Service:
                 current_time >= self.__request.get_serve_time() - EPS)
 
     def delay(self) -> float:
-        self.__cur_x += 0.05
-        acc = gamma.cdf(self.__cur_x, self.__alpha, self.__lambda)
+        acc = 0.
+        for i in range(self.__alpha):
+            acc -= math.log(1 - random.random())
+        acc /= self.__lambda * self.__alpha
+
         return acc
 
     def put(self, request: Request, current_time: float):
@@ -147,7 +149,7 @@ class DeltaTModel:
             self.handle_service()
             self.__current_time += delta_t
 
-        if self.__current_time > 1e5:
+        if self.__current_time > end_time:
             self.is_overflowed = True
             return -1
 
