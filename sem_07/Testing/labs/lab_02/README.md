@@ -11,3 +11,8 @@
 ## Захваченный траффик
 
 [Траффик](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Testing/labs/lab_02/traffic)
+
+## Github Actions
+
+[.yml](https://github.com/ilyasssklimov/bmstu_all/blob/sem_07/sem_07/Testing/labs/lab_02/workflows/back.yml)
+
