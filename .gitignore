@@ -13,3 +13,9 @@ test_zip.*
 *.sig
 unzip_*
 static
+*.o
+*.mod
+*.ko
+*.cmd
+*.symvers
+*.order
