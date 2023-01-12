@@ -15,6 +15,7 @@ unzip_*
 static
 *.o
 *.mod
+*.mod.c
 *.ko
 *.cmd
 *.symvers
