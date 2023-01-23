@@ -17,7 +17,7 @@ MODULE_AUTHOR("Klimov Ilya") ;
 
 
 // Oпиcaниe вxoднoгo пapaмeтpa мoдyля 
-static pid_t tracing_pid = 11341;
+static pid_t tracing_pid = -1;
 module_param(tracing_pid, uint, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
 MODULE_PARM_DESC(tracing_pid, "This is pid of process which we are tracing.");
 
