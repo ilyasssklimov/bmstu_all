@@ -10,6 +10,14 @@
 - [Лекция 6](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/lections/lection_06.md)
 - [Лекция 7](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/lections/lection_07.md)
 - [Лекция 8](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/lections/lection_08.md)
+- [Лекция 9](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/lections/lection_09.md)
+- [Лекция 10](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/lections/lection_10.md)
+- [Лекция 11](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/lections/lection_11.md)
+- [Лекция 12](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/lections/lection_12.md)
+- [Лекция 13](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/lections/lection_13.md)
+- [Лекция 14](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/lections/lection_14.md)
+- [Лекция 15](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/lections/lection_15.md)
+- [Лекция 16](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/lections/lection_16.md)
 
 ## Лабораторные работы
 
@@ -19,3 +27,4 @@
 - [ЛР4 (Моделирование аппарата обслуживания)](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/labs/lab_04) – 4 вариант (распределение Эрланга)
 - [ЛР5 (Моделирование информационного центра)](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/labs/lab_05)
 - [ЛР6 (Моделирование сдачи экзамена)](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/labs/lab_06)
+- [ЛР7 (Моделирование аппарата обслуживания на GPSS)](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/Modeling/labs/lab_07)
