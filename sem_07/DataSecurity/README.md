@@ -14,6 +14,7 @@
 
 - [ЛР1 (Привязка программы к компьютеру)](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/DataSecurity/labs/lab_01)
 - [ЛР2 (Машина Энигма для произвольных файлов)](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/DataSecurity/labs/lab_02)
+- [ЛР3 (DES)](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/DataSecurity/labs/lab_03)
 - [ЛР5 (RSA)](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/DataSecurity/labs/lab_05)
 - [ЛР6 (Электронная подпись)](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/DataSecurity/labs/lab_06)
 - [ЛР7 (Алгоритм Хаффмана)](https://github.com/ilyasssklimov/bmstu_all/tree/sem_07/sem_07/DataSecurity/labs/lab_07)
